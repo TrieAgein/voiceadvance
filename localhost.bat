@@ -1,1 +1,1 @@
-http-server C:\Users\gamep\Documents\GitHub\voiceadvance
+npx http-server C:\Users\gamep\Documents\GitHub\voiceadvance
