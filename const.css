@@ -1,7 +1,11 @@
 
 @font-face {
-    font-family: "title";
-    src: url(/css/fonts/Bowlby_One_SC/BowlbyOneSC-Regular.ttf) format("truetype");
+  font-family: "title";
+  src: url(/css/fonts/Reghteous/Righteous-Regular.ttf) format("truetype");
+}
+@font-face {
+    font-family: "default";
+    src: url(/css/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf) format("truetype");
 }
 body {
   margin: 0px;
@@ -30,7 +34,10 @@ hr {
   text-decoration: underline;
 }
 
-
+.western_digital-logo {
+  width: 50px;
+  margin: 5px;
+}
 
 .submit-box {
   width:100%;
@@ -49,7 +56,7 @@ hr {
 
 /*dashboard*/
 header {
-  background-color: #828282;
+  background-color: #a7a7a7;
   height:90px;
   padding: 10px;
   display: flex;
@@ -89,6 +96,7 @@ header .title {
   display:block;
   font-size: 48px;
   margin-left: 20px;
+  font-family: "title", sans-serif;
 }
 header .account-tab {
   display:inline;
@@ -98,9 +106,21 @@ header .account-tab {
   border-radius: 10px;
 }
 
-header .account-tab .account-img img {
-  width:60px;
+
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 50%;
+  display: inline-block;
   vertical-align: middle;
+}
+.profile-pic img {
+display: inline;
+margin: 0 auto;
+margin-left: -25%;
+height: 100%;
+width: auto;
 }
 header .account-tab .account-name {
   display:inline;
@@ -158,7 +178,7 @@ header .account-tab .account-name {
 
 .personal-statistics {
   border: solid 1px black;
-  background-color: #676767;
+  background-color: #a7a7a7;
   padding: 10px;
 }
 .personal-statistics .wrapper {
@@ -175,7 +195,7 @@ header .account-tab .account-name {
 }
 .claim-list.line .claim-wrapper {
   margin: 10px;
-  background-color: #999999;
+  background-color: #a7a7a7;
   border-style: solid;
   border-color: black;
   border-radius: 10px 10px 10px 10px;
@@ -245,7 +265,7 @@ header .account-tab .account-name {
 }
 .claim-list.grid .claim-wrapper {
   margin: 10px;
-  background-color: #999999;
+  background-color: #a7a7a7;
   border-style: solid;
   border-color: black;
   border-radius: 10px 10px 10px 10px;
@@ -292,6 +312,8 @@ header .account-tab .account-name {
   display:inline-block;
   margin-right: 10px;
 }
+
+
 /*end of dashboard*/
 
 
@@ -313,6 +335,7 @@ header .account-tab .account-name {
 .va-title {
   font-size: 48px;
   text-align: center;
+  font-family: "title", "sans-serif";
 }
 .login-button {
   display: block;
