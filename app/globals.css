@@ -86,13 +86,11 @@ body {
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  margin: 0px;
+  background-color: #424242;
+  overscroll-behavior: none;
+  font-family: 'default', sans-serif;
+  font-size: larger;
 }
 
 a {
@@ -104,4 +102,22 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+hr {
+  border-color:black;
+}
+
+header {
+  background-color: #a7a7a7;
+  height:90px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+content {
+  display:block;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 50px;
 }
