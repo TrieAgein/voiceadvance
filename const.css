@@ -9,7 +9,7 @@
 }
 body {
   margin: 0px;
-  background-color: #424242;
+  background-color: rgb(223, 223, 223);
   overscroll-behavior: none;
   font-family: 'default',sans-serif;
   font-size: larger;
@@ -56,7 +56,7 @@ hr {
 
 /*dashboard*/
 header {
-  background-color: #a7a7a7;
+  background-color: black;
   height:90px;
   padding: 10px;
   display: flex;
@@ -97,11 +97,12 @@ header .title {
   font-size: 48px;
   margin-left: 20px;
   font-family: "title", sans-serif;
+  color: white;
 }
 header .account-tab {
   display:inline;
   margin-left:auto;
-  border: black 2px solid;
+  /*border: white 2px solid;*/
   padding:10px;
   border-radius: 10px;
 }
@@ -126,6 +127,7 @@ header .account-tab .account-name {
   display:inline;
   margin: 50px;
   margin-left: 10px;
+  color:white;
 }
 
 
@@ -178,7 +180,7 @@ header .account-tab .account-name {
 
 .personal-statistics {
   border: solid 1px black;
-  background-color: #a7a7a7;
+  background-color: white;
   padding: 10px;
 }
 .personal-statistics .wrapper {
@@ -195,7 +197,7 @@ header .account-tab .account-name {
 }
 .claim-list.line .claim-wrapper {
   margin: 10px;
-  background-color: #a7a7a7;
+  background-color: white;
   border-style: solid;
   border-color: black;
   border-radius: 10px 10px 10px 10px;
@@ -265,7 +267,7 @@ header .account-tab .account-name {
 }
 .claim-list.grid .claim-wrapper {
   margin: 10px;
-  background-color: #a7a7a7;
+  background-color: white;
   border-style: solid;
   border-color: black;
   border-radius: 10px 10px 10px 10px;
@@ -320,13 +322,15 @@ header .account-tab .account-name {
 
 /*login*/
 .popup-window {
-  background-color: #999999;
+  background-color: white;
   border-style: solid;
   border-radius: 50px;
   border-width: 0;
   padding: 50px;
   width: 645px;
   margin: auto;
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .popup-window input {
   width: 402px;
@@ -339,12 +343,12 @@ header .account-tab .account-name {
 }
 .login-button {
   display: block;
-  background-color: black;
+  background-color: #A24EFE;
   border-style: solid;
-  border-width: 0;
+  border-width: 1px;
   border-radius: 5px;
   width: 402px;
-  color: white;
+  color: black;
   text-align: center;
   text-decoration: none;
   padding: 10px;
@@ -352,3 +356,46 @@ header .account-tab .account-name {
   cursor: pointer;
 }
 /*end of login*/
+
+#popup-wrapper {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px;
+  padding-top: 30px;
+  box-sizing: border-box;
+  overflow: auto;
+  z-index: 13;
+}
+.popup {
+  display: block;
+  margin: auto;
+  margin-top: 30px;
+  border: 1px solid black;
+  border-radius: 30px;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  max-width: calc(100% - 300px);
+  max-height: calc(100% - 30px);
+  box-sizing: border-box;
+  overflow: auto;
+}
+.popup .close-button {
+  position: relative;
+  float: right;
+  margin: 10px;
+  background-image: url("/images/icons/close.svg");
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.popup #popup-body {
+  margin: 50px;
+}
