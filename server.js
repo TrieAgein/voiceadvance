@@ -11,68 +11,68 @@
     nextApp.prepare().then(() => {
     const app = express();
     app.use(express.json());
-
-    let items = [{ id: 1, name: 'Test Item 1' }, { id: 2, name: 'Test Item 2' }];
     
     // Place your Express CRUD API routes here
     // CREATE an item
-    app.post('/items', async (req, res) => {
+    app.post('/post', async (req, res) => {
         const { name } = req.body;
-        const item = await prisma.item.create({
+		const { email } = req.body;
+        const user = await prisma.user.create({
         data: {
             name,
+			email
         },
         });
-        res.json(item);
+        res.json(user);
     });
 
     // READ all items
-    app.get('/items', async (req, res) => {
-        const items = await prisma.item.findMany();
-        res.json(items);
+    app.get('/get', async (req, res) => {
+        const users = await prisma.user.findMany();
+        res.json(users);
     });
 
     // READ: Get a single item by id
-    app.get('/items/:id', async (req, res) => {
+    app.get('/get/:id', async (req, res) => {
         const id = parseInt(req.params.id);
-        const item = await prisma.item.findUnique({
+        const user = await prisma.user.findUnique({
             where: { id },
         });
-        if (!item) return res.status(404).send('Item not found');
-        res.status(200).json(item);
+        if (!user) return res.status(404).send('user not found');
+        res.status(200).json(user);
     });
 
     // UPDATE: Update an item by id
-    app.put('/items/:id', async (req, res) => {
+    app.put('/update/:id', async (req, res) => {
         const id = parseInt(req.params.id);
         try {
-            const item = await prisma.item.update({
+            const user = await prisma.user.update({
                 where: { id },
-                data: { name: req.body.name },
+                data: { name: req.body.name, email: req.body.email },
             });
-            res.json(item);
+            res.json(user);
         } catch (error) {
             if (error.code === 'P2025') {
-                return res.status(404).send('Item not found');
+                return res.status(404).send('user not found');
             } else {
-                res.status(500).send('An error occurred while updating the item');
+                res.status(500).send('An error occurred while updating the user');
             }
         }
     });
 
     // DELETE: Delete an item by id
-    app.delete('/items/:id', async (req, res) => {
+    app.delete('/delete/:id', async (req, res) => {
         const id = parseInt(req.params.id);
         try {
-            await prisma.item.delete({
+            await prisma.user.delete({
                 where: { id },
             });
             res.status(204).send();
         } catch (error) {
             if (error.code === 'P2025') {
-                return res.status(404).send('Item not found');
+                return res.status(404).send('user not found');
             } else {
-                res.status(500).send('An error occurred while deleting the item');
+                res.status(500).send('An error occurred while deleting the user');
             }
         }
     });
