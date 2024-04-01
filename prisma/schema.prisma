@@ -13,27 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        String     @default(cuid()) @id
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
+model Comment {
+  comment_id    Int          @default(autoincrement()) @id
+  name            String?
+  topic         String?
+  content       String?
+  upvotes          Int       @default(0)
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  author        User      @relation(fields: [authorId], references: [user_id])
+  authorId        Int
+  resolved         Boolean   @default(false)
+  feedback        String?
+  @@map(name: "comments")
 }
 
 model User {
-  id            String       @default(cuid()) @id
+  user_id       Int       @default(autoincrement()) @id
+  password        String?      @unique
   name          String?
   email         String?   @unique
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
-  @@map(name: "users")
+  anonymous        Boolean   @default(false)
+  comments         Comment[]
 }
 
-model Item {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-}

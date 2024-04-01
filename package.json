@@ -1,17 +1,18 @@
 {
-  "name": "voiceadvanceproject",
+  "name": "voiceadvance",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.2",
-    "express": "^4.18.3",
-    "next": "14.1.0",
+    "@prisma/client": "^5.11.0",
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "next": "^14.1.4",
     "pg": "^8.11.3",
     "react": "^18",
     "react-dom": "^18"

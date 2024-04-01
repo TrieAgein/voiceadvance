@@ -1,10 +1,78 @@
+"use client";
 import Image from "next/image";
-import styles from "./page.module.css";
+import styles from "./css/page.module.css";
 import './globals.css';
 import React from 'react';
 import toggleView from './components/toggleView';
-import ClaimBox from './components/claimBox';
+import CommentsList from './components/commentsList.client.js';
 // Import TestDbComponent or any other components if needed
+
+// function CommentSubmitForm() {
+//   const [title, setTitle] = useState('');
+//   const [content, setContent] = useState('');
+//   const [resolved, setResolved] = useState(false);
+
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+//     const commentData = { title, content, resolved };
+
+//     try {
+//       const response = await fetch('/api/comments', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify(commentData),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//       }
+
+//       const data = await response.json();
+//       console.log('Comment posted successfully:', data);
+//       // Clear form fields after successful submission
+//       setTitle('');
+//       setContent('');
+//       setResolved(false);
+//       alert('Comment submitted successfully!');
+//     } catch (error) {
+//       console.error('Failed to submit comment:', error);
+//       alert('Failed to submit comment.');
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <h2>Submit a Comment</h2>
+//       <label>
+//         Title:
+//         <input
+//           type="text"
+//           value={title}
+//           onChange={(e) => setTitle(e.target.value)}
+//         />
+//       </label>
+//       <br />
+//       <label>
+//         Comment:
+//         <textarea
+//           value={content}
+//           onChange={(e) => setContent(e.target.value)}
+//         />
+//       </label>
+//       <br />
+//       <label>
+//         Resolved:
+//         <input
+//           type="checkbox"
+//           checked={resolved}
+//           onChange={(e) => setResolved(e.target.checked)}
+//         />
+//       </label>
+//       <br />
+//       <button type="submit">Submit Comment</button>
+//     </form>
+//   );
+// }
 
 export default function Home() {
   // You can define more functions for other buttons similarly
@@ -67,7 +135,7 @@ export default function Home() {
           </div>
         </div>
         <div id="claimList" className={styles.claimList}>
-        <ClaimBox/>
+        <CommentsList/>
         </div>
       </main>
       
