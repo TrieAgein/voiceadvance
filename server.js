@@ -171,6 +171,163 @@ app.get('/comments', async (req, res) => {
   }
 });
 
+    // READ all users
+    app.get('/getua', async (req, res) => {
+        const users = await prisma.user.findMany();
+        res.json(users);
+    });
+
+	// READ all comments
+	app.get('/getca', async (req, res) => {
+        const comments = await prisma.comment.findMany();
+        res.json(comments);
+    });
+	
+	// READ all comments from a given user
+	app.get('/getcu/:id', async (req, res) => {
+		const user_id = parseInt(req.params.id);
+        const user = await prisma.user.findUnique({
+			where: { user_id },
+			select: { comments: true },
+		});
+        res.json(user);
+    });
+	
+	//READ comments in multiples of 10
+	app.get('/getcpage/:pg', async (req, res) => {
+		const comments = await prisma.comment.findMany({
+			skip: parseInt(req.params.pg),
+			take: 10,
+		})
+		res.json(comments);	
+	});
+	
+	//READ 'lim' number of comments
+	app.get('/getclimit/:lim', async (req, res) => {
+		const comments = await prisma.comment.findMany({
+			take: parseInt(req.params.lim),
+		})
+		res.json(comments);	
+	});
+	
+	//READ comments which topics contain 'input'
+	app.get('/getcsearch', async (req, res) => {
+		const comments = await prisma.comment.findMany({
+			where: {
+				topic: {
+					contains: req.body.search,
+					mode: 'insensitive',
+				},
+			},
+		})
+		res.json(comments);	
+	});
+
+    // READ: Get a single user by user_id
+    app.get('/getu/:id', async (req, res) => {
+        const user_id = parseInt(req.params.id);
+        const user = await prisma.user.findUnique({
+            where: { user_id },
+        });
+        if (!user) return res.status(404).send('user not found');
+        res.status(200).json(user);
+    });
+
+    // READ: Get a single comment by comment_id
+    app.get('/getc/:id', async (req, res) => {
+        const comment_id = parseInt(req.params.id);
+        const comment = await prisma.comment.findUnique({
+            where: { comment_id },
+        });
+        if (!comment) return res.status(404).send('comment not found');
+        res.status(200).json(comment);
+    });
+	
+	// READ: Get all comments by user_id
+	app.get('/getcu/:id', async(req, res) => {
+		const user_id = parseInt(req.params.user_id);
+		const comments = await prisma.comment.findMany({
+			where: { user_id },
+		});
+		if (!comments) return res.status(404).send('comment not found');
+		res.status(200).json(comments);
+	});
+
+    // UPDATE: Update a user by id
+    app.put('/update/:id', async (req, res) => {
+        const user_id = parseInt(req.params.id);
+        try {
+            const user = await prisma.user.update({
+                where: { user_id },
+                data: { name: req.body.name, email: req.body.email },
+            });
+            res.json(user);
+        } catch (error) {
+            if (error.code === 'P2025') {
+                return res.status(404).send('user not found');
+            } else {
+                res.status(500).send('An error occurred while updating the user');
+            }
+        }
+    });
+	
+	// UPDATE: Update upvote +1 (add like)
+    app.put('/upvote/:id', async (req, res) => {
+        const comment_id = parseInt(req.params.id);
+        try {
+            const comment = await prisma.comment.update({
+                where: { comment_id },
+                data: { upvotes: {increment: 1}},
+            });
+            res.json(comment);
+        } catch (error) {
+            if (error.code === 'P2025') {
+                return res.status(404).send('comment not found');
+            } else {
+                res.status(500).send('An error occurred while upvoting the comment');
+            }
+        }
+    });
+	
+	//Update: Update upvote -1 (remove like)
+    app.put('/unupvote/:id', async (req, res) => {
+        const comment_id = parseInt(req.params.id);
+        try {
+            const comment = await prisma.comment.update({
+                where: { comment_id },
+                data: { upvotes: {decrement: 1}},
+            });
+            res.json(comment);
+        } catch (error) {
+            if (error.code === 'P2025') {
+                return res.status(404).send('comment not found');
+            } else {
+                res.status(500).send('An error occurred while un-upvoting the comment');
+            }
+        }
+    });
+	
+	//Update: Update comment as resolved and show feedback
+    app.put('/resolve/:id', async (req, res) => {
+        const comment_id = parseInt(req.params.id);
+        try {
+            const comment = await prisma.comment.update({
+                where: { comment_id },
+                data: { 
+					resolved: true,
+					feedback: req.body.feedback,
+				},
+            });
+            res.json(comment);
+        } catch (error) {
+            if (error.code === 'P2025') {
+                return res.status(404).send('comment not found');
+            } else {
+                res.status(500).send('An error occurred while un-upvoting the comment');
+            }
+        }
+    });
+
 // Next.js page handling should be the last route to catch any requests not handled by Express
 app.all('*', (req, res) => {
     return handle(req, res);
