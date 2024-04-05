@@ -165,10 +165,11 @@ header .accountTab .accountName {
 
 .claimList.line {
   display: block;
-  margin-right: auto;
+  margin-right: auto; 
   width: 100%;
   min-width: 0;
 }
+
 .claimList.line .claimWrapper {
   margin: 10px;
   background-color: #a7a7a7;

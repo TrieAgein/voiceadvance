@@ -5,6 +5,7 @@ import './globals.css';
 import React from 'react';
 import toggleView from './components/toggleView';
 import CommentsList from './components/commentsList.client.js';
+import TestComponent from './components/testcomponent';
 // Import TestDbComponent or any other components if needed
 export default function Home() {
   // You can define more functions for other buttons similarly
@@ -67,7 +68,7 @@ export default function Home() {
           </div>
         </div>
         <div id="claimList" className={styles.claimList}>
-        <CommentsList/>
+        <TestComponent/>
         </div>
       </main>
       
