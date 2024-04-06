@@ -1,95 +1,94 @@
+"use client";
 import Image from "next/image";
-import styles from "./page.module.css";
+import styles from "./css/page.module.css";
+import './globals.css';
+import React from 'react';
+import toggleView from './components/toggleView';
+import { useState } from 'react';
+import NewClaimPopup from "./components/NewClaimPopup";
 
-export default function Home() {
+
+function Home () {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div>
+      <header>
+        <div className={styles.title}>
+          {/* Assuming you want to use Image component but have it commented out */}
+          <img className={styles.western_digitalLogo} src="/images/icons/logo.svg" alt="Logo"/>
+          VoiceAdvance
         </div>
+        <div className={styles.accountTab}>
+          <div className={styles.profilePic}>
+            <img src="/images/avatar.jpg" alt="Profile"/>
+          </div>
+          <div className={styles.accountName}>Julien</div>
+        </div>
+      </header>
+      
+      <main>
+        <div className={styles.operationBar}>
+          <div style={{ display: 'inline', float: 'right' }}>
+            <button onClick={() => console.log('Button clicked')} className={styles.operationButton}>Toggle Comments</button>
+            <button className={styles.operationButton} onClick={toggleView}>Toggle View</button>
+            <button className={styles.operationButton}>Search</button>
+            <input className={styles.search} placeholder="Search" type="text"/>
+            {/* <button className={styles.button}>New Claim <span style={{ fontSize: '150%' }}>+</span></button> */}
+          </div>
+        </div>
+      
+        <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+          <div className={styles.sidebar}> 
+            <div className={styles.dropdown}>
+              {/* Assuming you might want to use a button for toggling the dropdown */}
+              {/* <button onClick={(e) => e.currentTarget.parentElement.classList.toggle('open')} className={styles.title}>Claims</button> */}
+              <div className="content">
+                <a href="#all">All</a>
+                <a href="#active">Active</a>
+                <a href="#manage">Manage</a> 
+              </div>
+            </div>
+            <div className={styles.personalStatistics}>
+              <p>Personal Statistics</p>
+              <hr />
+              <div className="wrapper">
+                <div className="stat">
+                  <div id="stat-postcount">0</div>
+                  Posts
+                </div>
+                <div className="stat">
+                  <div id="stat-resolvedcount">0</div>
+                  Resolved
+                </div>
+                <div className="stat">
+                  <div id="stat-upvotecount">0</div>
+                  Upvotes
+                </div>
+              </div>
+              <hr />
+            </div>
+          </div>
+        </div>
+        {/* previous new claim */}
+        {/* <div>    */}
+              {/* Claimlist button */}
+              {/* <button onClick={() => console.log('Comments List clicked')} className={styles.operationButton}>Comments List </button> */}
+              {/* <button onClick={() => setIsPopupOpen(true)} className={styles.button}>New Claim</button> */}
+              {/* <claimList></claimList>  */}
+          {/* </div> */}
+        {/* {isPopupOpen && <newClaim onClose={() => setIsPopupOpen(false)} />} */}
+        <div id="claimList" className={styles.claimList}>
+        <button onClick={() => setIsPopupOpen(true)} className={styles.button}>New Claim</button>
       </div>
+      {/* Popup window */}
+      {/* Integrating the comment submit form */}
+      {isPopupOpen && <NewClaimPopup onClose={() => setIsPopupOpen(false)} />}
+      </main> 
+      <footer className="footer"></footer> 
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    {/* ADD TEST COMPONENT */}
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }
+export default Home; 
