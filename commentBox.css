@@ -1,0 +1,55 @@
+.comment-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .status {
+    padding: 5px;
+    color: #fff;
+  }
+  
+  .resolved {
+    background-color: green;
+  }
+  
+  .unresolved {
+    background-color: red;
+  }
+  
+  .claim-wrapper {
+    margin: 10px;
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px 10px 10px 10px;
+    border-width: 3px;
+    padding: 5px;
+    min-width: 0;
+    display: flex;
+  
+  }
+  
+  .claim-wrapper .title {
+    min-width: fit-content;
+    display: inline-block;
+    font-size: larger;
+    order: 2;
+  }
+
+  .claim-wrapper .description {
+    width: fit-content;
+    margin-left: 10px;
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    order: 3;
+  }
