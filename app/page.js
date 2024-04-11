@@ -5,6 +5,9 @@ import React from 'react';
 import toggleView from './components/toggleView';
 import CommentsList from './components/commentsList.client.js';
 import CommentSubmitForm from './components/commentSubmitForm.js';
+import Dropdown from './components/dropdown.js';
+import logo from './public/logo.svg';
+import avatar from './public/avatar.jpg';
 
 // Import TestDbComponent or any other components if needed
 export default function Home() {
@@ -15,12 +18,25 @@ export default function Home() {
     <header>
       <div className="title">
         {/* Assuming you want to use Image component but have it commented out */}
-        <img className="western_digitalLogo" src="/images/icons/logo.svg" alt="Logo"/>
+        <Image
+            src={logo}
+            width="50"
+            margin="5"
+            alt="logo"
+          />
         VoiceAdvance
       </div>
       <div className="account-tab">
         <div className="profile-pic">
-          <img src="/images/avatar.jpg" alt="Profile"/>
+          <Image
+            src={avatar}
+            display ="inline"
+            margin= "0 auto"
+            margin-left ="-25%"
+            width='100'
+            height='0'
+            alt="profile"
+          />
         </div>
         <div className="account-name">Julien</div>
       </div>
@@ -38,12 +54,7 @@ export default function Home() {
       <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
         <div className="sidebar">
           <div className="dropdown open">
-            <a class="title">Claims<img src="images/icons/arrow.svg"/></a>
-            <div className="content">
-              <a>All</a>
-              <a>Active</a>
-              <a>Manage</a> 
-            </div>
+            <Dropdown/>
           </div>
           <div className="personal-statistics">
             <p>Personal Statistics</p>
@@ -67,7 +78,7 @@ export default function Home() {
         </div>
       </div>
       <div id="claim-list" className="claim-list line">
-        
+        <CommentsList/>
       </div>
       <div>
         <CommentSubmitForm/>
