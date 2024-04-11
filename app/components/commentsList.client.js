@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import CommentBox from './CommentBox'; // Ensure CommentBox is also a client component if it uses hooks
+import CommentBox from './commentBox.js'; // Ensure CommentBox is also a client component if it uses hooks
 
 const CommentsList = () => {
   const [comments, setComments] = useState([]);
