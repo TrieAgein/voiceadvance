@@ -1,26 +1,31 @@
-import React from 'react';
-import '../css/commentBox.css';
+import React, { useState } from 'react';
+import ReplyForm from './replyForm.js'; // Ensure the ReplyForm is correctly imported
+import '../css/commentBox.css'; // Ensure CSS is correctly linked
 
 const CommentBox = ({
+  commentId, // This prop is the ID of the comment, used to link replies
   profilePicUrl,
   commentText,
   isResolved,
   topicTitle,
-  name = "Anonymous", // Default to "Anonymous" if no name is provided
+  name = "Anonymous", // Default name if none is provided
   upvotes,
   createdAt,
-  replies = [] // Assuming replies are passed as an array of comment objects
+  replies = [], // Initial replies array, could be empty
+  onReplySubmitted // Function passed down to handle new replies
 }) => {
-  // Optional: Format createdAt date string for display
+  const [showReplyForm, setShowReplyForm] = useState(false);
+
+  // Formatting the date for display
   const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
     year: 'numeric', month: 'long', day: 'numeric'
   });
 
-  // Function to render replies recursively
+  // Function to render replies recursively, allowing nested comments
   const renderReplies = (replies) => {
     return replies.map((reply, index) => (
       <div key={index} className="comment-reply">
-        <CommentBox {...reply} />
+        <CommentBox {...reply} onReplySubmitted={onReplySubmitted} />
       </div>
     ));
   };
@@ -40,7 +45,17 @@ const CommentBox = ({
       <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
         {isResolved ? 'Resolved' : 'Unresolved'}
       </div>
-      {/* Render replies if any */}
+      {/* Toggle button for showing/hiding the reply form */}
+      <button onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-reply-button">
+        {showReplyForm ? 'Cancel' : 'Reply'}
+      </button>
+      {/* Conditional rendering of the reply form, passing the current commentId as parentId */}
+      {showReplyForm && (
+        <div className="reply-form-container">
+          <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />
+        </div>
+      )}
+      {/* Recursively render replies if any */}
       {replies.length > 0 && (
         <div className="replies">
           <h5>Replies:</h5>

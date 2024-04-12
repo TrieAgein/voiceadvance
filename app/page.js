@@ -53,9 +53,7 @@ export default function Home() {
       </div>
       <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
         <div className="sidebar">
-          <div className="dropdown open">
             <Dropdown/>
-          </div>
           <div className="personal-statistics">
             <p>Personal Statistics</p>
             <hr />
@@ -77,7 +75,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div id="claim-list" className="claim-list line">
+      <div id="claim-list" className="claim-list list">
         <CommentsList/>
       </div>
       <div>
