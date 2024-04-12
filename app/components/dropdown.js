@@ -4,15 +4,11 @@ import arrowsSVG from '../public/arrows.svg';
 import '../css/page.css';
 
 const Dropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  const [toggled, setToggled] = useState(false);
 
   return (
-    <div className="dropdown">
-      <a onClick={toggleDropdown} className="title">Comments
+    <div className={"dropdown"+(toggled ? ' open' : '')}>
+      <a onClick={()=>{setToggled(!toggled)}} className="title">Comments
         <Image
               src={arrowsSVG}
               height="0"
@@ -23,13 +19,11 @@ const Dropdown = () => {
               alt='arrow'
         /> 
       </a>
-      {isOpen && (
-        <div className="content">
+      <div className="content">
           <a>All</a>
           <a>Active</a>
           <a>Manage</a> 
-        </div>
-      )}
+      </div>
     </div>
   );
 };
