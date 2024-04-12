@@ -14,20 +14,21 @@ datasource db {
 }
 
 model Comment {
-  comment_id    Int          @default(autoincrement()) @id
-  name            String?
+  comment_id    Int          @id @default(autoincrement())
+  name          String?
   topic         String?
   content       String?
-  upvotes          Int       @default(0)
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  author        User      @relation(fields: [authorId], references: [user_id])
-  authorId        Int
-  resolved         Boolean   @default(false)
-  feedback        String?
+  upvotes       Int          @default(0)
+  createdAt     DateTime     @default(now()) @map(name: "created_at")
+  updatedAt     DateTime     @updatedAt @map(name: "updated_at")
+  author        User         @relation(fields: [authorId], references: [user_id])
+  authorId      Int
+  resolved      Boolean      @default(false)
+  parentCommentId Int?       @map(name: "parent_comment_id")
+  parentComment Comment?     @relation("CommentReplies", fields: [parentCommentId], references: [comment_id])
+  replies       Comment[]    @relation("CommentReplies")
   @@map(name: "comments")
 }
-
 model User {
   user_id       Int       @default(autoincrement()) @id
   password        String?      @unique

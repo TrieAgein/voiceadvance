@@ -153,35 +153,85 @@ app.use(express.json());
 
     // POST endpoint for submitting a comment
     app.post('/submit-comment', async (req, res) => {
-        // Destructuring the expected fields from the request body based on the new schema
-        const { name, topic, content, authorId, feedback, resolved = false } = req.body;
+        // Destructuring the expected fields from the request body based on the updated schema
+        const { name, topic, content, authorId, feedback, resolved = false, parentCommentId } = req.body;
     
         try {
-        const newComment = await prisma.comment.create({
+            const newComment = await prisma.comment.create({
+                data: {
+                    name,
+                    topic,
+                    content,
+                    upvotes: 0, // Defaulting upvotes to 0 for new comments
+                    authorId, // Assuming the authorId is provided and valid
+                    resolved,
+                    parentCommentId // Include parentCommentId, which can be null if it's a top-level comment
+                },
+            });
+            res.status(201).json(newComment);
+        } catch (error) {
+            res.status(400).json({ error: `An error occurred: ${error.message}` });
+        }
+    });
+
+    app.post('/submit-reply', async (req, res) => {
+    // Destructuring the expected fields from the request body
+    const { name, topic, content, authorId, feedback, resolved = false, parentCommentId } = req.body;
+
+    if (!parentCommentId) {
+        return res.status(400).json({ error: "parentCommentId is required for replies." });
+    }
+
+    try {
+        // Check if the parent comment exists
+        const parentComment = await prisma.comment.findUnique({
+            where: { comment_id: parentCommentId },
+        });
+
+        if (!parentComment) {
+            return res.status(404).json({ error: "Parent comment not found." });
+        }
+
+        const newReply = await prisma.comment.create({
             data: {
-            name,
-            topic,
-            content,
-            upvotes: 0, // Defaulting upvotes to 0 for new comments
-            authorId, // Assuming the authorId is provided and valid
-            resolved,
-            feedback
+                name,
+                topic,
+                content,
+                upvotes: 0, // Defaulting upvotes to 0 for replies
+                authorId, // Assuming the authorId is provided and valid
+                resolved,
+                feedback,
+                parentCommentId // This must be a valid existing comment ID
             },
         });
-        res.status(201).json(newComment);
-        } catch (error) {
-        res.status(400).json({ error: `An error occurred: ${error.message}` });
-        }
-    });  
-
-    app.get('/comments', async (req, res) => {
-    try {
-        const comments = await prisma.comment.findMany();
-        res.status(200).json(comments);
+        res.status(201).json(newReply);
     } catch (error) {
         res.status(500).json({ error: `An error occurred: ${error.message}` });
     }
     });
+
+
+    app.get('/comments', async (req, res) => {
+        try {
+            // Fetch only top-level comments and include their nested replies recursively
+            const comments = await prisma.comment.findMany({
+                where: {
+                    parentCommentId: null // Filter out top-level comments
+                },
+                include: {
+                    replies: {
+                        include: {
+                            replies: true // Recursively include replies to replies, can be further nested as needed
+                        }
+                    }
+                }
+            });
+            res.status(200).json(comments);
+        } catch (error) {
+            res.status(500).json({ error: `An error occurred: ${error.message}` });
+        }
+    });
+    
 
     // READ all users
     app.get('/getua', async (req, res) => {
