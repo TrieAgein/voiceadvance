@@ -153,30 +153,33 @@ app.use(express.json());
 
     // POST endpoint for submitting a comment
     app.post('/submit-comment', async (req, res) => {
-        // Destructuring the expected fields from the request body based on the updated schema
-        const { name, topic, content, authorId, feedback, resolved = false, parentCommentId } = req.body;
-    
+        const { name, topic, content, authorId, feedback, resolved = false, parentCommentId, anonymous = false } = req.body;
+
         try {
             const newComment = await prisma.comment.create({
                 data: {
                     name,
                     topic,
                     content,
-                    upvotes: 0, // Defaulting upvotes to 0 for new comments
-                    authorId, // Assuming the authorId is provided and valid
+                    upvotes: 0,
+                    authorId,
                     resolved,
-                    parentCommentId // Include parentCommentId, which can be null if it's a top-level comment
+                    feedback,
+                    parentCommentId, // This can be null if it's a top-level comment
+                    anonymous
                 },
             });
             res.status(201).json(newComment);
+
         } catch (error) {
             res.status(400).json({ error: `An error occurred: ${error.message}` });
         }
     });
 
+
     app.post('/submit-reply', async (req, res) => {
     // Destructuring the expected fields from the request body
-    const { name, topic, content, authorId, feedback, resolved = false, parentCommentId } = req.body;
+    const { name, topic, content, authorId, feedback, resolved = false, parentCommentId, anonymous = false } = req.body;
 
     if (!parentCommentId) {
         return res.status(400).json({ error: "parentCommentId is required for replies." });
@@ -197,11 +200,12 @@ app.use(express.json());
                 name,
                 topic,
                 content,
-                upvotes: 0, // Defaulting upvotes to 0 for replies
-                authorId, // Assuming the authorId is provided and valid
+                upvotes: 0,
+                authorId,
                 resolved,
                 feedback,
-                parentCommentId // This must be a valid existing comment ID
+                parentCommentId, // This can be null if it's a top-level comment
+                anonymous
             },
         });
         res.status(201).json(newReply);
@@ -210,28 +214,51 @@ app.use(express.json());
     }
     });
 
-
     app.get('/comments', async (req, res) => {
         try {
-            // Fetch only top-level comments and include their nested replies recursively
             const comments = await prisma.comment.findMany({
-                where: {
-                    parentCommentId: null // Filter out top-level comments
-                },
+                where: { parentCommentId: null },
                 include: {
-                    replies: {
-                        include: {
-                            replies: true // Recursively include replies to replies, can be further nested as needed
+                    replies: true, // Include immediate replies to these comments
+                    author: {
+                        select: {
+                            name: true, // Assume we only want to show the name
+                            email: false  // Do not show email if anonymous
                         }
                     }
                 }
             });
-            res.status(200).json(comments);
+            comments.forEach(comment => {
+                if (comment.anonymous) {
+                    comment.author = { name: "Anonymous" }; // Override author info if anonymous
+                }
+            });
+            res.json(comments);
         } catch (error) {
+            console.error('Failed to fetch comments:', error);
             res.status(500).json({ error: `An error occurred: ${error.message}` });
         }
     });
     
+      
+    // Route to fetch replies for a specific comment
+    app.get('/comments/:commentId/replies', async (req, res) => {
+        const { commentId } = req.params;
+        try {
+        const replies = await prisma.comment.findMany({
+            where: {
+            parentCommentId: parseInt(commentId)
+            }
+        });
+        if (!replies.length) {
+            return res.status(404).json({ message: 'No replies found for this comment.' });
+        }
+        res.json(replies);
+        } catch (error) {
+        console.error('Failed to fetch replies:', error);
+        res.status(500).json({ error: `An error occurred: ${error.message}` });
+        }
+    });
 
     // READ all users
     app.get('/getua', async (req, res) => {

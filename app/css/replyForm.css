@@ -29,3 +29,10 @@
 .reply-button:hover {
     background-color: #7537b7; /* Darker blue on hover for effect */
 }
+
+.comment-submit-form label {
+    display: flex;
+    align-items: center; /* Aligns the checkbox and label text */
+    margin-top: 10px; /* Space above the label */
+    color: #333; /* Dark color for label text */
+  }

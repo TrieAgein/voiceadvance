@@ -27,14 +27,16 @@ model Comment {
   parentCommentId Int?       @map(name: "parent_comment_id")
   parentComment Comment?     @relation("CommentReplies", fields: [parentCommentId], references: [comment_id])
   replies       Comment[]    @relation("CommentReplies")
+  anonymous        Boolean   @default(false)
   @@map(name: "comments")
 }
+
 model User {
   user_id       Int       @default(autoincrement()) @id
   password        String?      @unique
   name          String?
   email         String?   @unique
-  anonymous        Boolean   @default(false)
+
   comments         Comment[]
 }
 

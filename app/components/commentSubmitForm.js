@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import '../css/commentSubmitForm.css';  // Assuming the CSS is saved in this file.
 
 const CommentSubmitForm = () => {
   const [name, setName] = useState('');
   const [topic, setTopic] = useState('');
   const [content, setContent] = useState('');
-  const [parentCommentId, setParentCommentId] = useState(null); // New state to hold the ID of the parent comment if it's a reply
-  const [feedback, setFeedback] = useState('');
+  const [parentCommentId, setParentCommentId] = useState(null);
+  const [anonymous, setAnonymous] = useState(false);
   const [resolved, setResolved] = useState(false);
   const authorId = 1; // Assuming authorId is known and static for this example; adjust as needed
 
@@ -18,14 +19,14 @@ const CommentSubmitForm = () => {
       topic,
       content,
       authorId,
-      feedback,
+      anonymous,
       resolved,
       ...(parentCommentId && { parentCommentId }), // Conditionally add parentCommentId to the payload if it exists
     };
 
     try {
       // Make the POST request to your API endpoint
-      const response = await fetch('/submit-comment', { // Changed to submit-reply to align with reply handling
+      const response = await fetch('/submit-comment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,8 +35,9 @@ const CommentSubmitForm = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+        const errorBody = await response.text();  // or response.json() if the server sends JSON
+        throw new Error(`HTTP error! status: ${response.status}, Body: ${errorBody}`);
+    }
 
       const data = await response.json();
       console.log('Comment submitted successfully:', data);
@@ -43,8 +45,8 @@ const CommentSubmitForm = () => {
       setName('');
       setTopic('');
       setContent('');
-      setFeedback('');
       setResolved(false);
+      setAnonymous(false);
       setParentCommentId(null); // Reset parentCommentId as well
     } catch (error) {
       console.error('Failed to submit comment:', error);
@@ -58,38 +60,33 @@ const CommentSubmitForm = () => {
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        className="form-input"
       />
       <input
         type="text"
         placeholder="Topic"
         value={topic}
         onChange={(e) => setTopic(e.target.value)}
+        className="form-input"
       />
       <textarea
         placeholder="Content"
         value={content}
         onChange={(e) => setContent(e.target.value)}
+        className="form-textarea"
       />
-      <input
-        type="text"
-        placeholder="Parent Comment ID (optional for replies)"
-        value={parentCommentId || ''}
-        onChange={(e) => setParentCommentId(e.target.value ? Number(e.target.value) : null)}
-      />
-      <textarea
-        placeholder="Feedback (optional)"
-        value={feedback}
-        onChange={(e) => setFeedback(e.target.value)}
-      />
-      <label>
-        Resolved:
-        <input
-          type="checkbox"
-          checked={resolved}
-          onChange={(e) => setResolved(e.target.checked)}
-        />
-      </label>
-      <button type="submit">Submit Comment</button>
+      <div className="form-checkbox">
+        <label>
+          Anonymous:
+          <input
+            type="checkbox"
+            checked={anonymous}
+            onChange={(e) => setAnonymous(e.target.checked)}
+            className="checkbox-input"
+          />
+        </label>
+      </div>
+      <button type="submit" className="submit-button">Submit Comment</button>
     </form>
   );
 };

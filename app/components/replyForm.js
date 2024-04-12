@@ -4,6 +4,7 @@ import '../css/replyForm.css'; // Ensure the CSS is imported correctly
 const ReplyForm = ({ parentId, onReplySubmitted }) => {
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false); // To manage the UI state during submission
+  const [anonymous, setAnonymous] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,6 +16,7 @@ const ReplyForm = ({ parentId, onReplySubmitted }) => {
         body: JSON.stringify({
           content,
           parentCommentId: parentId, // Ensure this matches your backend schema
+          anonymous,
           authorId: 1, // Replace with actual user ID from your auth context or props
         })
       });
@@ -43,9 +45,21 @@ const ReplyForm = ({ parentId, onReplySubmitted }) => {
         required
         disabled={isSubmitting} // Disable the textarea during submission
       />
+
       <button className="reply-button" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Submitting...' : 'Reply'} 
+        {isSubmitting ? 'Submitting...' : 'Reply'}
       </button>
+      <div className="form-checkbox">
+        <label>
+          Anonymous:
+          <input
+            type="checkbox"
+            checked={anonymous}
+            onChange={(e) => setAnonymous(e.target.checked)}
+            className="checkbox-input"
+          />
+        </label>
+      </div>
     </form>
   );
 };
