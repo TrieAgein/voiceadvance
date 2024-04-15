@@ -10,7 +10,7 @@ const ReplyForm = ({ parentId, onReplySubmitted }) => {
     e.preventDefault();
     setIsSubmitting(true); // Begin submission, update UI to show loading state
     try {
-      const response = await fetch('/submit-reply', {
+      const response = await fetch('/api/submit-reply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -7,7 +7,7 @@ const CommentsList = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await fetch('/comments');
+        const response = await fetch('/api/comments');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

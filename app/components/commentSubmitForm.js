@@ -26,7 +26,7 @@ const CommentSubmitForm = () => {
 
     try {
       // Make the POST request to your API endpoint
-      const response = await fetch('/submit-comment', {
+      const response = await fetch('/api/submit-comment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

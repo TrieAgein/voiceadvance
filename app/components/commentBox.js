@@ -28,7 +28,7 @@ const CommentBox = ({
     const fetchReplies = async () => {
       if (!repliesLoaded) {
         try {
-          const response = await fetch(`/comments/${commentId}/replies`);
+          const response = await fetch(`/api/comments/${commentId}/replies`);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
