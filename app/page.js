@@ -5,6 +5,7 @@ import React from 'react';
 import toggleView from './components/toggleView';
 import CommentsList from './components/commentsList.client.js';
 import CommentSubmitForm from './components/commentSubmitForm.js';
+import CreateUser from './components/createUser.js';
 import Dropdown from './components/dropdown.js';
 import logo from './public/logo.svg';
 import avatar from './public/avatar.jpg';
@@ -80,6 +81,9 @@ export default function Home() {
       </div>
       <div>
         <CommentSubmitForm/>
+      </div>
+      <div>
+        <CreateUser/>
       </div>
     </content>
     

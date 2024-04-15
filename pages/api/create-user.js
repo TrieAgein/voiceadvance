@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../utils/prismaClient.js';
 import bcrypt from 'bcryptjs'; // Ensure you have 'bcryptjs' installed: npm install bcryptjs
-
-const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
     const { password, name, email, anonymous } = req.body;

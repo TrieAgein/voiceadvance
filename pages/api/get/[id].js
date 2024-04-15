@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '../../../utils/prismaClient.js';
 
 export default async function handler(req, res) {
     // Validate ID input; ensure it's a number and not negative

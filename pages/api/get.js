@@ -1,7 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-// PrismaClient is intended to be used in a long-lived manner, so it's often better to instantiate it outside of the handler if possible
-const prisma = new PrismaClient();
+import prisma from '../../utils/prismaClient.js';
 
 export default async function handler(req, res) {
     // Check for the correct HTTP method (e.g., GET)
