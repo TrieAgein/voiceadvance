@@ -2,7 +2,7 @@ import prisma from '../../utils/prismaClient.js';
 import bcrypt from 'bcryptjs'; // Ensure you have 'bcryptjs' installed: npm install bcryptjs
 
 export default async function handler(req, res) {
-    const { password, name, email, anonymous } = req.body;
+    const { password, name, email } = req.body; // Ensure anonymous defaults to false if not provided
 
     // Simple validation
     if (!email || !password) {
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         });
 
         if (existingUser) {
-            return res.status(409).json({ error: 'User already exists with this email.' }); // 409 Conflict might be more appropriate here
+            return res.status(409).json({ error: 'User already exists with this email.' }); // 409 Conflict for existing resource
         }
 
         // Encrypt the password before storing it in the database
@@ -27,21 +27,20 @@ export default async function handler(req, res) {
             data: {
                 name,
                 email,
-                password: hashedPassword, // Store the hashed password, not the plain one
+                password: hashedPassword // Store the hashed password, not the plain one
             },
         });
 
-        // Optionally, mask the user's password or sensitive information before returning the response
+        // Prepare user data for response, ensuring to never return sensitive data
         const userResponse = {
             id: newUser.id,
             name: newUser.name,
-            email: newUser.email,
-            anonymous: newUser.anonymous,
+            email: newUser.email
         };
 
         res.status(201).json(userResponse);
     } catch (error) {
         console.error('Failed to create user:', error);
-        res.status(500).json({ error: 'Internal Server Error' }); // Use a generic error message for the client
+        res.status(500).json({ error: 'Internal Server Error' }); // Generic error message for the client
     }
 }
