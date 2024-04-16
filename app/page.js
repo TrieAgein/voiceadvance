@@ -5,74 +5,91 @@ import './globals.css';
 import React from 'react';
 import toggleView from './components/toggleView';
 import CommentsList from './components/commentsList.client.js';
-import TestComponent from './components/testcomponent';
+import CommentSubmitForm from './components/commentSubmitForm.js';
+import Dropdown from './components/dropdown.js';
+import logo from './public/logo.svg';
+import avatar from './public/avatar.jpg';
+
 // Import TestDbComponent or any other components if needed
 export default function Home() {
   // You can define more functions for other buttons similarly
 
   return (
     <div>
-      <header>
-        <div className={styles.title}>
-          {/* Assuming you want to use Image component but have it commented out */}
-          <img className={styles.western_digitalLogo} src="/images/icons/logo.svg" alt="Logo"/>
-          VoiceAdvance
+    <header>
+      <div className="title">
+        {/* Assuming you want to use Image component but have it commented out */}
+        <Image
+            src={logo}
+            width="50"
+            margin="5"
+            alt="logo"
+          />
+        VoiceAdvance
+      </div>
+      <div className="account-tab">
+        <div className="profile-pic">
+          <Image
+            src={avatar}
+            display ="inline"
+            margin= "0 auto"
+            margin-left ="-25%"
+            width='100'
+            height='0'
+            alt="profile"
+          />
         </div>
-        <div className={styles.accountTab}>
-          <div className={styles.profilePic}>
-            <img src="/images/avatar.jpg" alt="Profile"/>
-          </div>
-          <div className={styles.accountName}>Julien</div>
+        <div className="account-name">Julien</div>
+      </div>
+    </header>
+    
+    <content>
+      <div className="operation-bar">
+        <div style={{ display: 'inline', float: 'right' }}>
+          <a className="operation-button" onClick={toggleView}>Toggle View</a>{' '}
+          <a className="operation-button">Search</a>{' '}
+          <input className="search" placeholder="Search" type="text"/>{' '}
+          <a className="button">New Claim <span style={{ fontSize: '150%' }}>+</span></a>
         </div>
-      </header>
-      
-      <main>
-        <div className={styles.operationBar}>
-          <div style={{ display: 'inline', float: 'right' }}>
-            <button className={styles.operationButton} onClick={toggleView}>Toggle View</button>
-            <button className={styles.operationButton}>Search</button>
-            <input className={styles.search} placeholder="Search" type="text"/>
-            <button className={styles.button}>New Claim <span style={{ fontSize: '150%' }}>+</span></button>
-          </div>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-          <div className={styles.sidebar}>
-            <div className={styles.dropdown}>
-              {/* Assuming you might want to use a button for toggling the dropdown */}
-              {/* <button onClick={(e) => e.currentTarget.parentElement.classList.toggle('open')} className={styles.title}>Claims</button> */}
-              <div className="content">
-                <a href="#all">All</a>
-                <a href="#active">Active</a>
-                <a href="#manage">Manage</a> 
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        <div className="sidebar">
+          
+            <Dropdown/>
+            <Dropdown/>
+            <Dropdown/>
+            <Dropdown/>
+            <Dropdown/>
+          <div className="personal-statistics">
+            <p>Personal Statistics</p>
+            <hr />
+            <div className="wrapper">
+              <div className="stat">
+              <center id="stat-postcount">0</center>
+                Posts
+              </div>
+              <div className="stat">
+              <center id="stat-resolvedcount">0</center>
+                Resolved
+              </div>
+              <div className="stat">
+              <center id="stat-upvotecount">0</center>
+                Upvotes
               </div>
             </div>
-            <div className={styles.personalStatistics}>
-              <p>Personal Statistics</p>
-              <hr />
-              <div className="wrapper">
-                <div className="stat">
-                  <div id="stat-postcount">0</div>
-                  Posts
-                </div>
-                <div className="stat">
-                  <div id="stat-resolvedcount">0</div>
-                  Resolved
-                </div>
-                <div className="stat">
-                  <div id="stat-upvotecount">0</div>
-                  Upvotes
-                </div>
-              </div>
-              <hr />
-            </div>
+            <hr />
           </div>
         </div>
-        <div id="claimList" className={styles.claimList}>
-        <TestComponent/>
-        </div>
-      </main>
-      
-      <footer className="footer"></footer>
-    </div>
+      </div>
+      <div id="claim-list" className="claim-list line">
+        <CommentsList/>
+      </div>
+      <div>
+        <CommentSubmitForm/>
+      </div>
+    </content>
+    
+    <footer className="footer"></footer>
+  </div>
   );
 }

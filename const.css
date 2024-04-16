@@ -1,3 +1,5 @@
+
+
 @font-face {
   font-family: "title";
   src: url(/css/fonts/Reghteous/Righteous-Regular.ttf) format("truetype");
@@ -5,6 +7,16 @@
 @font-face {
     font-family: "default";
     src: url(/css/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf) format("truetype");
+}
+body {
+  margin: 0px;
+  background-color: rgb(223, 223, 223);
+  overscroll-behavior: none;
+  font-family: 'default',sans-serif;
+  font-size: larger;
+}
+hr {
+  border-color:black;
 }
 .icon-link {
   width: 100px;
@@ -23,18 +35,18 @@
   text-decoration: underline;
 }
 
-.western_digitalLogo {
+.western_digital-logo {
   width: 50px;
   margin: 5px;
 }
 
-.submitBox {
+.submit-box {
   width:100%;
   background-color: #9e9e9e;
   border-style: solid;
   border-color: black;
 }
-.submitBox .input {
+.submit-box .input {
   width:75%;
   margin: 10px;
   background-color: #bcbcbc;
@@ -44,11 +56,24 @@
 
 
 /*dashboard*/
-.operationBar {
+header {
+  background-color: black;
+  height:90px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+content {
+  display:block;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 50px;
+}
+.operation-bar {
   width: 100%;
   height: 60px;
 }
-.operationBar .operationButton {
+.operation-bar .operation-button {
   border: black 1px solid;
   padding: 10px;
   border-radius:100px;
@@ -73,17 +98,18 @@ header .title {
   font-size: 48px;
   margin-left: 20px;
   font-family: "title", sans-serif;
+  color: white;
 }
-header .accountTab {
+header .account-tab {
   display:inline;
   margin-left:auto;
-  border: black 2px solid;
+  /*border: white 2px solid;*/
   padding:10px;
   border-radius: 10px;
 }
 
 
-.profilePic {
+.profile-pic {
   width: 60px;
   height: 60px;
   overflow: hidden;
@@ -91,17 +117,18 @@ header .accountTab {
   display: inline-block;
   vertical-align: middle;
 }
-.profilePic img {
+.profile-pic img {
 display: inline;
 margin: 0 auto;
 margin-left: -25%;
 height: 100%;
 width: auto;
 }
-header .accountTab .accountName {
+header .account-tab .account-name {
   display:inline;
   margin: 50px;
   margin-left: 10px;
+  color:white;
 }
 
 
@@ -152,27 +179,26 @@ header .accountTab .accountName {
   cursor: pointer;
 }
 
-.personalStatistics {
+.personal-statistics {
   border: solid 1px black;
-  background-color: #a7a7a7;
+  background-color: white;
   padding: 10px;
 }
-.personalStatistics .wrapper {
+.personal-statistics .wrapper {
   display: flex;
   justify-content: space-between;
 }
 
 
-.claimList.line {
+.claim-list.line {
   display: block;
-  margin-right: auto; 
+  margin-right: auto;
   width: 100%;
   min-width: 0;
 }
-
-.claimList.line .claimWrapper {
+.claim-list.line .claim-wrapper {
   margin: 10px;
-  background-color: #a7a7a7;
+  background-color: white;
   border-style: solid;
   border-color: black;
   border-radius: 10px 10px 10px 10px;
@@ -182,7 +208,7 @@ header .accountTab .accountName {
   display:flex;
   
 }
-.claimList.line .claimWrapper .upvote {
+.claim-list.line .claim-wrapper .upvote {
   width: fit-content;
   display:inline;
   margin-right: 10px;
@@ -194,14 +220,14 @@ header .accountTab .accountName {
   padding: 2px;
   order: 1;
 }
-.claimList.line .claimWrapper .title {
+.claim-list.line .claim-wrapper .title {
   min-width: fit-content;
   display: inline-block;
   font-size: larger;
   order:2;
   
 }
-.claimList.line .claimWrapper .description {
+.claim-list.line .claim-wrapper .description {
   width: fit-content;
   margin-left: 10px;
   display: inline-block;
@@ -211,14 +237,14 @@ header .accountTab .accountName {
   text-overflow: ellipsis;
   order:3;
 }
-.claimList.line .claimWrapper .status {
+.claim-list.line .claim-wrapper .status {
   min-width: fit-content;
   order: 4;
 }
-.claimList.line .claimWrapper .statusFilled div{
+.claim-list.line .claim-wrapper .status.filled div{
   background-color: green;
 }
-.claimList.line .claimWrapper .status div{
+.claim-list.line .claim-wrapper .status div{
   background-color: transparent;
   border-style: solid;
   border-width: 1px;
@@ -228,28 +254,28 @@ header .accountTab .accountName {
   display:inline-block;
   margin-right: 10px;
 }
-.claimList.line hr {
+.claim-list.line hr {
   display:none;
 }
 /* PLACEHOLDER*/ 
 
 
-.claimList.grid {
+.claim-list.grid {
   display: grid;
   grid-template-columns: repeat( auto-fit, minmax(400px, 1fr) );
   width:100%;
   
 }
-.claimList.grid .claimWrapper {
+.claim-list.grid .claim-wrapper {
   margin: 10px;
-  background-color: #a7a7a7;
+  background-color: white;
   border-style: solid;
   border-color: black;
   border-radius: 10px 10px 10px 10px;
   border-width: 3px;
   padding: 5px;
 }
-.claimList.grid .claimWrapper .upvote {
+.claim-list.grid .claim-wrapper .upvote {
   width: fit-content;
   display: block;
   margin-right: 10px;
@@ -261,25 +287,25 @@ header .accountTab .accountName {
   padding: 2px;
   margin: 5px;
 }
-.claimList.grid .claimWrapper .claim {
+.claim-list.grid .claim-wrapper .claim {
   width: fit-content;
   margin: 5px;
 
 }
-.claimList.grid .claimWrapper .title {
+.claim-list.grid .claim-wrapper .title {
   font-size: larger;
 }
-.claimList.grid .claimWrapper .description {
+.claim-list.grid .claim-wrapper .description {
   width: fit-content;
   margin: 5px;
 }
-.claimList.grid .claimWrapper .status {
+.claim-list.grid .claim-wrapper .status {
   float: right;
 }
-.claimList.grid .claimWrapper .status.filled div{
+.claim-list.grid .claim-wrapper .status.filled div{
   background-color: green;
 }
-.claimList.grid .claimWrapper .status div{
+.claim-list.grid .claim-wrapper .status div{
   background-color: transparent;
   border-style: solid;
   border-width: 1px;
@@ -296,32 +322,34 @@ header .accountTab .accountName {
 
 
 /*login*/
-.popupWindow {
-  background-color: #999999;
+.popup-window {
+  background-color: white;
   border-style: solid;
   border-radius: 50px;
   border-width: 0;
   padding: 50px;
   width: 645px;
   margin: auto;
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.popupWindow input {
+.popup-window input {
   width: 402px;
   padding: 10px;
 }
-.vaTitle {
+.va-title {
   font-size: 48px;
   text-align: center;
   font-family: "title", "sans-serif";
 }
-.loginButton {
+.login-button {
   display: block;
-  background-color: black;
+  background-color: #A24EFE;
   border-style: solid;
-  border-width: 0;
+  border-width: 1px;
   border-radius: 5px;
   width: 402px;
-  color: white;
+  color: black;
   text-align: center;
   text-decoration: none;
   padding: 10px;
@@ -329,3 +357,46 @@ header .accountTab .accountName {
   cursor: pointer;
 }
 /*end of login*/
+
+#popup-wrapper {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px;
+  padding-top: 30px;
+  box-sizing: border-box;
+  overflow: auto;
+  z-index: 13;
+}
+.popup {
+  display: block;
+  margin: auto;
+  margin-top: 30px;
+  border: 1px solid black;
+  border-radius: 30px;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  max-width: calc(100% - 300px);
+  max-height: calc(100% - 30px);
+  box-sizing: border-box;
+  overflow: auto;
+}
+.popup .close-button {
+  position: relative;
+  float: right;
+  margin: 10px;
+  background-image: url("/images/icons/close.svg");
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.popup #popup-body {
+  margin: 50px;
+}
