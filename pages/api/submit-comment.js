@@ -25,7 +25,6 @@ export default async function handler(req, res) {
                 upvotes: 0,
                 authorId,
                 resolved,
-                feedback, // This can be empty if not provided
                 parentCommentId, // This can be null if it's a top-level comment
                 anonymous
             },
