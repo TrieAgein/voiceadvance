@@ -8,7 +8,7 @@ export default async function handler(req, res) {
         return;
     }
 
-    const { name, topic, content, authorId, feedback, resolved = false, parentCommentId, anonymous = false } = req.body;
+    const { name, topic, content, authorId, resolved = false, parentCommentId, anonymous = false } = req.body;
 
     // Basic input validation
     if (!content || !authorId) {
