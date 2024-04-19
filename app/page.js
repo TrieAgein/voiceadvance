@@ -41,51 +41,49 @@ export default function Home() {
         <div className="account-name">Julien</div>
       </div>
     </header>
-    
     <content>
-      <div className="operation-bar">
-        <div style={{ display: 'inline', float: 'right' }}>
-          <a className="operation-button" onClick={toggleView}>Toggle View</a>{' '}
-          <a className="operation-button">Search</a>{' '}
-          <input className="search" placeholder="Search" type="text"/>{' '}
-          <a className="button">New Claim <span style={{ fontSize: '150%' }}>+</span></a>
-        </div>
+    <div className="operation-bar">
+      <div style={{ display: 'inline', float: 'right' }}>
+        <a className="operation-button" onClick={toggleView}>Toggle View</a>{' '}
+        <a className="operation-button">Search</a>{' '}
+        <input className="search" placeholder="Search" type="text"/>{' '}
+        <Popup/>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-        <div className="sidebar">
-          <div className="dropdown open">
-            <Dropdown/>
-          </div>
-          <div className="personal-statistics">
-            <p>Personal Statistics</p>
-            <hr />
-            <div className="wrapper">
-              <div className="stat">
-              <center id="stat-postcount">0</center>
-                Posts
-              </div>
-              <div className="stat">
-              <center id="stat-resolvedcount">0</center>
-                Resolved
-              </div>
-              <div className="stat">
-              <center id="stat-upvotecount">0</center>
-                Upvotes
-              </div>
+    </div>
+    <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+      <div className="sidebar">
+        <div className="dropdown-open">
+          <Dropdown/>
+        </div>
+        <div className="personal-statistics">
+          <p>Personal Statistics</p>
+          <hr />
+          <div className="wrapper">
+            <div className="stat">
+            <center id="stat-postcount">0</center>
+              Posts
             </div>
-            <hr />
+            <div className="stat">
+            <center id="stat-resolvedcount">0</center>
+              Resolved
+            </div>
+            <div className="stat">
+            <center id="stat-upvotecount">0</center>
+              Upvotes
+            </div>
           </div>
+          <hr />
         </div>
       </div>
-      <div id="claim-list" className="claim-list line">
-        <CommentsList/>
-      </div>
-      <div>
-        <CommentSubmitForm/>
-      </div>
-    </content>
-    
-    <footer className="footer"></footer>
-  </div>
+    {/* <div id="claim-list" className="claim-list line">
+      <CommentsList/>
+    </div> */}
+    </div>
+    {/* <div>
+      <CommentSubmitForm/>
+    </div> */}
+  </content>
+  <footer className="footer"></footer>
+</div>
   );
 }
