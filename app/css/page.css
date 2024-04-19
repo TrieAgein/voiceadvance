@@ -38,7 +38,6 @@
     width: 50px;
     margin: 5px;
   }
-  
   .submit-box {
     width:100%;
     background-color: #9e9e9e;
@@ -52,6 +51,43 @@
     border-style: solid;
     border-color: black;
   }
+  /*login*/
+.popup-window {
+  background-color: white;
+  border-style: solid;
+  border-radius: 50px;
+  border-width: 0;
+  padding: 50px;
+  width: 645px;
+  margin: auto;
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.popup-window input {
+  width: 402px;
+  padding: 10px;
+}
+.va-title {
+  font-size: 48px;
+  text-align: center;
+  font-family: "title", "sans-serif";
+}
+.login-button {
+  display: block;
+  background-color: #A24EFE;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  width: 402px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px;
+  user-select: none;
+  cursor: pointer;
+}
+/*end of login*/
+
   
   /* Dashboard */
    header {
@@ -105,7 +141,7 @@
     border-radius: 10px;
   }
      
- .profile-pic {
+ .account-tab .profile-pic {
     width: 60px;
     height: 60px;
     overflow: hidden;
@@ -127,7 +163,6 @@
     color: white;
   }
   
-  
   .sidebar {
     min-width: 300px;
   }
@@ -137,7 +172,9 @@
     margin-bottom: 25px;
   }
   .dropdown .title {
-    display: block;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
     margin: 10px;
     padding: 10px;
     border: solid 1px black;
@@ -147,14 +184,46 @@
     user-select: none;
     cursor: pointer;
   }
-  .dropdown .title img {
+  .dropcategory{
+    width: fit-content;
+    border-radius:100px;
+    padding: 5px;
+    /* margin-bottom: 25px; */
+  }
+  .category-title{
+    border: black 1px solid;
+    border-radius:100px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    justify-content: space-between;
+    color: black;
+    text-align: left;
+    user-select: none;
+    cursor: pointer;
+  }
+  .dropcategory .category-title .tie-img img{
     width: 20px;
+    height: 10px;
     float: right;
     vertical-align: middle;
-    rotate: 180deg;
+    margin-left: 100px;
+    transform: rotate(180deg);
   }
-  .dropdown.open .title img {
-    rotate: 0deg;
+  .dropcategory.open .category-title .tie-img img{
+    transform: rotate(0deg);
+  }
+  .dropdown .title .title-img img{
+    width: 20px;
+    height: 10px;
+    float: right;
+    vertical-align: middle;
+    margin-left: 100px;
+    transform: rotate(180deg);
+  }
+  .dropdown.open .title .title-img img{
+    transform: rotate(0deg);
   }
   .dropdown .content {
     height: 0px;
@@ -270,3 +339,135 @@
     padding: 5px;
   }
 
+/* START OF POPUP  */
+#popup-wrapper {
+  display: block;
+  /* justify-content: center;
+  align-items: center;  */
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px;
+  padding-top: 30px;
+  box-sizing: border-box;
+  overflow: auto;
+  z-index: 13;
+}
+.popup {
+  display: block;
+  margin: auto;
+  margin-top: 30px;
+  border: 1px solid black;
+  border-radius: 30px;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  max-width: calc(100% - 300px);
+  max-height: calc(100% - 30px);
+  box-sizing: border-box;
+  overflow: auto;
+}
+.popup .close-button{
+  position: relative;
+  float: right;
+  margin: 10px;
+  width: fit-content;
+  height: 50px;
+  cursor: pointer;
+}
+.popup #popup-body {
+  margin: 50px;
+}
+/* SAVE COMMENT */
+.close-button .save-comment{
+  margin: 10px;
+  height: 25px;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  float: right;
+  cursor: pointer;
+  background-color: black;
+  padding: 5px;
+  cursor: pointer;
+  border: white 10px solid;
+  text-align: center;
+}
+.close-button .submit-comment{
+  margin: 10px;
+  height: 25px;
+  width: 100%;
+  position: relative;
+  float: right;
+  cursor: pointer;
+  background-color: #A24EFE;
+  padding: 5px;
+  cursor: pointer;
+  border: white 10px solid;
+  text-align: center;
+}
+.submit-comment{
+  font-size: medium;
+  color: white;
+}
+.save-comment{
+  font-size: medium;
+  color: white;
+}
+.asterisk::after{
+  content: '*';
+  color: red;
+}
+/* Filter */
+.category-container{
+  display: grid;
+  grid-template-columns: span(2fr 1fr); /* Two columns */
+  grid-gap: 10px;
+}
+.item{
+  padding: 5px;
+}
+.item h3 {
+  margin-bottom: 10px;
+}
+.item:last-child {
+  grid-column: span 2; /* Expand the last item to span across both columns */
+}
+/* Create a custom radio button */
+.check-container{
+  display: flex;
+}
+.checkmark {
+  background-color: #eee;
+}
+/* On mouse-over, add a grey background color */
+.checkmark:hover {
+  background-color: #ccc;
+}
+/* When the radio button is checked, add a blue background */
+.checkmark input:checked {
+  background-color: #2196F3;
+}
+/* Show the indicator (dot/circle) when checked */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Style the indicator (dot/circle) */
+.checkmark input:checked:after {
+  display: block;
+  border-radius: 50%;
+  background: white;
+}
+/* Style the label text */
+.category-text {
+  font-size: 12px;
+  font-weight: bold;
+}
+/* END OF POPUP */
