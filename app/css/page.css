@@ -33,11 +33,6 @@ hr {
 .link:hover {
   text-decoration: underline;
 }
-
-.western_digital-logo{
-  width: 50px;
-  margin: 5px;
-}
 .submit-box {
   width:100%;
   background-color: #9e9e9e;
@@ -53,6 +48,10 @@ hr {
 }
 /*login*/
 .popup-window {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
 background-color: white;
 border-style: solid;
 border-radius: 50px;
@@ -68,9 +67,17 @@ width: 402px;
 padding: 10px;
 }
 .va-title {
+height:100px;
+display: flex;
+align-items: center; 
+justify-content: center;
 font-size: 48px;
 text-align: center;
 font-family: "title", "sans-serif";
+}
+.western_digital-logo img{
+  width: 50px;
+  margin: 5px;
 }
 .login-button {
 display: block;
