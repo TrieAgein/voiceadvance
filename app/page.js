@@ -76,6 +76,9 @@ export default function Home() {
         </div>
       </div>
       </div>
+      <div>
+        <EditComment/>
+      </div><br/><br/>
       <div id="claim-list" className="claim-list list">
         <CommentsList/>
       </div>
