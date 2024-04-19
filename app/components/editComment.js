@@ -30,7 +30,7 @@ const Popup = () => {
               />
             </div>
             <div id="popup-body">
-              <h1>New Comment</h1>
+              <h1>Edit Comment</h1>
               <h2 className='asterisk'>Comment Title</h2>
               <input style={{ width: '100%', padding: '5px', border: 'solid black'}} type="text" placeholder="Enter Title here..." />
               <div className='category-container'>
