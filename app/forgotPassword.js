@@ -2,7 +2,7 @@ import React from 'react';
 import Image from "next/image";
 import forgot from './public/forgot.svg';
 
-export default function forgotPassword() {
+export function forgotPassword() {
     return (
       <>
         <div className="forgot-window">
