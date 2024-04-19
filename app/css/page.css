@@ -95,6 +95,55 @@ cursor: pointer;
 }
 /*end of login*/
 
+/* forgot password */
+.forgot-window{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-style: solid;
+  border-radius: 50px;
+  border-width: 0;
+  padding: 50px;
+  width: 645px;
+  margin: auto;
+  color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.forgot-window input {
+  width: 402px;
+  padding: 10px;
+  }
+.forgot-window img{
+  width: 150px;
+  height: auto;
+}
+.forgot-window p{
+  text-align: center;
+}
+.forgot-window .forgot-title{
+  font-size: 25px;
+}
+.forgot-icon{
+  margin-bottom: 20px;
+}
+.forgot-button{
+  text-align: center;
+}
+.forgot-button a{
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #A24EFE;
+  color: black;
+  border: solid black;
+  border-radius: 20px;
+  cursor: pointer;
+}
+/* end of forgot password */
 
 /* Dashboard */
  header {
@@ -260,62 +309,63 @@ header .account-tab .account-name {
   display: flex;
   justify-content: space-between;
 }
-
-
-.claim-list.line {
+.line {
   display: block;
   margin-right: auto;
   width: 100%;
   min-width: 0;
 }
-.claim-list.line .claim-wrapper {
+
+.line .claim-wrapper {
   margin: 10px;
   background-color: white;
   border-style: solid;
   border-color: black;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 10px;
   border-width: 3px;
   padding: 5px;
   min-width: 0;
   display: flex;
-
 }
-.claim-list.line .claim-wrapper .upvote {
+
+.line .claim-wrapper .upvote {
   width: fit-content;
-  display: inline;
   margin-right: 10px;
   background-color: #438b1b;
   border-style: solid;
   border-color: black;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 10px;
   border-width: 1px;
   padding: 2px;
   order: 1;
 }
-.claim-list.line .claim-wrapper .title {
+
+.line .claim-wrapper .title {
   min-width: fit-content;
-  display: inline-block;
   font-size: larger;
   order: 2;
 }
-.claim-list.line .claim-wrapper .description {
-  width: fit-content;
+
+.line .claim-wrapper .description {
   margin-left: 10px;
-  display: inline-block;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   order: 3;
 }
-.claim-list.line .claim-wrapper .status {
+.line .claim-wrapper .status {
   min-width: fit-content;
   order: 4;
+  color: black;
 }
-.claim-list.line .claim-wrapper .status.filled div {
+
+.line .claim-wrapper .status.filled div {
   background-color: green;
 }
-.claim-list.line .claim-wrapper .status div {
+
+.line .claim-wrapper .status div {
+  color: black;
   background-color: transparent;
   border-style: solid;
   border-width: 1px;
@@ -325,11 +375,29 @@ header .account-tab .account-name {
   display: inline-block;
   margin-right: 10px;
 }
-.claim-list.line hr {
+.line hr {
   display: none;
 }
 /* PLACEHOLDER */
 
+/* claim-list grid */
+.claim-list.grid {
+  display: block;
+  margin-right: auto;
+  width: 100%;
+  min-width: 0;
+}
+.claim-list.grid .claim-wrapper .upvote {
+  width: fit-content;
+  margin-right: 10px;
+  background-color: #438b1b;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10px;
+  border-width: 1px;
+  padding: 2px;
+  order: 1;
+}
 .claim-list.grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -345,6 +413,29 @@ header .account-tab .account-name {
   border-width: 3px;
   padding: 5px;
 }
+/* .claim-list.grid .stat{
+  display: flex;
+} */
+.claim-list.grid .claim-wrapper .status {
+  min-width: fit-content;
+  order: 4;
+  color: black;
+}
+.claim-list.grid .claim-wrapper .status.filled div {
+  background-color: green;
+}
+.claim-list.grid .claim-wrapper .status div {
+  color: black;
+  background-color: transparent;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-right: 10px;
+}
+/* end of claim-list grid */
 
 /* START OF POPUP  */
 #popup-wrapper {
