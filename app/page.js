@@ -9,16 +9,15 @@ import CreateUser from './components/createUser.js';
 import Dropdown from './components/dropdown.js';
 import logo from './public/logo.svg';
 import avatar from './public/avatar.jpg';
+import Popup from './components/Popup.js';
 
 // Import TestDbComponent or any other components if needed
 export default function Home() {
   // You can define more functions for other buttons similarly
-
   return (
     <div>
-    <header>
+     <header>
       <div className="title">
-        {/* Assuming you want to use Image component but have it commented out */}
         <Image
             src={logo}
             width="50"
@@ -42,39 +41,40 @@ export default function Home() {
         <div className="account-name">Julien</div>
       </div>
     </header>
-    
     <content>
-      <div className="operation-bar">
-        <div style={{ display: 'inline', float: 'right' }}>
-          <a className="operation-button" onClick={toggleView}>Toggle View</a>{' '}
-          <a className="operation-button">Search</a>{' '}
-          <input className="search" placeholder="Search" type="text"/>{' '}
-          <a className="button">New Claim <span style={{ fontSize: '150%' }}>+</span></a>
+    <div className="operation-bar">
+      <div style={{ display: 'inline', float: 'right' }}>
+        <a className="operation-button" onClick={toggleView}>Toggle View</a>{' '}
+        <a className="operation-button">Search</a>{' '}
+        <input className="search" placeholder="Search" type="text"/>{' '}
+        <Popup/>
+      </div>
+    </div>
+    <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+      <div className="sidebar">
+        <div className="dropdown-open">
+          <Dropdown/>
+        </div>
+        <div className="personal-statistics">
+          <p>Personal Statistics</p>
+          <hr />
+          <div className="wrapper">
+            <div className="stat">
+            <center id="stat-postcount">0</center>
+              Posts
+            </div>
+            <div className="stat">
+            <center id="stat-resolvedcount">0</center>
+              Resolved
+            </div>
+            <div className="stat">
+            <center id="stat-upvotecount">0</center>
+              Upvotes
+            </div>
+          </div>
+          <hr />
         </div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-        <div className="sidebar">
-            <Dropdown/>
-          <div className="personal-statistics">
-            <p>Personal Statistics</p>
-            <hr />
-            <div className="wrapper">
-              <div className="stat">
-              <center id="stat-postcount">0</center>
-                Posts
-              </div>
-              <div className="stat">
-              <center id="stat-resolvedcount">0</center>
-                Resolved
-              </div>
-              <div className="stat">
-              <center id="stat-upvotecount">0</center>
-                Upvotes
-              </div>
-            </div>
-            <hr />
-          </div>
-        </div>
       </div>
       <div id="claim-list" className="claim-list list">
         <CommentsList/>
