@@ -10,6 +10,7 @@ import Dropdown from './components/dropdown.js';
 import logo from './public/logo.svg';
 import avatar from './public/avatar.jpg';
 import Popup from './components/Popup.js';
+import EditComment from './components/editComment.js';
 
 // Import TestDbComponent or any other components if needed
 export default function Home() {
