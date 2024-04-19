@@ -30,9 +30,9 @@ model Comment {
 
 model User {
   user_id       Int       @default(autoincrement()) @id
-  password        String?      @unique
-  name          String?
-  email         String?   @unique
+  password      String?      @unique
+  name          String?      @default("Anonymous")
+  email         String?      @unique
   anonymous        Boolean   @default(false)
   comments         Comment[]
 }
