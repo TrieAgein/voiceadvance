@@ -7,17 +7,13 @@ const Dropdown = () => {
   const [toggled, setToggled] = useState(false);
 
   return (
-    <div className={"dropdown"+(toggled ? ' open' : '')}>
-      <a onClick={()=>{setToggled(!toggled)}} className="title">Comments
-        <Image
-              src={arrowsSVG}
-              height="0"
-              width="20"
-              float="right"
-              vertical-align="middle"
-              rotate="180deg"
-              alt='arrow'
-        /> 
+    <div className={"dropdown" + (toggled ? ' open' : '')}>
+      <a onClick={() => { setToggled(!toggled) }} className='title'>Comments
+        <div className={"title-img" + (toggled ? ' ' : '')}>
+          <div className='img'>
+            <Image src={arrowsSVG} />
+          </div>
+        </div>
       </a>
       <div className="content">
           <a>All</a>

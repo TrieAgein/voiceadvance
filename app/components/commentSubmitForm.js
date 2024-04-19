@@ -23,7 +23,6 @@ const CommentSubmitForm = () => {
       resolved,
       ...(parentCommentId && { parentCommentId }), // Conditionally add parentCommentId to the payload if it exists
     };
-
     try {
       // Make the POST request to your API endpoint
       const response = await fetch('/api/submit-comment', {
@@ -52,42 +51,52 @@ const CommentSubmitForm = () => {
       console.error('Failed to submit comment:', error);
     }
   };
+  const [isOpen, setIsOpen] = useState(false);
 
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
   return (
-    <form onSubmit={handleSubmit} className="comment-submit-form">
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="form-input"
-      />
-      <input
-        type="text"
-        placeholder="Topic"
-        value={topic}
-        onChange={(e) => setTopic(e.target.value)}
-        className="form-input"
-      />
-      <textarea
-        placeholder="Content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        className="form-textarea"
-      />
-      <div className="form-checkbox">
-        <label>
-          Anonymous:
+    <>
+      <a className='button' onClick={togglePopup}>Open Popup</a>
+
+      {!isOpen && (
+        <form onSubmit={handleSubmit} className="comment-submit-form">
           <input
-            type="checkbox"
-            checked={anonymous}
-            onChange={(e) => setAnonymous(e.target.checked)}
-            className="checkbox-input"
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="form-input"
           />
-        </label>
-      </div>
-      <button type="submit" className="submit-button">Submit Comment</button>
-    </form>
+          <input
+            type="text"
+            placeholder="Topic"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            className="form-input"
+          />
+          <textarea
+            placeholder="Content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="form-textarea"
+          />
+          <div className="form-checkbox">
+            <label>
+              Anonymous:
+              <input
+                type="checkbox"
+                checked={anonymous}
+                onChange={(e) => setAnonymous(e.target.checked)}
+                className="checkbox-input"
+              />
+            </label>
+          </div>
+          <button type="submit" className="submit-button">Submit Comment</button>
+        </form>
+      )}
+    </>
   );
 };
 
