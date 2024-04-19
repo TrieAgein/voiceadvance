@@ -86,7 +86,6 @@ export default function Home() {
         <CreateUser/>
       </div>
     </content>
-    
     <footer className="footer"></footer>
   </div>
   );
