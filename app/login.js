@@ -3,7 +3,7 @@ import Image from "next/image";
 import logo from './public/logo.svg';
 import './css/page.css';
 
-function login() {
+export default function login() {
   return (
     <>
       <div className="popup-window">
