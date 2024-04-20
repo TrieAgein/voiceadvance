@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import close from '../public/close.svg';
+import close from '/images/icons/close.svg';
 import DeptDropdown from './deptDropdown';
 import PriorityDropdown from './priorityDropdown';
 import CategoryDropdown from './categoryDropdown';

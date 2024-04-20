@@ -1,59 +1,86 @@
 .comment-box {
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .comment-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .profile-pic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .status {
-    padding: 5px;
-    color: #fff;
-  }
-  
-  .resolved {
-    background-color: green;
-  }
-  
-  .unresolved {
-    background-color: red;
-  }
-  
-  .toggle-reply-button {
-    margin-top: 10px;
-    padding: 6px 12px;
-    background-color: #A24EFE;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 500px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.toggle-reply-button:hover {
-    background-color: #7537b7;
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-.reply-form-container {
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid black;
-    background-color: rgb(223, 223, 223);
+.profile-pic {
+  width: 48px; 
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover; 
 }
 
-.reply-box {
-  border-left: 3px solid #ccc;
-  margin-left: 20px;
-  padding-left: 15px;
+.comment-meta {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.comment-header div {
+  display: flex;
+  flex-direction: column;
+}
+
+.status {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #4caf50; 
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px green; 
+  position: relative;
+  top: 0px;
+  right: 10%; 
+  float: right;
+}
+
+.comment-text {
+  font-size: 1em;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  min-height: 70px;
+  margin-bottom: 12px;
+}
+
+.upvote-count {
+  color: #333;
+  font-size: 1.2em;
+}
+
+.reply-button {
+  background-color: #6200ee; 
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  float: right;
+}
+
+.reply-button:hover {
+  background-color: #3700b3; 
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.comment-header h4, .comment-meta p {
+  margin: 0; 
+  line-height: 1.2;
 }
