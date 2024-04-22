@@ -1,8 +1,8 @@
-import Dropdownuser from './components/dropdownUser.js';
-import Dropdownstats from './components/dropdownStats.js';
+import Dropdownuser from '../app/components/dropdownUser.js';
+import Dropdownstats from '../app/components/dropdownStats.js';
 
 
-export default function Home() {
+const Resolver = () => {
     return (
       <div>
        <header>
@@ -77,3 +77,5 @@ export default function Home() {
     </div>
     );
   }
+
+export default Resolver;
