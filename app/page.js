@@ -2,7 +2,7 @@
 import Image from "next/image";
 import "./css/page.css";
 import React from 'react';
-import toggleView from './components/toggleView';
+// import toggleView from './components/toggleView';
 import CommentsList from './components/commentsList.client.js';
 import CommentSubmitForm from './components/commentSubmitForm.js';
 import CreateUser from './components/createUser.js';
@@ -11,6 +11,8 @@ import logo from './public/logo.svg';
 import avatar from './public/avatar.jpg';
 import Popup from './components/Popup.js';
 import EditComment from './components/editComment.js';
+import ToggleView from './components/commentList.js';
+
 
 // Import TestDbComponent or any other components if needed
 export default function Home() {
@@ -88,6 +90,9 @@ export default function Home() {
       </div>
       <div>
         <CreateUser/>
+      </div>
+      <div>
+        <ToggleView/>
       </div>
     </content>
     <footer className="footer"></footer>
