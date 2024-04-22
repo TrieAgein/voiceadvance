@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 
 const commentList = () => {
-  const [isLineView, setIsLineView] = useState(true); // State to toggle between line and grid view
+  const [toggled, setToggled] = useState(true); // State to toggle between line and grid view
 
   const toggleView = () => {
-    setIsLineView(!isLineView); // Toggle the view
+    setToggled(!toggled); // Toggle the view
   };
 
   return (
     <>
-        <a className="operation-button" onClick={toggleView}>Toggle View</a>
-
-        {isLineView && (    
-        <div id="claim-list" className="claim-list grid">
+        <a className="operation-button" onClick={toggleView}>TOGGLE View</a>
+           
+        <div id="claim-list" className={`claim-list ${toggled ? 'line' : 'grid'}`}>
           <div className="claim-wrapper">
             <div className="status "><div></div>Open</div>
             <div className="title">Claim Title</div>
@@ -28,7 +27,7 @@ const commentList = () => {
             <div className="upvote">+1</div>
           </div>
         </div>
-      )}
+
     </>
   );
 };
