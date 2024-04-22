@@ -9,7 +9,7 @@ const commentList = () => {
 
   return (
     <>
-        <a className="operation-button" onClick={toggleView}>TOGGLE View</a>
+        
            
         <div id="claim-list" className={`claim-list ${toggled ? 'line' : 'grid'}`}>
           <div className="claim-wrapper">

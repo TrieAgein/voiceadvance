@@ -9,11 +9,7 @@ const Dropdown = () => {
   return (
     <div className={"dropdown" + (toggled ? ' open' : '')}>
       <a onClick={() => { setToggled(!toggled) }} className='title'>Comments
-        <div className={"title-img" + (toggled ? ' ' : '')}>
-          <div className='img'>
-            <Image src={arrowsSVG} />
-          </div>
-        </div>
+        <Image src={arrowsSVG}/>
       </a>
       <div className="content">
           <a>All</a>
