@@ -1,8 +1,13 @@
 import prisma from '../../utils/prismaClient.js';
 import bcrypt from 'bcryptjs'; // Ensure you have 'bcryptjs' installed: npm install bcryptjs
+import crypto from 'crypto';
 
 export default async function handler(req, res) {
     const { password, name, email } = req.body; // Ensure anonymous defaults to false if not provided
+	
+	const cipher = crypto.createCipheriv(algorithm, process.env.SECRET_KEY, process.env.IV);
+	let encryptedEmail = cipher.update(email, 'utf8', 'base64');
+	encryptedEmail += cipher.final('base64');
 
     // Simple validation
     if (!email || !password) {
@@ -26,7 +31,7 @@ export default async function handler(req, res) {
         const newUser = await prisma.user.create({
             data: {
                 name,
-                email,
+                email: encryptedEmail,
                 password: hashedPassword // Store the hashed password, not the plain one
             },
         });

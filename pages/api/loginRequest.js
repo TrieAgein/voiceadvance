@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -7,6 +8,10 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     // Extract email and password from request body
     const { email, password } = req.body;
+	
+	const cipher = crypto.createCipheriv(algorithm, process.env.SECRET_KEY, process.env.IV);
+	let encryptedEmail = cipher.update(email, 'utf8', 'base64');
+	encryptedEmail += cipher.final('base64');
 
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required.' });
@@ -16,7 +21,7 @@ export default async function handler(req, res) {
       // Find the user by email
       const user = await prisma.user.findUnique({
         where: {
-          email: email
+          email: encryptedEmail
         },
       });
 
