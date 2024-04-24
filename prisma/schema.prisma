@@ -48,8 +48,8 @@ model Permission {
 model User {
   user_id       Int           @id @default(autoincrement())
   password      String?       @unique
-  name          String?
-  email         String?       @unique
+  name          String?	      @default("Anonymous")
+  email         Bytes?       @unique @db.ByteA
   comments      Comment[]
   roles         Role[]        @relation("UserRole")
 }

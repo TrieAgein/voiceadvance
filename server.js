@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const express = require('express');
 const next = require('next');
 const bodyParser = require('body-parser');
@@ -25,6 +27,9 @@ app.use((err, req, res, next) => {
 });
 app.use(bodyParser.json());
 app.use(express.json());
+
+const saltRounds = 10;
+const algorithm = 'aes-256-cbc';
 
     // Place your Express CRUD API routes here
     // CREATE an item
@@ -116,10 +121,12 @@ app.use(express.json());
         }
     });
 
-
     app.post('/create-user', async (req, res) => {
         const { password, name, email, anonymous } = req.body;
-
+		const cipher = crypto.createCipheriv(algorithm, process.env.SECRET_KEY, process.env.IV);
+		let encryptedEmail = cipher.update(email, 'utf8', 'base64');
+		encryptedEmail += cipher.final('base64');
+		
         // Simple validation
         if (!email || !password) {
             return res.status(400).json({ error: 'Email and password are required.' });
@@ -128,7 +135,7 @@ app.use(express.json());
         try {
             // Check if the email already exists
             const existingUser = await prisma.user.findUnique({
-                where: { email },
+                where: { email: encryptedEmail },
             });
 
             if (existingUser) {
@@ -137,9 +144,9 @@ app.use(express.json());
 
             const newUser = await prisma.user.create({
                 data: {
-                    password,
+                    password: await bcrypt.hash(password, saltRounds),
                     name,
-                    email,
+                    email: encryptedEmail,
                     anonymous,
                 },
             });
@@ -416,6 +423,64 @@ app.use(express.json());
             }
         }
     });
+	
+	app.get('/login', async (req, res) => {
+		const {email, password} = req.body;
+		//Encrypted version of email to compare to stored emails
+		const cipher = crypto.createCipheriv(algorithm, process.env.SECRET_KEY, process.env.IV);
+		let encryptedEmail = cipher.update(email, 'utf8', 'base64');
+		encryptedEmail += cipher.final('base64');
+		
+		if (!email || !password) {
+			return res.status(400).json({ error: 'Please enter your email and password.' });
+		}
+		try {
+			//Searches database for a user with the given email
+			const user = await prisma.user.findUnique({
+				where: { email: encryptedEmail},
+			});
+			//If user with the given email is found, tests for the correct password
+			bcrypt.compare(password, user.password, function(error, result) {
+				if (error) {
+					return res.status(500).send('An error occured while attempting to authenticate login');
+				}
+				if (result) {
+					//Replace with proper login procedure
+					return res.status(200).json(user);
+					console.log("Test");
+				} else {
+					return res.status(404).send('incorrect password');
+				}
+			});
+			
+		} catch (error) {
+			if(error.code === 'P2025') {
+				return res.status(404).send('user not found');
+			} else {
+				res.status(500).send('An error occured while attempting to login');
+			}
+		}
+	});
+	
+	app.get('/decrypt_test/:id', async (req, res) => {
+		const user_id = parseInt(req.params.id);
+		let decipher = crypto.createDecipheriv(algorithm, process.env.SECRET_KEY, process.env.IV);
+		try {
+			const user = await prisma.user.findUnique({
+				where: {user_id},
+			});
+			let decryptedEmail = decipher.update(user.email, 'base64', 'utf8');
+			decryptedEmail += decipher.final('utf8');
+			console.log(decryptedEmail);
+			res.status(200).json(user);
+		} catch (error) {
+			if(error.code === 'P2025') {
+				return res.status(404).send('user not found');
+			} else {
+				res.status(500).send('An error occured while attempting to decrypt email');
+			}
+		}
+	});
 
 // Next.js page handling should be the last route to catch any requests not handled by Express
 app.all('*', (req, res) => {
