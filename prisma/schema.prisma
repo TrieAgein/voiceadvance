@@ -32,12 +32,24 @@ model Comment {
   @@map(name: "comments")
 }
 
-model User {
-  user_id       Int       @default(autoincrement()) @id
-  password        String?      @unique
-  name          String?
-  email         String?   @unique
-
-  comments         Comment[]
+model Role {
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  permissions   Permission[]  @relation("RolePermissions")
+  users         User[]        @relation("UserRole")
 }
 
+model Permission {
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  roles         Role[]        @relation("RolePermissions")
+}
+
+model User {
+  user_id       Int           @id @default(autoincrement())
+  password      String?       @unique
+  name          String?
+  email         String?       @unique
+  comments      Comment[]
+  roles         Role[]        @relation("UserRole")
+}

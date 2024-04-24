@@ -84,6 +84,8 @@ const Dashboard = () => {
           </div>
         </div>
         <div id="claim-list" className={`claim-list ${toggled ? 'line' : 'grid'}`}>
+          <CommentsList/>
+          {/* <Comment/>
           <Comment/>
           <Comment/>
           <Comment/>
@@ -108,8 +110,7 @@ const Dashboard = () => {
           <Comment/>
           <Comment/>
           <Comment/>
-          <Comment/>
-          <Comment/>
+          <Comment/> */}
         </div>
         </div>
   

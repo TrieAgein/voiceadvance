@@ -3,11 +3,23 @@ import { useRouter } from 'next/router';
 import Image from "next/image";
 import logo from '../app/public/logo.svg';
 import '../app/css/page.css';
+import { signIn, useSession } from 'next-auth/react';
 
 const Login = () => {
     const router = useRouter(); // Correct placement of useRouter
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const { data: session } = useSession();
+
+    if (session) {
+      return (
+        <>
+          <p>Welcome, {session.user.email}</p>
+          <button onClick={() => signOut()}>Sign out</button>
+        </>
+      );
+    }
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -44,12 +56,16 @@ const Login = () => {
                     <div className="western_digital-logo">
                         <Image
                             src={logo}
+                            width="50"
+                            margin="5"
                             alt="Logo"
                         />
                     </div>
                     VoiceAdvance
                 </div> 
-                <div style={{ width: 'fit-content', margin: 'auto' }}>
+      <p>You are not signed in.</p>
+      <button onClick={() => signIn('google')}>Sign in with Google</button>
+                {/* <div style={{ width: 'fit-content', margin: 'auto' }}>
                     <p style={{ fontSize: '38px' }}>Login</p>
                     <p> 
                         Email: <br />
@@ -72,9 +88,9 @@ const Login = () => {
                     </p>
                     <div className="login-button">
                         <button onClick={handleLogin}>Login</button>
-                    </div>
+                    </div> */}
                 </div>
-            </div>
+            {/* </div> */}
             <div className="footer"></div>
         </>
     );
