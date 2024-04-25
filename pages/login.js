@@ -37,17 +37,7 @@ const Login = () => {
 
     return (
         <div className="popup-window">
-            <div className="va-title">
-                <div className="western_digital-logo">
-                    <Image
-                        src={logo}
-                        width="50"
-                        margin="5"
-                        alt="Logo"
-                    />
-                </div>
-                VoiceAdvance
-            </div>
+            <div className="va-title"><Image src={logo} alt="Logo"/>VoiceAdvance</div> 
             <div style={{ width: 'fit-content', margin: 'auto' }}>
                 <p style={{ fontSize: '38px' }}>Login</p>
                 <form onSubmit={handleLogin}>
@@ -73,7 +63,7 @@ const Login = () => {
                         <a style={{ fontSize: '75%' }} className="link">Forgot Password?</a>
                     </p>
                     <div className="login-button">
-                        <button type="submit">Login</button>
+                        <a type="submit">Login</a>
                     </div>
                 </form>
                 {/* OAuth Providers */}
