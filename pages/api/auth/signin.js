@@ -1,42 +1,47 @@
-import { PrismaClient } from '@prisma/client';
+// pages/api/auth/[...nextauth].js
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
+import prisma from '../../../utils/prismaClient.js';
 
-const prisma = new PrismaClient();
+export default NextAuth({
+  providers: [
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "username@company.com" },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (credentials) => {
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
 
-export default async function handler(req, res) {
-    // This should only handle API logic
-    if (req.method === 'POST') {
-        const { email, password } = req.body;
-
-        try {
-            // Fetch user by email
-            const user = await prisma.user.findUnique({
-                where: {
-                    email: email
-                }
-            });
-
-            if (!user) {
-                return res.status(404).json({ message: "User not found" });
-            }
-
-            // Compare submitted password with stored hashed password
-            const isValid = bcrypt.compareSync(password, user.password);
-
-            if (!isValid) {
-                return res.status(401).json({ message: "Invalid credentials" });
-            }
-
-            // Assume some logic to create a session or token goes here
-            // For now, just return a success message
-            res.status(200).json({ message: 'Login successful', user: { id: user.id, name: user.name, email: user.email }});
-        } catch (error) {
-            console.error('Login error:', error);
-            res.status(500).json({ message: 'Internal server error' });
+        if (user && bcrypt.compareSync(credentials.password, user.password)) {
+          // Correct password, return user for session creation
+          return { id: user.id, name: user.name, email: user.email };
+        } else {
+          // Incorrect credentials
+          return null;
         }
-    } else {
-        // Not allowed method handler
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
-}
+      },
+    }),
+  ],
+  // Additional configuration for session handling and security
+  session: {
+    strategy: 'jwt', // or 'database' if you prefer persistent sessions
+  },
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      // If user was just signed in, add their ID to the token
+      if (user) token.id = user.id;
+      return token;
+    },
+    session: async ({ session, token }) => {
+      // Pass the user ID to the session object
+      session.user.id = token.id;
+      return session;
+    },
+  },
+  secret: process.env.SECRET, // Define a secret for signing the session token
+});
