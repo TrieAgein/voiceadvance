@@ -1,49 +1,36 @@
+.comment-box-container{
+  padding: 10px;
+  max-width: 92.5%;
+  background-color: white;
+}
 .comment-box {
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px black solid;
   border-radius: 8px;
   padding: 16px;
-  max-width: 500px;
+  max-width: 92.5%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
-
 .comment-header {
   display: flex;
-  align-items: center;
   margin-bottom: 12px;
 }
-
 .profile-pic {
-  width: 48px; 
-  height: 48px;
-  border-radius: 50%;
-  margin-right: 12px;
-  object-fit: cover; 
+  display:"flex";
+  border-radius:"50%";
+  object-fit:"cover";
+  width:"48" ;
+  height:"48";
 }
-
 .comment-meta {
   font-size: 0.9em;
   color: #666;
 }
-
 .comment-header div {
-  display: flex;
   flex-direction: column;
+  margin-left: 10px;
 }
-
-.status_bad {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #4caf50; 
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 2px green; 
-  position: relative;
-  top: 0px;
-  right: 10%; 
-  float: right;
-}
-
 .comment-text {
   font-size: 1em;
   color: #333;
@@ -53,34 +40,57 @@
   min-height: 70px;
   margin-bottom: 12px;
 }
-
 .upvote-count {
   color: #333;
   font-size: 1.2em;
 }
-
-.reply-button {
-  background-color: #6200ee; 
-  color: #fff;
-  border: none;
+ .replies{
+  margin:20px;
+  border-radius: 10px;
+}
+/* show/hide replies button */
+.toggle-replies-button{
+  background-color: white; 
+  border: 1px black solid;
   border-radius: 20px;
-  padding: 8px 16px;
+  padding: 5px 15px;
   cursor: pointer;
-  font-weight: bold;
-  float: right;
 }
-
-.reply-button:hover {
-  background-color: #3700b3; 
+.toggle-replies-button:hover{
+  background-color: #A24EFE;
+  transition: background-color 0.5s ease;
 }
-
 .clearfix::after {
   content: "";
   clear: both;
   display: table;
 }
-
 .comment-header h4, .comment-meta p {
   margin: 0; 
   line-height: 1.2;
+}
+/* styling for status */
+.status {
+  display: flex;
+  align-items: center;
+}
+.status-container{
+  top: 0;
+  right: 0;
+  padding: 10px;
+  position: absolute;
+}
+.status-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+  border: 1px black solid;
+}
+.resolved .status-circle {
+  background-color: #4caf50; 
+}
+.unresolved .status-circle {
+  background-color: #fff; 
 }
