@@ -591,3 +591,12 @@ font-weight: bold;
 }
 /* End of radio button */
 /* END OF POPUP */
+
+/* Edit Button on Edit Comment Component */
+.edit-button{
+  background-color: white;
+  border: 1px black solid;
+  border-radius: 20px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
