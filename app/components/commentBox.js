@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ReplyBox from './replyBox.js'; // Ensure the ReplyBox is correctly imported
 import ReplyForm from './replyForm.js'; // Ensure the ReplyForm is imported
 import '../css/commentBox.css'; // Ensure CSS is linked
+import defaultPic from '../public/default-pic.png';
+import Image from 'next/image';
 
 const CommentBox = ({
   commentId,
@@ -16,6 +18,7 @@ const CommentBox = ({
 }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replies, setReplies] = useState([]);
+  const [showReplies, setShowReplies] = useState(false); // State to toggle the display of replies
   const [repliesLoaded, setRepliesLoaded] = useState(false);
 
   // Formatting the date for display
@@ -61,40 +64,44 @@ const CommentBox = ({
       </div>
     ));
   };
-
   return (
-    <div className="comment-box">
+    <div className="comment-box-container">
+      <div className="comment-box">
       <div className="comment-header">
-        <img src={profilePicUrl || "path/to/default/profilePic.png"} alt="Profile" className="profile-pic" />
+        <Image src={defaultPic || "/path/to/default/profilePic.png"} className='profile-pic'/>
         <div>
-          <h4>{topicTitle}</h4>
+          <div className='topic-title'>
+            <h4>{topicTitle}</h4>
+          </div>
           <p className="comment-meta">
             {name} · {upvotes} Upvotes · {formattedDate}
           </p>
         </div>
       </div>
       <p className="comment-text">{commentText}</p>
-      <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
-        {isResolved ? 'Resolved' : 'Unresolved'}
+      <div className='status-container'>
+        <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
+            <span className="status-circle"></span>
+            {isResolved ? 'Resolved' : 'Unresolved'}
+        </div>
       </div>
-      {/* Toggle button for showing/hiding the reply form */}
-      <button onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-reply-button">
-        {showReplyForm ? 'Cancel' : 'Reply'}
-      </button>
+      {/* Button to toggle display of replies */}
+      <a onClick={() => setShowReplies(!showReplies)} className="toggle-replies-button">
+        {showReplies ? 'Hide Replies' : 'Show Replies'}
+      </a>
+      </div>
       {/* Conditional rendering of the reply form */}
-      {showReplyForm && (
-        <div className="reply-form-container">
+        {showReplyForm && (
           <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />
+        )}
+        {/* Render replies if any and they are loaded */}
+          {showReplies && repliesLoaded && (
+            <div className="replies">
+              <h5>Replies:</h5>
+              {renderReplies(replies)}
+            </div>
+          )}
         </div>
-      )}
-      {/* Render replies if any and they are loaded */}
-      {repliesLoaded && (
-        <div className="replies">
-          <h5>Replies:</h5>
-          {renderReplies(replies)}
-        </div>
-      )}
-    </div>
   );
 };
 
