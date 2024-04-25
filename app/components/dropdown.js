@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import arrowsSVG from '../public/arrows.svg';
+import All from './allComments';
+import Active from './openComments'; 
+import Closed from './closedComments';
 import '../css/page.css';
 
 const Dropdown = () => {
   const [toggled, setToggled] = useState(false);
 
-  return (
+return (
     <div className={"dropdown" + (toggled ? ' open' : '')}>
       <a onClick={() => { setToggled(!toggled) }} className='title'>Comments
         <Image src={arrowsSVG}/>
       </a>
       <div className="content">
-          <a>All</a>
-          <a>Active</a>
-          <a>Manage</a> 
+          <All/>
+          <Active/>
+          <Closed/>
       </div>
     </div>
   );
