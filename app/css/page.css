@@ -391,6 +391,12 @@ header .account-tab .account-name {
   text-align: center;
   font-family: "title", "sans-serif";
 }
+.va-title img {
+  width: 50px;
+  display: inline;
+  position: relative;
+  height:auto
+}
 .login-button {
   display: block;
   background-color: #A24EFE;
