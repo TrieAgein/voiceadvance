@@ -8,7 +8,7 @@ export default async function handler(req, res) {
         return;
     }
 
-    const { name, topic, content, authorId, resolved = false, parentCommentId, anonymous = false } = req.body;
+    const { name, topic, content, authorId, resolved = false, parentCommentId, anonymous = false, department, priority, category } = req.body;
 
     // Basic input validation
     if (!content || !authorId) {
@@ -26,7 +26,10 @@ export default async function handler(req, res) {
                 authorId,
                 resolved,
                 parentCommentId, // This can be null if it's a top-level comment
-                anonymous
+                anonymous,
+				department,
+				priority,
+				category
             },
         });
         res.status(201).json(newComment);

@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import arrowsSVG from '../public/arrows.svg';
 import '../css/page.css';
 
-const deptDropdown = () => {
+const deptDropdown = ({departmentSetter}) => {
     const [toggled, setToggled] = useState(false);
+	const [department, setDepartment] = useState('');
+	
+	useEffect(() => {
+		departmentSetter(department);
+	}, [departmentSetter, department]);
+
+    const handleDepartmentChange = (event) => {
+        setDepartment(event.target.value);
+    };
   
     return (
         <div className='dropcategory-open'>
@@ -20,19 +29,19 @@ const deptDropdown = () => {
             {toggled && (
             <>
                 <label className='check-container'>
-                    <input type="radio" name="radio-button" value="department" className="checkmark" /> <p className='category-text'>Department 1</p>
+                    <input type="radio" name="radio-button" value="Department 1" className="checkmark" onChange={handleDepartmentChange} checked={department === "Department 1"}/> <p className='category-text'>Department 1</p>
                 </label>
                 
                 <label className='check-container'>
-                    <input type="radio" name="radio-button" value="department" className="checkmark" /> <p className='category-text'>Department 2</p>
+                    <input type="radio" name="radio-button" value="Department 2" className="checkmark" onChange={handleDepartmentChange} checked={department === "Department 2"}/> <p className='category-text'>Department 2</p>
                 </label>
 
                 <label className='check-container'>
-                    <input type="radio" name="radio-button" value="department" className="checkmark" /> <p className='category-text'>Department 3</p>
+                    <input type="radio" name="radio-button" value="Department 3" className="checkmark" onChange={handleDepartmentChange} checked={department === "Department 3"}/> <p className='category-text'>Department 3</p>
                 </label>
 
                 <label className="check-container">
-                    <input type="radio" name="radio-button" value="department" className="checkmark" /> <p className='category-text'>Department 4</p>
+                    <input type="radio" name="radio-button" value="Department 4" className="checkmark" onChange={handleDepartmentChange} checked={department === "Department 4"}/> <p className='category-text'>Department 4</p>
                 </label>  
             </>
             )}

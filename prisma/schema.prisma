@@ -29,6 +29,9 @@ model Comment {
   parentComment Comment?     @relation("CommentReplies", fields: [parentCommentId], references: [comment_id])
   replies       Comment[]    @relation("CommentReplies")
   anonymous        Boolean   @default(false)
+  department	String?
+  priority		String?
+  category		String?
   @@map(name: "comments")
 }
 

@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     // Extract email and password from request body
     const { email, password } = req.body;
 	
-	const cipher = crypto.createCipheriv(algorithm, process.env.SECRET_KEY, process.env.IV);
+	const cipher = crypto.createCipheriv('aes-256-cbc', process.env.SECRET_KEY, process.env.IV);
 	let encryptedEmail = cipher.update(email, 'utf8', 'base64');
 	encryptedEmail += cipher.final('base64');
 
