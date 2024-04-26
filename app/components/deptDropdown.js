@@ -29,19 +29,19 @@ const deptDropdown = ({departmentSetter}) => {
             {toggled && (
             <>
                 <label className='check-container'>
-                    <input type="radio" name="radio-button" value="Department 1" className="checkmark" onChange={handleDepartmentChange} checked={department === "Department 1"}/> <p className='category-text'>Department 1</p>
+                    <input type="radio" name="radio-button1" value="Department 1" className="checkmark" onChange={handleDepartmentChange}/> <p className='category-text'>Department 1</p>
                 </label>
                 
                 <label className='check-container'>
-                    <input type="radio" name="radio-button" value="Department 2" className="checkmark" onChange={handleDepartmentChange} checked={department === "Department 2"}/> <p className='category-text'>Department 2</p>
+                    <input type="radio" name="radio-button1" value="Department 2" className="checkmark" onChange={handleDepartmentChange}/> <p className='category-text'>Department 2</p>
                 </label>
 
                 <label className='check-container'>
-                    <input type="radio" name="radio-button" value="Department 3" className="checkmark" onChange={handleDepartmentChange} checked={department === "Department 3"}/> <p className='category-text'>Department 3</p>
+                    <input type="radio" name="radio-button1" value="Department 3" className="checkmark" onChange={handleDepartmentChange}/> <p className='category-text'>Department 3</p>
                 </label>
 
                 <label className="check-container">
-                    <input type="radio" name="radio-button" value="Department 4" className="checkmark" onChange={handleDepartmentChange} checked={department === "Department 4"}/> <p className='category-text'>Department 4</p>
+                    <input type="radio" name="radio-button1" value="Department 4" className="checkmark" onChange={handleDepartmentChange}/> <p className='category-text'>Department 4</p>
                 </label>  
             </>
             )}
