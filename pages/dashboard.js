@@ -117,13 +117,9 @@ const Dashboard = () => {
         </div>
   
   
-        <div>
-          <EditComment/>
-        </div><br/><br/>
         
-        <div>
-          <CommentSubmitForm/>
-        </div>
+        
+       
         <div>
           <CreateUser/>
         </div>
