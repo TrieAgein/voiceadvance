@@ -2,16 +2,15 @@ import Image from "next/image";
 import "../app/css/page.css";
 import React, { useState } from 'react';
 import toggleView from '../app/components/toggleView.js';
-import CommentSubmitForm from '../app/components/commentSubmitForm.js';
 import CreateUser from '../app/components/createUser.js';
 import Dropdown from '../app/components/dropdown.js';
 import logo from '../app/public/logo.svg';
 import avatar from '../app/public/avatar.jpg';
 import forgot from '../app/public/forgot.svg';
 import Popup from '../app/components/Popup.js';
-import EditComment from '../app/components/editComment.js';
-import CommentsList from '../app/components/commentsList.client.js';
 import Comment from '../app/components/comment.js'
+import CommentsList from "../app/components/commentsList.resolver.js";
+import ResolveComment from "../app/components/resolvecomment.js"
 import Dropdownuser from '../app/components/dropdownUser.js';
 import Dropdownstats from '../app/components/dropdownStats.js';
 
@@ -84,8 +83,8 @@ const Resolver = () => {
           <CommentsList/>
         </div>
         <div>
-          <CreateUser/>
-        </div>
+          <ResolveComment/>
+        </div><br/><br/>
       </content>
       <footer className="footer"></footer>
     </div>

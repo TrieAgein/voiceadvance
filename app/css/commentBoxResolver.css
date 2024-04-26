@@ -1,0 +1,108 @@
+.comment-box-container{
+    padding: 10px;
+    max-width: 92.5%;
+    background-color: none;
+  }
+  .comment-box {
+    background-color: #fff;
+    border: 1px black solid;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 92.5%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  .comment-header {
+    display: flex;
+    margin-bottom: 12px;
+  }
+  .profile-pic {
+    display:"flex";
+    border-radius:"50%";
+    object-fit:"cover";
+    width:"48" ;
+    height:"48";
+  }
+  .comment-meta {
+    font-size: 0.9em;
+    color: #666;
+  }
+  .comment-header div {
+    flex-direction: column;
+    margin-left: 10px;
+  }
+  .comment-text {
+    font-size: 1em;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    min-height: 70px;
+    margin-bottom: 12px;
+  }
+  .upvote-count {
+    color: #333;
+    font-size: 1.2em;
+  }
+   .replies{
+    margin:20px;
+    border-radius: 10px;
+  }
+  /* show/hide replies button */
+  .toggle-replies-button{
+    background-color: white; 
+    border: 1px black solid;
+    border-radius: 20px;
+    padding: 5px 15px;
+    cursor: pointer;
+  }
+  .toggle-replies-button:hover{
+    background-color: #A24EFE;
+    transition: background-color 0.5s ease;
+  }
+  .toggle-replies-form-button{
+    background-color: white; 
+    border: 1px black solid;
+    border-radius: 20px;
+    padding: 5px 15px;
+    cursor: pointer;
+  }
+  .toggle-replies-form-button:hover{
+    background-color: #A24EFE;
+    transition: background-color 0.5s ease;
+  }
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  .comment-header h4, .comment-meta p {
+    margin: 0; 
+    line-height: 1.2;
+  }
+  /* styling for status */
+  .status {
+    display: flex;
+    align-items: center;
+  }
+  .status-container{
+    top: 0;
+    right: 0;
+    padding: 10px;
+    position: absolute;
+  }
+  .status-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    border: 1px black solid;
+  }
+  .resolved .status-circle {
+    background-color: #4caf50; 
+  }
+  .unresolved .status-circle {
+    background-color: #fff; 
+  }
+  
