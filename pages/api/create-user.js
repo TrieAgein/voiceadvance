@@ -6,8 +6,8 @@ export default async function handler(req, res) {
     const { password, name, email } = req.body; // Ensure anonymous defaults to false if not provided
 	
 	const cipher = crypto.createCipheriv('aes-256-cbc', process.env.SECRET_KEY, process.env.IV);
-	let encryptedEmail = cipher.update(email, 'utf8', 'base64');
-	encryptedEmail += cipher.final('base64');
+	let encryptedEmail = cipher.update(email, 'utf8', 'hex');
+	encryptedEmail += cipher.final('hex');
 
     // Simple validation
     if (!email || !password) {
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     try {
         // Check if the email already exists
         const existingUser = await prisma.user.findUnique({
-            where: { email },
+            where: { email: encryptedEmail },
         });
 
         if (existingUser) {
