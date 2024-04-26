@@ -29,15 +29,15 @@ const priorityDropdown = ({prioritySetter}) => {
 			{toggled && (
 			<>
 				<label className='check-container'>
-					<input type="radio" name="radio-button" value="Low" className="checkmark" onChange={handlePriorityChange} checked={priority === "Low"}/> <p className='category-text'>Low 1</p>
+					<input type="radio" name="radio-button2" value="Low" className="checkmark" onChange={handlePriorityChange}/> <p className='category-text'>Low 1</p>
 				</label>
 				
 				<label className='check-container'>
-					<input type="radio" name="radio-button" value="Moderate" className="checkmark" onChange={handlePriorityChange} checked={priority === "Moderate"}/> <p className='category-text'>Moderate 2</p>
+					<input type="radio" name="radio-button2" value="Moderate" className="checkmark" onChange={handlePriorityChange}/> <p className='category-text'>Moderate 2</p>
 				</label>
 
 				<label className='check-container'>
-					<input type="radio" name="radio-button" value="High" className="checkmark" onChange={handlePriorityChange} checked={priority === "High"}/> <p className='category-text'>High 3</p>
+					<input type="radio" name="radio-button2" value="High" className="checkmark" onChange={handlePriorityChange}/> <p className='category-text'>High 3</p>
 				</label> 
 			</>
 			)}

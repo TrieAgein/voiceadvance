@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CommentBox from './commentBox.js'; // Ensure this component can recursively display replies
 
-const CommentsList = () => {
+const CommentsList = ({search}) => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -20,6 +20,30 @@ const CommentsList = () => {
 
     fetchComments();
   }, []);
+ 
+  useEffect(() => {
+	  const searchComments = async () => {
+		  try {
+			  const response = await fetch(`/api/search?search=${search}`, {
+				  method: 'GET',
+				  headers: {
+					  'Content-Type': 'application/json',
+				  },
+			  });
+
+			  if(!response.ok) {
+				  throw new Error(`HTTP error! status: ${response.status}`);
+			  }
+			  
+			  const data = await response.json();
+			  setComments(data);
+		  } catch (error) {
+			  console.error("Failed to fetch comments:", error);
+		  }
+	  };
+	  
+	  searchComments();
+  }, [search]);
 
   const handleReplySubmitted = (newReply) => {
     // Simple approach: Add the reply to the top-level state and re-fetch or update locally
