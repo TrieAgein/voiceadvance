@@ -17,6 +17,8 @@ import Comment from '../app/components/comment.js'
 // Import TestDbComponent or any other components if needed
 const Dashboard = () => {
     const [toggled, setToggled] = useState(true); // State to toggle between line and grid view
+	const [input, setInput] = useState('');
+	const [search, setSearch] = useState('');
     const toggleView = () => {
       setToggled(!toggled); // Toggle the view
     };
@@ -53,8 +55,8 @@ const Dashboard = () => {
         <div style={{ display: 'inline', float: 'right' }}>
           
           <a className="operation-button" onClick={toggleView}>Toggle View</a>{' '}
-          <a className="operation-button">Search</a>{' '}
-          <input className="search" placeholder="Search" type="text"/>{' '}
+          <a className="operation-button" onClick={(e) => setSearch(input)}>Search</a>{' '}
+          <input value={input} className="search" placeholder="Search" type="text" onChange={(e) => setInput(e.target.value)}/>{' '}
           <Popup/>
         </div>
       </div>
@@ -84,7 +86,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div id="claim-list" className={`claim-list ${toggled ? 'line' : 'grid'}`}>
-          <CommentsList/>
+          <CommentsList search={search}/>
           {/* <Comment/>
           <Comment/>
           <Comment/>
