@@ -62,9 +62,7 @@ const Login = () => {
                         /><br />
                         <a style={{ fontSize: '75%' }} className="link">Forgot Password?</a>
                     </p>
-                    <div className="login-button">
-                        <a type="submit">Login</a>
-                    </div>
+                        <button className="login-button" onClick={handleLogin}>Login</button>
                 </form>
                 {/* OAuth Providers */}
                 {/* <div>
