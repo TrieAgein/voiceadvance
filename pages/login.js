@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import crypto from 'crypto';
 import { useRouter } from 'next/router';
 import Image from "next/image";
 import '../app/css/page.css';

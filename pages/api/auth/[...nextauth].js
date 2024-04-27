@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -20,10 +21,14 @@ export default NextAuth({
         if (!credentials) return null;
 
         try {
+			const cipher = crypto.createCipheriv('aes-256-cbc', process.env.SECRET_KEY, process.env.IV);
+			let encryptedEmail = cipher.update(credentials.email, 'utf8', 'hex');
+			encryptedEmail += cipher.final('hex');
+			
           // Fetch the user from the database by email
           const user = await prisma.user.findUnique({
             where: {
-              email: credentials.email
+              email: encryptedEmail
             }
           });
 
@@ -63,7 +68,7 @@ export default NextAuth({
     signIn: '/auth/signin',  // Custom sign-in page if needed
     error: '/auth/error',    // Error handling page
   },
-  secret: process.env.SECRET,  // A secret used for key generation
+  secret: process.env.SECRET_KEY,  // A secret used for key generation
   session: {
     strategy: "jwt",  // Using JWT for session strategy
   },
