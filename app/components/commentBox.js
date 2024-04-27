@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import ReplyBox from './replyBox.js'; 
 import ReplyForm from './replyForm.js'; 
 import EditComment from './editComment.js';
@@ -14,12 +14,14 @@ const CommentBox = ({
   name = "Anonymous",
   upvotes,
   createdAt,
-  onReplySubmitted
+  onReplySubmitted, 
 }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replies, setReplies] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesLoaded, setRepliesLoaded] = useState(false);
+  const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
+  const [hasUpvoted, setHasUpvoted] = useState(false);
 
   useEffect(() => {
     const fetchReplies = async () => {
@@ -39,27 +41,57 @@ const CommentBox = ({
     fetchReplies();
   }, [commentId, repliesLoaded]);
 
+  // upvotes
+  const handleUpvote = async () => {
+    try { 
+      let updatedUpvotes = currentUpvotes;
+      if (!hasUpvoted){
+        updatedUpvotes += 1;
+      }
+      else {
+        updatedUpvotes -= 1;
+      }
+    
+      const response = await fetch(`/api/upvotes/${commentId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ upvotes: currentUpvotes + 1 })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update upvotes');
+      }
+  
+      setCurrentUpvotes(updatedUpvotes);
+      setHasUpvoted(!hasUpvoted);
+    } catch (error) {
+      console.error('Error upvoting comment:', error);
+    }
+  };  
+
   return (
     <div className="comment-box-container">
       <div className="comment-box">
         <div className="comment-header">
-          <div>
+          <div> 
             <h4>{topicTitle}</h4>
             <p className="comment-meta">
-              {name} · {upvotes} Upvotes · {new Date(createdAt).toLocaleDateString("en-US", {
+              {name} · {currentUpvotes} Upvotes · {new Date(createdAt).toLocaleDateString("en-US", {
                 year: 'numeric', month: 'long', day: 'numeric'
               })}
             </p>
           </div>
-        </div>
+        </div> 
         <p className="comment-text">{commentText}</p>
         <div className='status-container'>
           <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
               <span className="status-circle"></span>
               {isResolved ? 'Resolved' : 'Unresolved'}
-          </div>
-          <EditComment commentId={commentId} />
-        </div>
+          </div> 
+          <EditComment commentId={commentId}/>
+        </div> 
         <button onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-replies-form-button">
           {showReplyForm ? 'Cancel Reply' : 'Reply'}
         </button>
@@ -75,10 +107,12 @@ const CommentBox = ({
             ))}
           </div>
         )}
+        <button onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+          {hasUpvoted ? 'Remove' : 'Upvote'}
+        </button>
       </div>
     </div>
   );
 };
 
 export default CommentBox;
-
