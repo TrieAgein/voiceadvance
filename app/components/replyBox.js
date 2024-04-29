@@ -1,29 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/commentBox.css'; // Using the same styling, you may choose to customize this further for replies
 
 const ReplyBox = ({
   profilePicUrl,
   commentText,
   topicTitle,
-  name = "Anonymous", // Default name if none is provided
+  name = {}, // Default name if none is provided will be handled externally
   upvotes,
-  createdAt
+  createdAt,
+  isAnonymous = true // Assume anonymous by default if not specified
 }) => {
+
+  const [hasUpvoted, setHasUpvoted] = useState(false);
   // Formatting the date for display
   const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
     year: 'numeric', month: 'long', day: 'numeric'
   });
 
+  
+  const handleUpvote = async () => {
+    try { 
+      let updatedUpvotes = currentUpvotes;
+      if (!hasUpvoted){
+        updatedUpvotes += 1;
+      }
+      else {
+        updatedUpvotes -= 1;
+      }
+    
+      const response = await fetch(`/api/upvotes/${commentId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ upvotes: currentUpvotes + 1 })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update upvotes');
+      }
+  
+      setCurrentUpvotes(updatedUpvotes);
+      setHasUpvoted(!hasUpvoted);
+    } catch (error) {
+      console.error('Error upvoting comment:', error);
+    }
+  }
+
+  const displayName = isAnonymous ? "Anonymous" : name;
+
   return (
     <div className="comment-box reply-box"> {/* Added 'reply-box' class for potential specific styling */}
       <div className="comment-header">
-        <img src={profilePicUrl || "path/to/default/profilePic.png"} alt={`${name}'s profile`} className="profile-pic" />
         <div>
-          <h4>{topicTitle}</h4>
           <p className="comment-meta">
-            {name} · {upvotes} Upvotes · {formattedDate}
+            {displayName} · {upvotes} Upvotes · {formattedDate}
           </p>
         </div>
+        <div className='status-container'>
+        <button onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+          {hasUpvoted ? 'Remove' : 'Upvote'}
+        </button>
+        </div> 
       </div>
       <p className="comment-text">{commentText}</p>
     </div>

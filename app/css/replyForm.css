@@ -1,13 +1,17 @@
 /* Styles for the reply form container */
 .reply-form {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: rgb(223, 223, 223) /* Lighter border for differentiation */
+    background-color: #fff;
+    border: 1px black solid;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 92.5%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 /* Styles for the textarea within the reply form */
 .reply-textarea {
-    width: 99%;
+    width: 98%;
     height: 80px;
     padding: 8px;
     margin-bottom: 10px;
@@ -17,17 +21,16 @@
 
 /* Styles for the submit button within the reply form */
 .reply-button {
-    padding: 8px 16px;
-    background-color: #A24EFE; /* Bootstrap primary blue for visibility */
-    color: white;
-    border: none;
-    border-radius: 4px;
+    background-color: white; 
+    border: 1px black solid;
+    border-radius: 20px;
+    padding: 5px 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .reply-button:hover {
-    background-color: #7537b7; /* Darker blue on hover for effect */
+    background-color: #A24EFE;
+    transition: background-color 0.5s ease;
 }
 
 .comment-submit-form label {

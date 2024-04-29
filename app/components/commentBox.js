@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReplyBox from './replyBox.js'; 
 import ReplyForm from './replyForm.js'; 
 import EditComment from './editComment.js';
@@ -11,7 +11,7 @@ const CommentBox = ({
   commentText,
   isResolved,
   topicTitle,
-  name = "Anonymous",
+  author = {}, // Default to an empty object if no author is provided
   upvotes,
   createdAt,
   onReplySubmitted, 
@@ -22,6 +22,9 @@ const CommentBox = ({
   const [repliesLoaded, setRepliesLoaded] = useState(false);
   const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
   const [hasUpvoted, setHasUpvoted] = useState(false);
+
+  // Use the name from the author object or "Anonymous" if not provided
+  const displayName = author.name || "Anonymous";
 
   useEffect(() => {
     const fetchReplies = async () => {
@@ -41,7 +44,6 @@ const CommentBox = ({
     fetchReplies();
   }, [commentId, repliesLoaded]);
 
-  // upvotes
   const handleUpvote = async () => {
     try { 
       let updatedUpvotes = currentUpvotes;
@@ -69,7 +71,7 @@ const CommentBox = ({
     } catch (error) {
       console.error('Error upvoting comment:', error);
     }
-  };  
+  };
 
   return (
     <div className="comment-box-container">
@@ -78,7 +80,7 @@ const CommentBox = ({
           <div> 
             <h4>{topicTitle}</h4>
             <p className="comment-meta">
-              {name} · {currentUpvotes} Upvotes · {new Date(createdAt).toLocaleDateString("en-US", {
+              {displayName} · {currentUpvotes} Upvotes · {new Date(createdAt).toLocaleDateString("en-US", {
                 year: 'numeric', month: 'long', day: 'numeric'
               })}
             </p>
@@ -98,18 +100,27 @@ const CommentBox = ({
         <button onClick={() => setShowReplies(!showReplies)} className="toggle-replies-button">
           {showReplies ? 'Hide Replies' : 'Show Replies'}
         </button>
+        <button onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+          {hasUpvoted ? 'Remove' : 'Upvote'}
+        </button>
         {showReplyForm && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
         {showReplies && repliesLoaded && (
           <div className="replies">
             <h5>Replies:</h5>
             {replies.map(reply => (
-              <ReplyBox key={reply.commentId} {...reply} />
+              <ReplyBox
+              key={reply.commentId || reply.id} // Ensure key is unique and correctly referenced
+              profilePicUrl={reply.profilePicUrl} // Ensure you pass this if needed
+              commentText={reply.content} // Make sure 'content' is the correct field name
+              topicTitle={reply.topicTitle} // Adjust if necessary
+              name={reply.authorId.name} // Check if 'author' is populated and 'name' exists
+              upvotes={reply.upvotes}
+              createdAt={reply.createdAt}
+              isAnonymous={reply.anonymous}
+            />
             ))}
           </div>
         )}
-        <button onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
-          {hasUpvoted ? 'Remove' : 'Upvote'}
-        </button>
       </div>
     </div>
   );

@@ -47,9 +47,9 @@ const Popup = () => {
       authorId,
       anonymous,
       resolved,
-	  department,
-	  priority,
-	  category,
+      department,
+      priority,
+      category,
       ...(parentCommentId && { parentCommentId }), // Conditionally add parentCommentId to the payload if it exists
     };
 
@@ -125,11 +125,24 @@ const Popup = () => {
 				value={content}
 				onChange={(e) => setContent(e.target.value)}
               ></textarea>
+              <div>
+              <div className="form-checkbox">
+                <label>
+                  Anonymous:
+                  <input
+                    type="checkbox"
+                    checked={anonymous}
+                    onChange={(e) => setAnonymous(e.target.checked)}
+                    className="checkbox-input"
+                  />
+                </label>
+              </div>
               < div className="close-button" onClick={togglePopup}>
                   <a className='submit-comment' onClick={handleSubmit}>Submit</a>
               </div>
               <div className='close-button' onClick={togglePopup}>
                 <a className='save-comment'>Save Comment</a>
+              </div>
               </div>
             </div>
           </div>

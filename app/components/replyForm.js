@@ -45,10 +45,6 @@ const ReplyForm = ({ parentId, onReplySubmitted }) => {
         required
         disabled={isSubmitting} // Disable the textarea during submission
       />
-
-      <button className="reply-button" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Submitting...' : 'Reply'}
-      </button>
       <div className="form-checkbox">
         <label>
           Anonymous:
@@ -60,6 +56,10 @@ const ReplyForm = ({ parentId, onReplySubmitted }) => {
           />
         </label>
       </div>
+      <button className="reply-button" type="submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Submitting...' : 'Reply'}
+      </button>
+
     </form>
   );
 };
