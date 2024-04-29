@@ -17,12 +17,11 @@ const ReplyBox = ({
   return (
     <div className="comment-box reply-box"> {/* Added 'reply-box' class for potential specific styling */}
       <div className="comment-header">
-        <img src={profilePicUrl || "path/to/default/profilePic.png"} alt={`${name}'s profile`} className="profile-pic" />
         <div>
           <h4>{topicTitle}</h4>
-          <p className="comment-meta">
-            {name} · {upvotes} Upvotes · {formattedDate}
-          </p>
+          <a className="comment-meta">
+            {name ? name : "Anonymous"} • {formattedDate}
+          </a>
         </div>
       </div>
       <p className="comment-text">{commentText}</p>

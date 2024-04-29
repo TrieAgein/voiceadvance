@@ -63,9 +63,8 @@ const EditComment = ({ commentId }) => {  // Assuming commentId is passed as a p
 
   return (
     <>
-      {!isOpen && (
-                <button className="edit-button" onClick={togglePopup}>Edit Comment <span>+</span></button>
-      )}
+      {!isOpen //&& (<button className="edit-button" onClick={togglePopup}>Edit</button>)
+      }
       {isOpen && (
         <div id='popup-wrapper'>
           <div className='popup'>
