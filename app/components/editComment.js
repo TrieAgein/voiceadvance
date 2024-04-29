@@ -6,17 +6,12 @@ import PriorityDropdown from './priorityDropdown';
 import CategoryDropdown from './categoryDropdown';
 import '../css/page.css';
 
-const EditComment = ({ commentId }) => {  // Assuming commentId is passed as a prop
-  const [isOpen, setIsOpen] = useState(false);
+const EditComment = ({ commentId, isOpen, togglePopup }) => {  // Assuming commentId is passed as a prop
   const [topic, setTopic] = useState('');
   const [content, setContent] = useState('');
   const [department, setDepartment] = useState('');
   const [priority, setPriority] = useState('');
   const [category, setCategory] = useState('');
-
-  const togglePopup = () => {
-    setIsOpen(!isOpen);
-  };
 
   const setDepartmentState = useCallback(val => {
     setDepartment(val);
@@ -63,8 +58,6 @@ const EditComment = ({ commentId }) => {  // Assuming commentId is passed as a p
 
   return (
     <>
-      {!isOpen //&& (<button className="edit-button" onClick={togglePopup}>Edit</button>)
-      }
       {isOpen && (
         <div id='popup-wrapper'>
           <div className='popup'>

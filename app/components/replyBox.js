@@ -54,7 +54,7 @@ const ReplyBox = ({
       <div className="comment-header">
         <div>
           <p className="comment-meta">
-            {displayName} · {upvotes} Upvotes · {formattedDate}
+            {displayName} • {formattedDate}
           </p>
         </div>
         <div className='status-container'>

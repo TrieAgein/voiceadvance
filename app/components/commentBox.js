@@ -11,10 +11,11 @@ const CommentBox = ({
   commentText,
   isResolved,
   topicTitle,
-  author = {}, // Default to an empty object if no author is provided
+  authorId = {}, // Default to an empty object if no author is provided
   upvotes,
   createdAt,
-  onReplySubmitted, 
+  onReplySubmitted,
+  togglePopup
 }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replies, setReplies] = useState([]);
@@ -22,9 +23,11 @@ const CommentBox = ({
   const [repliesLoaded, setRepliesLoaded] = useState(false);
   const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
   const [hasUpvoted, setHasUpvoted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
 
   // Use the name from the author object or "Anonymous" if not provided
-  const displayName = author.name || "Anonymous";
+  const displayName = authorId.name || "Anonymous";
 
   useEffect(() => {
     const fetchReplies = async () => {
@@ -73,6 +76,10 @@ const CommentBox = ({
     }
   };
 
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
+  };
+
   return (
     <div className="comment-box-container">
       
@@ -81,15 +88,17 @@ const CommentBox = ({
         <div className="comment-header">
           <div> 
             <h4>{topicTitle}</h4>
-            <p className="comment-meta">
-              {displayName} · {currentUpvotes} Upvotes · {new Date(createdAt).toLocaleDateString("en-US", {
+            <a className="comment-meta">
+            {displayName} • {new Date(createdAt).toLocaleDateString("en-US", {
                 year: 'numeric', month: 'long', day: 'numeric'
               })}
             </a>
           </div>
         </div> 
-        <EditComment commentId={commentId}/>
-        <p onClick="THIS NEEDS TO TRIGGER AN ONCLICK EVENT ON THE NODE ABOVE THIS" className="comment-text">{commentText}</p> 
+        <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
+        {isEditing && (
+          <EditComment commentId={commentId} isOpen={isEditing} togglePopup={toggleEditing} />
+        )}
         
         <div className='status-container'>
           <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
@@ -100,13 +109,12 @@ const CommentBox = ({
         
         <a onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-replies-form-button">
           {showReplyForm ? 'Cancel Reply' : 'Reply'}
-        </button>
-        <button onClick={() => setShowReplies(!showReplies)} className="toggle-replies-button">
-          {showReplies ? 'Hide Replies' : 'Show Replies'}
-        </button>
-        <button onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
-          {hasUpvoted ? 'Remove' : 'Upvote'}
-        </button>
+          </a>
+        <a onClick={() => setShowReplies(!showReplies)} className={"toggle-replies-button" + (showReplies ? " active" : "")}>
+        </a>
+        <a onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+          {hasUpvoted ? "+"+currentUpvotes : "+"+currentUpvotes}
+          </a>
         {showReplyForm && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
         {showReplies && repliesLoaded && (
           <div className="replies">
