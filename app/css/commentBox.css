@@ -1,6 +1,5 @@
 .comment-box-container{
   padding: 10px;
-  max-width: 92.5%;
   background-color: none;
 }
 .comment-box {
@@ -8,7 +7,6 @@
   border: 1px black solid;
   border-radius: 8px;
   padding: 16px;
-  max-width: 92.5%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
 }
@@ -50,15 +48,16 @@
 }
 /* show/hide replies button */
 .toggle-replies-button{
-  background-color: white; 
-  border: 1px black solid;
-  border-radius: 20px;
-  padding: 5px 15px;
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-image: url("../public/arrows.svg");
+  background-repeat: no-repeat;
   cursor: pointer;
+  float: right;
 }
-.toggle-replies-button:hover{
-  background-color: #A24EFE;
-  transition: background-color 0.5s ease;
+.toggle-replies-button.active{
+  transform: rotate(180deg);
 }
 .toggle-replies-form-button{
   background-color: white; 
@@ -107,17 +106,21 @@
 }
 /* Upvote */
 .upvote-button{
-  background-color: white; 
-  border: 1px black solid;
-  border-radius: 20px;
-  padding: 5px 15px;
-  cursor: pointer;
+  width: fit-content;
+  display: block;
   float: right;
+  margin-right: 10px;
+  background-color: #438b1b;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10px 10px 10px 10px;
+  border-width: 1px;
+  padding: 2px;
+  margin: 5px;
+  color: black;
+  cursor: pointer;
 }
-.upvote-button:hover{
-  background-color: #A24EFE;
-  transition: background-color 0.5s ease;
-}
+
 .upvote-button.upvoted{
   background-color: #A24EFE;
   color:white; 

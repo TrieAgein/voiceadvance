@@ -75,7 +75,9 @@ const CommentBox = ({
 
   return (
     <div className="comment-box-container">
+      
       <div className="comment-box">
+      
         <div className="comment-header">
           <div> 
             <h4>{topicTitle}</h4>
@@ -83,18 +85,20 @@ const CommentBox = ({
               {displayName} · {currentUpvotes} Upvotes · {new Date(createdAt).toLocaleDateString("en-US", {
                 year: 'numeric', month: 'long', day: 'numeric'
               })}
-            </p>
+            </a>
           </div>
         </div> 
-        <p className="comment-text">{commentText}</p>
+        <EditComment commentId={commentId}/>
+        <p onClick="THIS NEEDS TO TRIGGER AN ONCLICK EVENT ON THE NODE ABOVE THIS" className="comment-text">{commentText}</p> 
+        
         <div className='status-container'>
           <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
               <span className="status-circle"></span>
               {isResolved ? 'Resolved' : 'Unresolved'}
           </div> 
-          <EditComment commentId={commentId}/>
         </div> 
-        <button onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-replies-form-button">
+        
+        <a onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-replies-form-button">
           {showReplyForm ? 'Cancel Reply' : 'Reply'}
         </button>
         <button onClick={() => setShowReplies(!showReplies)} className="toggle-replies-button">

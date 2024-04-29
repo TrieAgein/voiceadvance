@@ -87,32 +87,7 @@ const Dashboard = () => {
         </div>
         <div id="claim-list" className={`claim-list ${toggled ? 'line' : 'grid'}`}>
           <CommentsList search={search}/>
-          {/* <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/>
-          <Comment/> */}
+
         </div>
         </div>
   
