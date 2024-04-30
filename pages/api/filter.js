@@ -2,18 +2,37 @@ import prisma from '../../utils/prismaClient.js';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
-	const input = req.query.filterBy;
+	const input = req.query.filter;
 	
 	if(!input) {
 		return res.status(400).json({ message: 'Please enter a term to filter by.' });
 	}
 
     try {
-		const comments = await prisma.comment.findMany({
-			where: {
-				OR: [{department: input}, {priority: input}, {category: input}]
-			},
-		})
+		let comments;
+		if(input === "true") {
+			comments = await prisma.comment.findMany({
+				where: {
+					resolved: true,
+					parentCommentId: null
+				}
+			})
+		}
+		else if(input === "false") {
+			comments = await prisma.comment.findMany({
+				where: {
+					resolved: false,
+					parentCommentId: null
+				},
+			})
+		}
+		else {
+			comments = await prisma.comment.findMany({
+				where: {
+					OR: [{department: input}, {priority: input}, {category: input}]
+				},
+			})
+		}
 		
 		if (!comments) {
 			return res.status(404).json({ message: 'No comments matching the search were found.' });
