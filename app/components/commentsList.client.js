@@ -3,9 +3,7 @@ import CommentBox from './commentBox.js'; // Ensure this component can recursive
 
 const CommentsList = ({search, filter}) => {
   const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
+  const fetchComments = async () => {
       try {
         const response = await fetch('/api/comments');
         if (!response.ok) {
@@ -17,6 +15,9 @@ const CommentsList = ({search, filter}) => {
         console.error("Failed to fetch comments:", error);
       }
     };
+
+
+  useEffect(() => {
 	if(filter === undefined) {
 		fetchComments();
 	}
@@ -44,8 +45,10 @@ const CommentsList = ({search, filter}) => {
 					console.error("Failed to fetch comments:", error);
 				}
 			};
-			
-			searchComments();
+			if(search === "")
+				fetchComments();
+			else
+				searchComments();
 		}
 	}, [search]);
   
