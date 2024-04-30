@@ -4,17 +4,13 @@ import { useRouter } from 'next/router';
 import Image from "next/image";
 import "../app/css/page.css";
 import React, { useState } from 'react';
-import toggleView from '../app/components/toggleView.js';
-import CommentSubmitForm from '../app/components/commentSubmitForm.js';
 import CreateUser from '../app/components/createUser.js';
 import Dropdown from '../app/components/dropdown.js';
 import logo from '../app/public/logo.svg';
 import avatar from '../app/public/avatar.jpg';
 import forgot from '../app/public/forgot.svg';
 import Popup from '../app/components/Popup.js';
-import EditComment from '../app/components/editComment.js';
 import CommentsList from '../app/components/commentsList.client.js';
-import Comment from '../app/components/comment.js';
 import CategoryStatistics from "../app/components/categoryStatistics.js";
 import Logout from "../app/components/logoutButton.js";
 
@@ -52,7 +48,6 @@ const Dashboard = () => {
             <content>
                 <div className="operation-bar">
                     <div style={{ display: 'inline', float: 'right' }}>
-                        <a className="operation-button" onClick={toggleView}>Toggle View</a>{' '}
                         <a className="operation-button" onClick={() => setSearch(input)}>Search</a>{' '}
                         <input value={input} className="search" placeholder="Search" type="text" onChange={(e) => setInput(e.target.value)} />{' '}
                         <Popup />
