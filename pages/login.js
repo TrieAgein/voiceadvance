@@ -9,20 +9,19 @@ import { signIn, useSession, signOut } from 'next-auth/react';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
     const router = useRouter();
 
     useEffect(() => {
         // Redirect if already logged in
         if (session) {
-            router.replace('/dashboard'); // Redirect to dashboard or other intended page
+            router.replace('/dashboard');
         }
     }, [session, router]);
 
     const handleLogin = async (e) => {
-        e.preventDefault();  // To prevent the form from submitting traditionally
+        e.preventDefault();  // Prevent the form from submitting traditionally
 
-        // NextAuth signIn with "credentials" provider
         const result = await signIn('credentials', {
             redirect: false,
             email,
@@ -31,19 +30,27 @@ const Login = () => {
 
         if (result.error) {
             alert(result.error);
-        } else if (result.status === 200) {
-            router.replace('/dashboard');
+        } else {
+            // Check if the session is updated, then access it
+            setTimeout(() => {
+                if (session) {
+                    localStorage.setItem('userId', session.user.id);
+                    router.replace('/dashboard');
+                }
+            }, 1000); // Delay to wait for session update, adjust as needed
         }
     };
 
     return (
         <div className="popup-window">
-            <div className="va-title"><Image src={logo} alt="Logo"/>VoiceAdvance</div> 
+            <div className="va-title">
+                <Image src={logo} alt="Logo" width={50} height={50} />
+                VoiceAdvance
+            </div>
             <div style={{ width: 'fit-content', margin: 'auto' }}>
                 <p style={{ fontSize: '38px' }}>Login</p>
                 <form onSubmit={handleLogin}>
-                    <p>
-                        Email:<br />
+                    <p>Email:<br />
                         <input
                             type="email"
                             placeholder="username@company.com"
@@ -52,24 +59,19 @@ const Login = () => {
                             required
                         />
                     </p>
-                    <p>
-                        Password:<br />
+                    <p>Password:<br />
                         <input
                             type="password"
                             placeholder="Password"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                             required
-                        /><br />
+                        />
+                        <br />
                         <a style={{ fontSize: '75%' }} className="link">Forgot Password?</a>
                     </p>
-                        <button className="login-button" onClick={handleLogin}>Login</button>
+                    <button type="submit" className="login-button">Login</button>
                 </form>
-                {/* OAuth Providers */}
-                {/* <div>
-                    <button onClick={() => signIn('google')}>Sign in with Google</button>
-                    {/* Add more OAuth provider buttons as needed 
-                </div> */}
             </div>
             <div className="footer"></div>
         </div>
