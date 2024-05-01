@@ -66,7 +66,7 @@ const ResolveComment = ({ commentId }) => {
                 onChange={e => setContent(e.target.value)}
               ></textarea>
               <div className="close-button">
-                <button className='submit-comment' onClick={handleSubmit}>Resolve Comment</button>
+                <a className='submit-comment' onClick={handleSubmit}>Resolve Comment</a>
               </div>
             </div>
           </div>
