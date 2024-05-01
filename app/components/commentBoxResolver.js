@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReplyBox from './replyBox.js'; 
 import ReplyForm from './replyForm.js'; 
 import EditComment from './editComment.js';
+import ResolveComment from "./resolvecomment.js"
 import '../css/commentBoxResolver.css'; 
 import Image from 'next/image';
 
@@ -106,7 +107,9 @@ const CommentBox = ({
               {isResolved ? 'Resolved' : 'Unresolved'}
           </div> 
         </div> 
-        
+        <div>
+            <ResolveComment/>
+        </div><br/><br/>
         <a onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-replies-form-button">
           {showReplyForm ? 'Cancel Reply' : 'Reply'}
           </a>
