@@ -49,43 +49,11 @@ const CommentBox = ({
   }, [commentId, repliesLoaded]);
 
   const handleUpvote = async () => {
-    // If an upvote has already been sent, check if the user wants to undo the upvote
-    if (upvoteSent) {
-      if (hasUpvoted) {
-        try {
-          const updatedUpvotes = currentUpvotes - 1;
-          const response = await fetch(`/api/upvotes/${commentId}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ upvotes: updatedUpvotes })
-          });
-  
-          if (!response.ok) {
-            throw new Error('Failed to update upvotes');
-          }
-  
-          // Update states to reflect the change
-          setCurrentUpvotes(updatedUpvotes);
-          setHasUpvoted(false);
-        } catch (error) {
-          console.error('Error decrementing upvote:', error);
-        }
-      }
-      // Exit the function to prevent further changes until page reload
-      return;
-    }
-  
+    const newUpvoteStatus = !hasUpvoted;
+    // Determine the new count based on whether the user is upvoting or removing their upvote
+    const updatedUpvotes = newUpvoteStatus ? currentUpvotes + 1 : currentUpvotes - 1;
+
     try {
-      let updatedUpvotes = currentUpvotes;
-      if (!hasUpvoted){
-        updatedUpvotes += 1;
-      }
-      else {
-        updatedUpvotes -= 1;
-      }
-  
       const response = await fetch(`/api/upvotes/${commentId}`, {
         method: 'PUT',
         headers: {
@@ -93,14 +61,14 @@ const CommentBox = ({
         },
         body: JSON.stringify({ upvotes: updatedUpvotes })
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to update upvotes');
       }
-  
+
+      // Update the state only after confirming the server response was OK
       setCurrentUpvotes(updatedUpvotes);
-      setHasUpvoted(!hasUpvoted);
-      setUpvoteSent(true); // Mark that an upvote action has been taken
+      setHasUpvoted(newUpvoteStatus);
     } catch (error) {
       console.error('Error upvoting comment:', error);
     }
@@ -148,8 +116,8 @@ const CommentBox = ({
         <a onClick={() => setShowReplies(!showReplies)} className={"toggle-replies-button" + (showReplies ? " active" : "")}>
         </a>
         <a onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
-          {hasUpvoted ? "+"+currentUpvotes : "+"+currentUpvotes}
-        </a>
+            +{currentUpvotes}
+          </a>
         {showReplyForm && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
         {showReplies && repliesLoaded && (
           <div className="replies">
