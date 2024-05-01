@@ -1,56 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../css/commentBox.css'; // Using the same styling, you may choose to customize this further for replies
 
 const ReplyBox = ({
-  profilePicUrl,
+  commentId,
   commentText,
-  topicTitle,
-  name = {}, // Default name if none is provided will be handled externally
+  name = 'Anonymous', // Default name if none is provided will be handled externally
   upvotes,
   createdAt,
   isAnonymous = true // Assume anonymous by default if not specified
 }) => {
-
+  const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
   const [hasUpvoted, setHasUpvoted] = useState(false);
+
   // Formatting the date for display
   const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
     year: 'numeric', month: 'long', day: 'numeric'
   });
 
-  
   const handleUpvote = async () => {
-    try { 
-      let updatedUpvotes = currentUpvotes;
-      if (!hasUpvoted){
-        updatedUpvotes += 1;
-      }
-      else {
-        updatedUpvotes -= 1;
-      }
-    
+    const newUpvoteStatus = !hasUpvoted;
+    // Determine the new count based on whether the user is upvoting or removing their upvote
+    const updatedUpvotes = newUpvoteStatus ? currentUpvotes + 1 : currentUpvotes - 1;
+
+    try {
       const response = await fetch(`/api/upvotes/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ upvotes: currentUpvotes + 1 })
+        body: JSON.stringify({ upvotes: updatedUpvotes })
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to update upvotes');
       }
-  
+
+      // Update the state only after confirming the server response was OK
       setCurrentUpvotes(updatedUpvotes);
-      setHasUpvoted(!hasUpvoted);
+      setHasUpvoted(newUpvoteStatus);
     } catch (error) {
       console.error('Error upvoting comment:', error);
     }
-  }
+  };
 
   const displayName = isAnonymous ? "Anonymous" : name;
 
   return (
-    <div className="comment-box reply-box"> {/* Added 'reply-box' class for potential specific styling */}
+    <div className="comment-box reply-box">
       <div className="comment-header">
         <div>
           <p className="comment-meta">
@@ -58,9 +54,9 @@ const ReplyBox = ({
           </p>
         </div>
         <div className='status-container'>
-        <button onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
-          {hasUpvoted ? 'Remove' : 'Upvote'}
-        </button>
+          <a onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+            +{currentUpvotes}
+          </a>
         </div> 
       </div>
       <p className="comment-text">{commentText}</p>

@@ -11,7 +11,11 @@ const CommentsList = ({search}) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
+        let data = await response.json();
+
+        // Sort the data by the 'createdAt' field in descending order (newest first)
+        data = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
         setComments(data); // Assume data is structured with replies nested within each comment
       } catch (error) {
         console.error("Failed to fetch comments:", error);
