@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import close from '/images/icons/close.svg';
 import '../css/page.css';
+import CommentsList from './commentsList.client.js';
 
 const Active = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +24,7 @@ const Active = () => {
             </div>
             <div id="popup-body">
               <h1>Open Comments</h1>
+			  <CommentsList filter={false}/>
             </div>
           </div>
         </div>
