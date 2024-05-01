@@ -9,7 +9,7 @@ import avatar from '../app/public/avatar.jpg';
 import forgot from '../app/public/forgot.svg';
 import Popup from '../app/components/Popup.js';
 import Comment from '../app/components/comment.js'
-import CommentsList from "../app/components/commentsList.resolver.js";
+import CommentsList from "../app/components/commentsListResolver.js";
 import ResolveComment from "../app/components/resolvecomment.js"
 import Dropdownuser from '../app/components/dropdownUser.js';
 import Dropdownstats from '../app/components/dropdownStats.js';
@@ -78,9 +78,9 @@ const Resolver = () => {
             <hr />
           </div>
         </div>
-        </div>
-        <div id="claim-list" className="claim-list list">
+        <div>
           <CommentsList/>
+        </div>
         </div>
         <div>
           <ResolveComment/>

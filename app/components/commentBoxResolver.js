@@ -11,15 +11,23 @@ const CommentBox = ({
   commentText,
   isResolved,
   topicTitle,
-  name = "Anonymous",
+  authorId = {}, // Default to an empty object if no author is provided
   upvotes,
   createdAt,
-  onReplySubmitted
+  onReplySubmitted,
+  togglePopup
 }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replies, setReplies] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesLoaded, setRepliesLoaded] = useState(false);
+  const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
+  const [hasUpvoted, setHasUpvoted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
+
+  // Use the name from the author object or "Anonymous" if not provided
+  const displayName = authorId.name || "Anonymous";
 
   useEffect(() => {
     const fetchReplies = async () => {
@@ -39,35 +47,89 @@ const CommentBox = ({
     fetchReplies();
   }, [commentId, repliesLoaded]);
 
+  const handleUpvote = async () => {
+    try { 
+      let updatedUpvotes = currentUpvotes;
+      if (!hasUpvoted){
+        updatedUpvotes += 1;
+      }
+      else {
+        updatedUpvotes -= 1;
+      }
+    
+      const response = await fetch(`/api/upvotes/${commentId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ upvotes: currentUpvotes + 1 })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update upvotes');
+      }
+  
+      setCurrentUpvotes(updatedUpvotes);
+      setHasUpvoted(!hasUpvoted);
+    } catch (error) {
+      console.error('Error upvoting comment:', error);
+    }
+  };
+
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
+  };
+
   return (
     <div className="comment-box-container">
+      
       <div className="comment-box">
+      
         <div className="comment-header">
-          <div>
+          <div> 
             <h4>{topicTitle}</h4>
-            <p className="comment-meta">
-              {name} · {upvotes} Upvotes · {new Date(createdAt).toLocaleDateString("en-US", {
+            <a className="comment-meta">
+            {displayName} • {new Date(createdAt).toLocaleDateString("en-US", {
                 year: 'numeric', month: 'long', day: 'numeric'
               })}
-            </p>
+            </a>
           </div>
-        </div>
-        <p className="comment-text">{commentText}</p>
+        </div> 
+        <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
+        {isEditing && (
+          <EditComment commentId={commentId} isOpen={isEditing} togglePopup={toggleEditing} />
+        )}
+        
         <div className='status-container'>
           <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
               <span className="status-circle"></span>
               {isResolved ? 'Resolved' : 'Unresolved'}
-          </div>
-        </div>
-        <button onClick={() => setShowReplies(!showReplies)} className="toggle-replies-button">
-          {showReplies ? 'Hide Replies' : 'Show Replies'}
-        </button>
+          </div> 
+        </div> 
+        
+        <a onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-replies-form-button">
+          {showReplyForm ? 'Cancel Reply' : 'Reply'}
+          </a>
+        <a onClick={() => setShowReplies(!showReplies)} className={"toggle-replies-button" + (showReplies ? " active" : "")}>
+        </a>
+        <a onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+          {hasUpvoted ? "+"+currentUpvotes : "+"+currentUpvotes}
+          </a>
         {showReplyForm && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
         {showReplies && repliesLoaded && (
           <div className="replies">
             <h5>Replies:</h5>
             {replies.map(reply => (
-              <ReplyBox key={reply.commentId} {...reply} />
+              <ReplyBox
+              key={reply.commentId || reply.id} // Ensure key is unique and correctly referenced
+              profilePicUrl={reply.profilePicUrl} // Ensure you pass this if needed
+              commentText={reply.content} // Make sure 'content' is the correct field name
+              topicTitle={reply.topicTitle} // Adjust if necessary
+              name={reply.authorId.name} // Check if 'author' is populated and 'name' exists
+              upvotes={reply.upvotes}
+              createdAt={reply.createdAt}
+              isAnonymous={reply.anonymous}
+            />
             ))}
           </div>
         )}
