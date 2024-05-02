@@ -93,6 +93,7 @@ const CommentsList = ({search, filter}) => {
     return comments.map((comment) => (
       <CommentBox
         key={comment.comment_id}
+		name={comment.name}
         commentId={comment.comment_id}
         profilePicUrl="path/to/default/profilePic.png"
         commentText={comment.content}

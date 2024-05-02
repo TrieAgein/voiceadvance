@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../css/commentSubmitForm.css';  // Assuming the CSS is saved in this file.
 
 const CommentSubmitForm = () => {
+  const { data: session } = useSession();
   const [name, setName] = useState('');
   const [topic, setTopic] = useState('');
   const [content, setContent] = useState('');
@@ -9,10 +10,10 @@ const CommentSubmitForm = () => {
   const [anonymous, setAnonymous] = useState(false);
   const [resolved, setResolved] = useState(false);
   const authorId = 1; // Assuming authorId is known and static for this example; adjust as needed
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the form from causing a page reload
-
+	
     // Prepare the payload based on your API's expected schema, include parentCommentId only if it's provided
     const payload = {
       name,

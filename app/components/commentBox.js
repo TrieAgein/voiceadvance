@@ -6,6 +6,7 @@ import '../css/commentBox.css';
 import Image from 'next/image';
 
 const CommentBox = ({
+  name,
   commentId,
   profilePicUrl,
   commentText,
@@ -89,7 +90,7 @@ const CommentBox = ({
           <div> 
             <h4>{topicTitle}</h4>
             <a className="comment-meta">
-            {displayName} • {new Date(createdAt).toLocaleDateString("en-US", {
+            {name} • {new Date(createdAt).toLocaleDateString("en-US", {
                 year: 'numeric', month: 'long', day: 'numeric'
               })}
             </a>

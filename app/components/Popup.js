@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import close from '/images/icons/close.svg';
 import DeptDropdown from './deptDropdown';
@@ -8,6 +9,7 @@ import '../css/page.css';
 
 const Popup = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
   
   const [name, setName] = useState('');
   const [topic, setTopic] = useState('');
@@ -18,7 +20,19 @@ const Popup = () => {
   const [parentCommentId, setParentCommentId] = useState(null);
   const [anonymous, setAnonymous] = useState(false);
   const [resolved, setResolved] = useState(false);
-  const authorId = 1; // Assuming authorId is known and static for this example; adjust as needed
+  const [authorId, setAuthorId] = useState(0);
+  
+  useEffect(() => {
+      if(!anonymous) {
+		  if (session) {
+			setName(session.user.name);
+			setAuthorId(session.user.id);
+		  }
+	  }
+	  else {
+		  setName("Anonymous")
+	  }
+  }, [session, anonymous]);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);

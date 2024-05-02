@@ -8,7 +8,7 @@ export default async function handler(req, res) {
         return;
     }
 
-    const { name, topic, content, authorId, resolved = false, parentCommentId, anonymous = false, department, priority, category } = req.body;
+    const { name, topic, content, authorId, resolved = false, parentCommentId, anonymous, department, priority, category } = req.body;
 
     // Basic input validation
     if (!content || !authorId) {
@@ -19,13 +19,13 @@ export default async function handler(req, res) {
     try {
         const newComment = await prisma.comment.create({
             data: {
-                name, // This can be empty if not provided
-                topic, // This can be empty if not provided
+                name,
+                topic,
                 content,
                 upvotes: 0,
                 authorId,
                 resolved,
-                parentCommentId, // This can be null if it's a top-level comment
+                parentCommentId,
                 anonymous,
 				department,
 				priority,
