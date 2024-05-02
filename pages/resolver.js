@@ -9,7 +9,6 @@ import logo from '../app/public/logo.svg';
 import avatar from '../app/public/avatar.jpg';
 import CommentsList from "../app/components/commentsListResolver.js";
 import Dropdownuser from '../app/components/dropdownUser.js';
-import Dropdownstats from '../app/components/dropdownStats.js';
 import CategoryStatistics from "../app/components/categoryStatistics.js";
 import Logout from "../app/components/logoutButton.js";
 
@@ -57,7 +56,6 @@ const Resolver = () => {
                   <div className="sidebar">
                       <Dropdown />
                       <Dropdownuser />
-                      <Dropdownstats />
                       <CategoryStatistics />
                   </div>
                   <div id="claim-list" className={`claim-list ${toggled ? 'line' : 'grid'}`}>
