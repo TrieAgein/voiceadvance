@@ -5,6 +5,7 @@ const CreateUser = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent the form from causing a page reload
@@ -14,6 +15,7 @@ const CreateUser = () => {
             name,
             email,
             password,
+            role
         };
 
         try {
@@ -37,6 +39,7 @@ const CreateUser = () => {
             setName('');
             setEmail('');
             setPassword('');
+            setRole(' ')
         } catch (error) {
             console.error('Failed to create user:', error);
         }
@@ -65,6 +68,14 @@ const CreateUser = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-input"
             />
+            <input
+                type="role"
+                placeholder="Role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="form-input"
+            />
+            <br/>
             <button type="submit" className="submit-button">Create User</button>
         </form>
     );

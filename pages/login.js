@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Image from "next/image";
 import '../app/css/page.css';
 import logo from '../app/public/logo.svg'; // Adjust the path if necessary
+import CreateUser from '../app/components/createUser.js';
 import { signIn, useSession, signOut } from 'next-auth/react';
 
 const Login = () => {
@@ -13,9 +14,21 @@ const Login = () => {
     const router = useRouter();
 
     useEffect(() => {
-        // Redirect if already logged in
         if (session) {
-            router.replace('/dashboard');
+            console.log(session.user);
+            // Check the role of the user and redirect accordingly
+            switch(session.user.role) {
+                case 'Employee':
+                    router.replace('/dashboard'); // Redirect to Employee dashboard
+                    break;
+                case 'Resolver':
+                    router.replace('/resolver'); // Redirect to Resolver dashboard
+                    break;
+                default:
+                    // Optionally handle other roles or default case
+                    router.replace('/login');
+                    break;
+            }
         }
     }, [session, router]);
 

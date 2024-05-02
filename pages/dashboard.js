@@ -3,7 +3,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from "next/image";
 import "../app/css/page.css";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CreateUser from '../app/components/createUser.js';
 import Dropdown from '../app/components/dropdown.js';
 import logo from '../app/public/logo.svg';
@@ -20,10 +20,25 @@ console.log("hi")
 
 const Dashboard = () => {
     const { data: session } = useSession();
-    const router = useRouter();
     const [toggled, setToggled] = useState(true);
     const [input, setInput] = useState('');
     const [search, setSearch] = useState('');
+    const router = useRouter();
+
+    useEffect(() => {
+      // Check if the session exists
+      if (session) {
+          console.log(session); 
+          // Redirect based on the user role
+          if (session.user.role !== "Employee") {
+              router.replace('/login');
+          }
+      } else {
+          // Redirect to login if there is no session
+          router.replace('/login');
+      }
+  }, [session, router]);
+  
 
     const handleLogout = async () => {
       // This function handles logout and redirection

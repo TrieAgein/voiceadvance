@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'; // Ensure you have 'bcryptjs' installed: npm inst
 import crypto from 'crypto';
 
 export default async function handler(req, res) {
-    const { password, name, email } = req.body; // Ensure anonymous defaults to false if not provided
+    const { password, name, email, role } = req.body; // Ensure anonymous defaults to false if not provided
 	
 	const cipher = crypto.createCipheriv('aes-256-cbc', process.env.SECRET_KEY, process.env.IV);
 	let encryptedEmail = cipher.update(email, 'utf8', 'hex');
@@ -32,15 +32,17 @@ export default async function handler(req, res) {
             data: {
                 name,
                 email: encryptedEmail,
-                password: hashedPassword // Store the hashed password, not the plain one
+                password: hashedPassword, // Store the hashed password, not the plain one
+                role,
             },
         });
 
         // Prepare user data for response, ensuring to never return sensitive data
         const userResponse = {
-            id: newUser.id,
+            user_id: newUser.user_id,
             name: newUser.name,
-            email: newUser.email
+            email: newUser.email,
+            role: newUser.role
         };
 
         res.status(201).json(userResponse);
