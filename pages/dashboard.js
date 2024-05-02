@@ -23,16 +23,17 @@ const Dashboard = () => {
     const [toggled, setToggled] = useState(true);
     const [input, setInput] = useState('');
     const [search, setSearch] = useState('');
+	const [name, setName] = useState('');
     const router = useRouter();
 
     useEffect(() => {
       // Check if the session exists
       if (session) {
-          console.log(session); 
           // Redirect based on the user role
           if (session.user.role !== "Employee") {
               router.replace('/login');
           }
+		  setName(session.user.name);
       } else {
           // Redirect to login if there is no session
           router.replace('/login');
@@ -59,7 +60,7 @@ const Dashboard = () => {
                     <div className="profile-pic">
                         <Image src={avatar} width='100' alt="profile" />
                     </div>
-                    <div className="account-name">Julien</div>
+                    <div className="account-name">{name}</div>
                     {/* Logout button */}
                     <Logout/>
                 </div>

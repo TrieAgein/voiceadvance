@@ -21,6 +21,7 @@ const Resolver = () => {
   const [toggled, setToggled] = useState(true);
   const [input, setInput] = useState('');
   const [search, setSearch] = useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
     // Check if the session exists
@@ -30,6 +31,7 @@ const Resolver = () => {
         if (session.user.role !== "Resolver") {
             router.replace('/login');
         }
+		setName(session.user.name);
     } else {
         // Redirect to login if there is no session
         router.replace('/login');
@@ -55,7 +57,7 @@ const Resolver = () => {
                   <div className="profile-pic">
                       <Image src={avatar} width='100' alt="profile" />
                   </div>
-                  <div className="account-name">Resolver</div>
+                  <div className="account-name">{name}</div>
                   {/* Logout button */}
                   <Logout/>
               </div>
