@@ -14,6 +14,10 @@ import CommentsList from '../app/components/commentsList.client.js';
 import CategoryStatistics from "../app/components/categoryStatistics.js";
 import Logout from "../app/components/logoutButton.js";
 
+
+console.log("hi")
+
+
 const Dashboard = () => {
     const { data: session } = useSession();
     const router = useRouter();
@@ -62,7 +66,6 @@ const Dashboard = () => {
                         <CommentsList search={search} />
                     </div>
                 </div>
-                <CreateUser />
             </content>
             <footer className="footer"></footer>
         </div>

@@ -62,7 +62,6 @@ const Resolver = () => {
                       <CommentsList search={search} />
                   </div>
               </div>
-              <CreateUser />
           </content>
           <footer className="footer"></footer>
       </div>

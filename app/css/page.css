@@ -415,6 +415,19 @@ header .account-tab .account-name {
   user-select: none;
   cursor: pointer;
 }
+.logout-button {
+  display: inline-block;
+  background-color: #A24EFE;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px;
+  user-select: none;
+  cursor: pointer;
+}
 /* END OF LOGIN*/
 
 /* START OF POPUP */

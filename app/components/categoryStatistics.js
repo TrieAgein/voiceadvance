@@ -47,7 +47,7 @@ function CategoryStatistics() {
 
     return (
         <div>
-            <h1>Category Usage Statistics</h1>
+            <a>Category Usage Statistics</a>
             <Bar data={chartData} options={{
               plugins: {
                 legend: {

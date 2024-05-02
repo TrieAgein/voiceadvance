@@ -95,7 +95,7 @@ const EditComment = ({ commentId, isOpen, togglePopup }) => {  // Assuming comme
                 onChange={e => setContent(e.target.value)}
               ></textarea>
               <div className="close-button">
-                <button className='submit-comment' onClick={handleSubmit}>Save Comment</button>
+                <a className='submit-comment' onClick={handleSubmit}>Save Comment</a>
               </div>
             </div>
           </div>
