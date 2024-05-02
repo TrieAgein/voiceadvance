@@ -19,7 +19,7 @@ export default NextAuth({
 
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
           // Correct password, return user for session creation
-          return { id: user.id, name: user.name, email: user.email };
+          return { id: user.id, name: user.name, email: user.email, role: user.role };
         } else {
           // Incorrect credentials
           return null;
@@ -40,6 +40,7 @@ export default NextAuth({
     session: async ({ session, token }) => {
       // Pass the user ID to the session object
       session.user.id = token.id;
+      session.user.role = token.role;
       return session;
     },
   },

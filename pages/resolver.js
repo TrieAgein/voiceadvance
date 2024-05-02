@@ -1,8 +1,9 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+
 import Image from "next/image";
 import "../app/css/page.css";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CreateUser from '../app/components/createUser.js';
 import Dropdown from '../app/components/dropdown.js';
 import logo from '../app/public/logo.svg';
@@ -21,6 +22,20 @@ const Resolver = () => {
   const [toggled, setToggled] = useState(true);
   const [input, setInput] = useState('');
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    // Check if the session exists
+    if (session) {
+        console.log(session); 
+        // Redirect based on the user role
+        if (session.user.role !== "Resolver") {
+            router.replace('/login');
+        }
+    } else {
+        // Redirect to login if there is no session
+        router.replace('/login');
+    }
+}, [session, router]);
 
   const handleLogout = async () => {
     // This function handles logout and redirection
@@ -64,6 +79,7 @@ const Resolver = () => {
                       <CommentsList search={search} />
                   </div>
               </div>
+              <CreateUser />
           </content>
           <footer className="footer"></footer>
       </div>
