@@ -4,7 +4,17 @@ import close from '/images/icons/close.svg';
 import CommentBox from './commentBoxResolver'; 
 import '../css/page.css';
 
-const ResolveComment = ({ commentId }) => {  
+const ResolveComment = ({
+  commentId,
+  profilePicUrl,
+  commentText,
+  isResolved,
+  topicTitle,
+  authorId = {}, // Default to an empty object if no author is provided
+  upvotes,
+  createdAt,
+  onReplySubmitted
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [topic, setTopic] = useState('');
   const [content, setContent] = useState('');
@@ -15,13 +25,17 @@ const ResolveComment = ({ commentId }) => {
 
   const handleSubmit = async () => {
     const payload = {
-      status: 'resolved', // Assuming the server expects a status field to mark as resolved
-      // Include any other data the server may need
+      name: "Resolver",
+	  topic: "Response",
+	  content,
+	  authorId: 2,
+	  resolved: true,
+	  parentCommentId: commentId
     };
   
     try {
-      const response = await fetch(`/api/resolve-comment/${commentId}`, { // Notice the endpoint change
-        method: 'PUT', // or 'POST', or 'PATCH', depending on your API
+      const response = await fetch(`/api/submit-comment`, { // Notice the endpoint change
+        method: 'POST', // or 'POST', or 'PATCH', depending on your API
         headers: {
           'Content-Type': 'application/json',
         },
@@ -32,6 +46,20 @@ const ResolveComment = ({ commentId }) => {
   
       if (!response.ok) {
         throw new Error(result.message || 'Error resolving comment');
+      }
+	  
+	  const response2 = await fetch(`api/resolve-comment?commentId={commentId}`, {
+		  method: 'PUT',
+		  headers: {
+			  'Content-Type': 'application/json',
+		  },
+		  body: commentId
+	  });
+	  
+	  const result2 = await response.json();
+	  
+	  if (!response2.ok) {
+        throw new Error(result2.message || 'Error resolving comment');
       }
   
       console.log('Comment resolved successfully:', result);
@@ -55,7 +83,17 @@ const ResolveComment = ({ commentId }) => {
             </div>
             <div id="popup-body">
               <h1>Resolve Comment</h1>
-              <CommentBox />  {/* This is where CommentBoxResolver is included */}
+              <CommentBox 
+				commentId={commentId}
+				profilePicUrl={profilePicUrl}
+				commentText={commentText}
+				isResolved={isResolved}
+				topicTitle={topicTitle}
+				authorId={authorId}
+				upvotes={upvotes}
+				createdAt={createdAt}
+				onReplySubmitted={onReplySubmitted}
+			  />
               <div className='category-container'>
 
               </div><br/>
