@@ -7,31 +7,15 @@ export default async function handler(req, res) {
         res.status(405).end('Method Not Allowed');
         return;
     }
-	const comment_id = req.query.comment_id;
-
-    // Basic input validation
-    if (!content || !authorId) {
-        res.status(400).json({ error: "Required fields 'content' and 'authorId' are missing." });
-        return;
-    }
+	const comment_id = parseInt(req.body);
+	console.log(comment_id);
 
     try {
-        const newComment = await prisma.comment.create({
-            data: {
-                name, // This can be empty if not provided
-                topic, // This can be empty if not provided
-                content,
-                upvotes: 0,
-                authorId,
-                resolved,
-                parentCommentId, // This can be null if it's a top-level comment
-                anonymous,
-				department,
-				priority,
-				category
-            },
+        const comment = await prisma.comment.update({
+            where: {comment_id},
+			data: {resolved: true}
         });
-        res.status(201).json(newComment);
+        res.status(201).json(comment);
     } catch (error) {
         console.error('Failed to create comment:', error);
         res.status(500).json({ error: `Server error: ${error.message}` });
