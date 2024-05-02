@@ -87,7 +87,6 @@ const Login = () => {
                 </form>
             </div>
             <div className="footer"></div>
-            <CreateUser/>
         </div>
     );
 }
