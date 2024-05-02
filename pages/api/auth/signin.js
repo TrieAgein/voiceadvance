@@ -44,5 +44,5 @@ export default NextAuth({
       return session;
     },
   },
-  secret: process.env.SECRET, // Define a secret for signing the session token
+  secret: process.env.SECRET_KEY, // Define a secret for signing the session token
 });

@@ -31,7 +31,7 @@ export default NextAuth({
           if (user && bcrypt.compareSync(credentials.password, user.password)) {
             // Return safe user object including role
             return {
-              id: user.id,
+              id: user.user_id,
               name: user.name,
               email: user.email,
               role: user.role
