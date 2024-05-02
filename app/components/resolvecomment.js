@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import close from '/images/icons/close.svg';
 import CommentBox from './commentBoxResolver'; 
@@ -15,22 +16,33 @@ const ResolveComment = ({
   createdAt,
   onReplySubmitted
 }) => {
+  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [topic, setTopic] = useState('');
   const [content, setContent] = useState('');
+  const [name, setName] = useState('');
+  const [resolverId, setResolverId] = useState(0);
+  
+  useEffect(() => {
+	if (session) {
+		setName(session.user.name);
+		setResolverId(session.user.id);
+	}
+  }, [session]);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
+  
 
   const handleSubmit = async () => {
     const payload = {
-      name: "Resolver",
+      name,
 	  topic: "Response",
 	  content,
-	  authorId: 2,
+	  authorId: resolverId,
 	  resolved: true,
-	  parentCommentId: commentId
+	  parentCommentId: commentId,
     };
   
     try {

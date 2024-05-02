@@ -8,8 +8,6 @@ export default async function handler(req, res) {
         return;
     }
 	const comment_id = parseInt(req.body);
-	console.log(comment_id);
-
     try {
         const comment = await prisma.comment.update({
             where: {comment_id},

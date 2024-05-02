@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import '../css/commentBox.css'; // Using the same styling, you may choose to customize this further for replies
 
 const ReplyBox = ({
+  name,
   commentId,
   commentText,
-  name = 'Anonymous', // Default name if none is provided will be handled externally
   upvotes,
   createdAt,
   isAnonymous = true // Assume anonymous by default if not specified
