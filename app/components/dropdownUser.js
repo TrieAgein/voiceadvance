@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import arrowsSVG from '../public/arrows.svg';
+import AddEmployee from './addEmployee'
+import UpdateEmployee from './updateEmployee'
+import AllEmployees from './allEmployee'
 import '../css/page.css';
 
-const Dropdown = () => {
+const DropdownUser = () => {
   const [toggled, setToggled] = useState(false);
 
-  return (
+return (
     <div className={"dropdown" + (toggled ? ' open' : '')}>
       <a onClick={() => { setToggled(!toggled) }} className='title'>Users
-        <div className={"title-img" + (toggled ? ' ' : '')}>
-          <div className='img'>
-            <Image src={arrowsSVG} />
-          </div>
-        </div>
+        <Image src={arrowsSVG}/>
       </a>
       <div className="content">
-          <a>Add New Employee</a>
-          <a>Update Employee</a>
-          <a>View All Employee's</a> 
+        <AddEmployee/>
+        <UpdateEmployee/>
+        <AllEmployees/> 
       </div>
     </div>
   );
 };
 
-export default Dropdown;
+export default DropdownUser;
+

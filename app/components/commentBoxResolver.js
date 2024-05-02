@@ -108,7 +108,17 @@ const CommentBox = ({
           </div> 
         </div> 
         <div>
-            <ResolveComment/>
+            <ResolveComment 
+				commentId={commentId}
+				profilePicUrl={profilePicUrl}
+				commentText={commentText}
+				isResolved={isResolved}
+				topicTitle={topicTitle}
+				authorId={authorId}
+				upvotes={upvotes}
+				createdAt={createdAt}
+				onReplySubmitted={onReplySubmitted}
+			/>
         </div><br/><br/>
         <a onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-replies-form-button">
           {showReplyForm ? 'Cancel Reply' : 'Reply'}
