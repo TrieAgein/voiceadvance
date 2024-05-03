@@ -81,7 +81,6 @@ const Login = () => {
                             required
                         />
                         <br />
-                        <a style={{ fontSize: '75%' }} className="link">Forgot Password?</a>
                     </p>
                     <button type="submit" className="login-button">Login</button>
                 </form>

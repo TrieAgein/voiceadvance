@@ -7,7 +7,7 @@ const ReplyBox = ({
   commentText,
   upvotes,
   createdAt,
-  isAnonymous = true // Assume anonymous by default if not specified
+  isAnonymous
 }) => {
   const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
   const [hasUpvoted, setHasUpvoted] = useState(false);
@@ -50,7 +50,7 @@ const ReplyBox = ({
       <div className="comment-header">
         <div>
           <a className="comment-meta">
-            {displayName} • {formattedDate}
+            {name} • {formattedDate}
           </a>
         </div>
           <a style={{padding : "none", marginLeft: 'auto'}} onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>

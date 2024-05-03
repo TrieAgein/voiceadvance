@@ -158,11 +158,11 @@ const CommentBox = ({
                 {replies.map(reply => (
                   <ReplyBox
                     key={reply.comment_id} // Ensure keys are unique
+					name={reply.name}
                     commentId={reply.comment_id} // Pass the correct comment ID
                     profilePicUrl={reply.profilePicUrl}
                     commentText={reply.content}
                     topicTitle={reply.topicTitle}
-                    name={reply.authorId ? reply.authorId.name : 'Anonymous'} // Assuming authorId is an object with a name
                     upvotes={reply.upvotes}
                     createdAt={reply.createdAt}
                     isAnonymous={reply.anonymous}
