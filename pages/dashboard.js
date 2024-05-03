@@ -57,9 +57,7 @@ const Dashboard = () => {
                     VoiceAdvance
                 </div>
                 <div className="account-tab">
-                    <div className="profile-pic">
-                        <Image src={avatar} width='100' alt="profile" />
-                    </div>
+                    
                     <div className="account-name">{name}</div>
                     {/* Logout button */}
                     <Logout/>

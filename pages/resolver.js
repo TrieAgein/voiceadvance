@@ -54,9 +54,7 @@ const Resolver = () => {
                   VoiceAdvance
               </div>
               <div className="account-tab">
-                  <div className="profile-pic">
-                      <Image src={avatar} width='100' alt="profile" />
-                  </div>
+                  
                   <div className="account-name">{name}</div>
                   {/* Logout button */}
                   <Logout/>
@@ -65,6 +63,7 @@ const Resolver = () => {
           <content>
               <div className="operation-bar">
                   <div style={{ display: 'inline', float: 'right' }}>
+                      <a className="operation-button" onClick={toggleView}>Toggle View</a>
                       <a className="operation-button" onClick={() => setSearch(input)}>Search</a>{' '}
                       <input value={input} className="search" placeholder="Search" type="text" onChange={(e) => setInput(e.target.value)} />{' '}
                   </div>
@@ -79,7 +78,6 @@ const Resolver = () => {
                       <CommentsList search={search} />
                   </div>
               </div>
-              <CreateUser />
           </content>
           <footer className="footer"></footer>
       </div>

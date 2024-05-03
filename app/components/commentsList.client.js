@@ -99,7 +99,6 @@ const CommentsList = ({search, filter}) => {
         commentText={comment.content}
         isResolved={comment.resolved}
         topicTitle={comment.topic}
-        name={comment.name}
         upvotes={comment.upvotes}
         createdAt={comment.createdAt}
         replies={renderComments(comment.replies || [])}
