@@ -4,14 +4,14 @@
   src: url(./fonts/Reghteous/Righteous-Regular.ttf) format("truetype");
 }
 @font-face {
-    font-family: "default";
+    font-family: 'default';
     src: url(./fonts/Inter/Inter-VariableFont_slnt\,wght.ttf) format("truetype");
 }
 body {
   margin: 0px;
   background-color: rgb(223, 223, 223);
   overscroll-behavior: none;
-  font-family: "default",sans-serif;
+  font-family: 'default',sans-serif;
   font-size: larger;
 }
 hr {
