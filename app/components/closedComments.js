@@ -25,7 +25,7 @@ const All = () => {
             <div id="popup-body">
                <h1>Closed Comments</h1>
                <div id="claim-list" className="claim-list line">
-              <CommentsList filter={false}/>
+              <CommentsList filter={true}/>
                </div>
             </div>
           </div>
