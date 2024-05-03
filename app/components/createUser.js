@@ -68,7 +68,7 @@ const CreateUser = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-input"
             />
-            <select className="form-input" type="role" name="role" value="" onChange={(e) => setRole(e.target.value)}>
+            <select className="form-input" type="role" name="role" value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="Employee">Employee</option>
                 <option value="Resolver">Resolver</option>
             </select>
