@@ -10,7 +10,7 @@ const DropdownUser = () => {
 
 return (
     <div className={"dropdown" + (toggled ? ' open' : '')}>
-      <a onClick={() => { setToggled(!toggled) }} className='title'>Users
+      <a onClick={() => { setToggled(!toggled) }} className='dr_title'>Users
         <Image src={arrowsSVG}/>
       </a>
       <div className="content">

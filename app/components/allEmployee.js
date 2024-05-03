@@ -13,7 +13,7 @@ const All = () => {
 
   return (
     <>
-    <a onClick={togglePopup}>View All Employees</a>
+    <a class="dropdown_a" onClick={togglePopup}>View All Employees</a>
     {isOpen && (
         <div id='popup-wrapper'>
           <div className='popup'>

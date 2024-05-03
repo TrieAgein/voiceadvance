@@ -11,7 +11,7 @@ const Dropdown = () => {
 
 return (
     <div className={"dropdown" + (toggled ? ' open' : '')}>
-      <a onClick={() => { setToggled(!toggled) }} className='title'>Comments
+      <a onClick={() => { setToggled(!toggled) }} className='dr_title'>Comments
         <Image src={arrowsSVG}/>
       </a>
       <div className="content">

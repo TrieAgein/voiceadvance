@@ -187,7 +187,7 @@ header .account-tab .account-name {
   margin-bottom: 25px;
   background-color: white;
 }
-.dropdown .title {
+.dropdown .dr_title {
   display: block;
   margin: 10px;
   padding: 10px;
@@ -198,14 +198,14 @@ header .account-tab .account-name {
   user-select: none;
   cursor: pointer;
 }
-.dropdown .title img {
+.dropdown .dr_title img {
   width: 20px;
   height: unset;
   float: right;
   vertical-align: middle;
   rotate: 180deg;
 }
-.dropdown.open .title img {
+.dropdown.open .dr_title img {
   rotate: 0deg;
 }
 .dropdown .content {
@@ -215,7 +215,7 @@ header .account-tab .account-name {
 .dropdown.open .content {
   height: fit-content;
 }
-.dropdown .content a {
+.dropdown .content .dropdown_a {
   display: block;
   margin: 10px;
   padding: 10px;
