@@ -7,6 +7,7 @@ import Image from 'next/image';
 import close from '/images/icons/close.svg';
 
 const CommentBox = ({
+  name,
   commentId,
   profilePicUrl,
   commentText,
@@ -29,7 +30,6 @@ const CommentBox = ({
   const [showReplyFormPopup, setShowReplyFormPopup] = useState(false); // New state for reply form popup
 
   // Use the name from the author object or "Anonymous" if not provided
-  const displayName = authorId.name || "Anonymous";
 
   useEffect(() => {
     const fetchReplies = async () => {
@@ -116,7 +116,7 @@ const CommentBox = ({
                   <div style={{ width: 'fit-content', display : 'inline-block' }}>
                     <h4>{topicTitle}</h4>
                     <a className="comment-meta">
-                      {displayName} • {new Date(createdAt).toLocaleDateString("en-US", {
+                      {name} • {new Date(createdAt).toLocaleDateString("en-US", {
                         year: 'numeric', month: 'long', day: 'numeric'
                       })}
                     </a>
