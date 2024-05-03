@@ -154,9 +154,6 @@ const Popup = () => {
               < div className="close-button" onClick={togglePopup}>
                   <a className='submit-comment' onClick={handleSubmit}>Submit</a>
               </div>
-              <div className='close-button' onClick={togglePopup}>
-                <a className='save-comment'>Save Comment</a>
-              </div>
               </div>
             </div>
           </div>
