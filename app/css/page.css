@@ -266,6 +266,11 @@ header .account-tab .account-name {
   border-width: 1px;
   padding: 2px;
   order: 1;
+  cursor: pointer;
+}
+.claim-list.line .claim-wrapper .upvote.upvoted{
+  background-color: #2a5911;
+  color: white;
 }
 .claim-list.line .claim-wrapper .title {
   min-width: fit-content;
@@ -333,7 +338,13 @@ header .account-tab .account-name {
   border-width: 1px;
   padding: 2px;
   margin: 5px;
+  cursor: pointer;
 }
+.claim-list.grid .claim-wrapper .upvote.upvoted{
+  background-color: #2a5911;
+  color: white;
+}
+
 .claim-list.grid .claim-wrapper .claim {
   width: fit-content;
   margin: 5px;

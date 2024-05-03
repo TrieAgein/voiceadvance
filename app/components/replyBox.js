@@ -49,15 +49,14 @@ const ReplyBox = ({
     <div className="comment-box reply-box">
       <div className="comment-header">
         <div>
-          <p className="comment-meta">
+          <a className="comment-meta">
             {displayName} • {formattedDate}
-          </p>
+          </a>
         </div>
-        <div className='status-container'>
-          <a onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+          <a style={{padding : "none", marginLeft: 'auto'}} onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
             +{currentUpvotes}
           </a>
-        </div> 
+         
       </div>
       <p className="comment-text">{commentText}</p>
     </div>

@@ -4,6 +4,7 @@ import ReplyForm from './replyForm.js';
 import EditComment from './editComment.js';
 import '../css/commentBox.css'; 
 import Image from 'next/image';
+import close from '/images/icons/close.svg';
 
 const CommentBox = ({
   commentId,
@@ -98,79 +99,87 @@ const CommentBox = ({
     e.stopPropagation(); // Stop propagation here
   };
 
-  return (
-    <div className="comment-box-container" onClick={Toggled}>
-      {isToggled && (
+ 
+    
+      if (isToggled) {
+        
+        return (
         <div id ='popup-wrapper'>
-          <div className="popup">
-            <div className="close-button">
-              <h4>{topicTitle}</h4>
-              {displayName} • {new Date(createdAt).toLocaleDateString("en-US", {
-                year: 'numeric', month: 'long', day: 'numeric'
-              })}
-              <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
-              {isEditing && (
-                <EditComment commentId={commentId} isOpen={isEditing} togglePopup={toggleEditing} />
-              )}
-              <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
-                <span className="status-circle"></span>
-                {isResolved ? 'Resolved' : 'Unresolved'}
-              </div> 
-            </div>
+        <div className="popup">
+          <div className="close-button" onClick={Toggled}>
+              <Image src={close} alt="Close" />
+          </div>
+
+              
+                <div style={{paddingTop: '20px', paddingLeft: '10px'}} className="comment-header">
+                  <div style={{ marginRight: 'auto' }}>
+                  <div style={{ width: 'fit-content', display : 'inline-block' }}>
+                    <h4>{topicTitle}</h4>
+                    <a className="comment-meta">
+                      {displayName} • {new Date(createdAt).toLocaleDateString("en-US", {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                      })}
+                    </a>
+                  </div>
+                  <a style={{ marginLeft: "20px" }} onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+                  +{currentUpvotes}
+                 </a>
+                 </div>
+                  <div style={{ marginLeft: 'auto' }} className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
+                    <span className="status-circle"></span>
+                    {isResolved ? 'Resolved' : 'Unresolved'}
+                  </div>
+                  
+                 
+                </div>
+                <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
+                
+                  
+                
+                {!isResolved && (
+                  <a onClick={(e) => toggleReplyFormPopup(e)} className="toggle-replies-form-button">
+                    {showReplyFormPopup ? 'Cancel Reply' : 'Reply'}
+                  </a>
+
+                )}
+                
+                {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
+                {repliesLoaded && (
+                  <div className="replies">
+                    <h5>Replies:</h5>
+                    {replies.map(reply => (
+                      <ReplyBox
+                        key={reply.comment_id} // Ensure keys are unique
+                        commentId={reply.comment_id} // Pass the correct comment ID
+                        profilePicUrl={reply.profilePicUrl}
+                        commentText={reply.content}
+                        topicTitle={reply.topicTitle}
+                        name={reply.authorId ? reply.authorId.name : 'Anonymous'} // Assuming authorId is an object with a name
+                        upvotes={reply.upvotes}
+                        createdAt={reply.createdAt}
+                        isAnonymous={reply.anonymous}
+                      />
+                    ))}
+                  </div>
+                )}
+              
+
           </div>
         </div>
-      )}
-      <div className="comment-box">
-        <div className="comment-header">
-          <div> 
-            <h4>{topicTitle}</h4>
-            <a className="comment-meta">
-              {displayName} • {new Date(createdAt).toLocaleDateString("en-US", {
-                year: 'numeric', month: 'long', day: 'numeric'
-              })}
-            </a>
-          </div>
-        </div> 
-        <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
-        <div className='status-container'>
-          <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
-            <span className="status-circle"></span>
-            {isResolved ? 'Resolved' : 'Unresolved'}
-          </div> 
-        </div> 
-        {!isResolved && (
-          <a onClick={(e) => toggleReplyFormPopup(e)} className="toggle-replies-form-button">
-          {showReplyFormPopup ? 'Cancel Reply' : 'Reply'}
-        </a>
-        
-        )}
-        {/* Handle click event on button inside div */}
-        <a onClick={(e) => { e.stopPropagation(); setShowReplies(!showReplies); }} className={"toggle-replies-button" + (showReplies ? " active" : "")}></a>
-        <a onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+      )} else {
+        return (<div className="claim-wrapper" onClick={Toggled}>
+        <div className={`status ${isResolved ? ' filled' : ''}`}><div></div>{isResolved ? 'Resolved' : 'Unresolved'}</div>
+        <div className="title">{topicTitle}</div>
+        <hr/>
+        <div className="description">{commentText}</div>
+        <a onClick={handleUpvote} className={`upvote ${hasUpvoted ? 'upvoted' : ''}`}>
           +{currentUpvotes}
         </a>
-        {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
-        {showReplies && repliesLoaded && (
-          <div className="replies">
-            <h5>Replies:</h5>
-            {replies.map(reply => (
-              <ReplyBox
-                key={reply.comment_id} // Ensure keys are unique
-                commentId={reply.comment_id} // Pass the correct comment ID
-                profilePicUrl={reply.profilePicUrl}
-                commentText={reply.content}
-                topicTitle={reply.topicTitle}
-                name={reply.authorId ? reply.authorId.name : 'Anonymous'} // Assuming authorId is an object with a name
-                upvotes={reply.upvotes}
-                createdAt={reply.createdAt}
-                isAnonymous={reply.anonymous}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+      </div>)
+      }
+      
+
+   
 };
 
 export default CommentBox;

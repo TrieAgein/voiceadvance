@@ -26,7 +26,6 @@
   color: #666;
 }
 .comment-header div {
-  flex-direction: column;
   margin-left: 10px;
 }
 .comment-text {
@@ -37,6 +36,7 @@
   border-radius: 4px;
   min-height: 70px;
   margin-bottom: 12px;
+  margin: 15px;
 }
 .upvote-count {
   color: #333;
@@ -65,6 +65,7 @@
   border-radius: 20px;
   padding: 5px 15px;
   cursor: pointer;
+  margin: 15px;
 }
 .toggle-replies-form-button:hover{
   background-color: #A24EFE;
@@ -88,7 +89,7 @@
   top: 0;
   right: 0;
   padding: 10px;
-  position: absolute;
+  position: relative;
 }
 .status-circle {
   width: 10px;
@@ -107,8 +108,7 @@
 /* Upvote */
 .upvote-button{
   width: fit-content;
-  display: block;
-  float: right;
+  display: inline-block;
   margin-right: 10px;
   background-color: #438b1b;
   border-style: solid;
@@ -119,6 +119,7 @@
   margin: 5px;
   color: black;
   cursor: pointer;
+  height: fit-content;
 }
 
 .upvote-button.upvoted{

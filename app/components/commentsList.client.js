@@ -109,9 +109,9 @@ const CommentsList = ({search, filter}) => {
   };
 
   return (
-    <div>
-      {renderComments(comments)}
-    </div>
+    
+      renderComments(comments)
+    
   );
 };
 

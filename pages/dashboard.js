@@ -68,6 +68,7 @@ const Dashboard = () => {
             <content>
                 <div className="operation-bar">
                     <div style={{ display: 'inline', float: 'right' }}>
+                        <a className="operation-button" onClick={toggleView}>Toggle View</a>
                         <a className="operation-button" onClick={() => setSearch(input)}>Search</a>{' '}
                         <input value={input} className="search" placeholder="Search" type="text" onChange={(e) => setInput(e.target.value)} />{' '}
                         <Popup />
