@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import close from '/images/icons/close.svg';
 import '../css/page.css';
-import CommentsList from './commentsList.client.js';
+import CreateUser from './createUser.js';
 
 const All = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +26,7 @@ const All = () => {
             <div id="popup-body">
                <h1>Add Employee</h1>
             </div>
+            <CreateUser />
           </div>
         </div>
     )}

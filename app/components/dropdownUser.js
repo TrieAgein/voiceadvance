@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import arrowsSVG from '../public/arrows.svg';
 import AddEmployee from './addEmployee'
-import UpdateEmployee from './updateEmployee'
 import AllEmployees from './allEmployee'
 import '../css/page.css';
 
@@ -16,7 +15,6 @@ return (
       </a>
       <div className="content">
         <AddEmployee/>
-        <UpdateEmployee/>
         <AllEmployees/> 
       </div>
     </div>
