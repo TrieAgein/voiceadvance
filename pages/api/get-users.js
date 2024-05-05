@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         const users = await prisma.user.findMany({
             select: {
                 name: true,
+				role: true,
             }
         });
 
