@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReplyBox from './replyBox.js'; 
+import ReplyBox from './replyBoxResolver.js'; 
 import ReplyForm from './replyForm.js'; 
 import EditComment from './editComment.js';
 import ResolveComment from "./resolvecomment.js"
@@ -113,7 +113,7 @@ const CommentBox = ({
                   })}
                 </a>
               </div>
-              <a style={{ marginLeft: "20px" }} onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+              <a style={{ marginLeft: "20px" }} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
               +{currentUpvotes}
              </a>
              </div>
