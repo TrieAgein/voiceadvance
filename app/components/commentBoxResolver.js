@@ -126,16 +126,6 @@ const CommentBox = ({
             </div>
             <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
             
-              
-            
-            {!isResolved && (
-              <a onClick={(e) => toggleReplyFormPopup(e)} className="toggle-replies-form-button">
-                {showReplyFormPopup ? 'Cancel Reply' : 'Reply'}
-              </a>
-
-            
-
-            )}
             {!isResolved && (
               <ResolveComment 
               commentId={commentId}
@@ -180,7 +170,7 @@ const CommentBox = ({
     <div className="title">{topicTitle}</div>
     <hr/>
     <div className="description">{commentText}</div>
-    <a onClick={handleUpvote} className={`upvote ${hasUpvoted ? 'upvoted' : ''}`}>
+    <a className={`upvote ${hasUpvoted ? 'upvoted' : ''}`}>
       +{currentUpvotes}
     </a>
   </div>)

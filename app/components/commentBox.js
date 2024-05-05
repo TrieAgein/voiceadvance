@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import ReplyBox from './replyBox.js'; 
 import ReplyForm from './replyForm.js'; 
 import EditComment from './editComment.js';
@@ -16,8 +17,10 @@ const CommentBox = ({
   authorId = {}, // Default to an empty object if no author is provided
   upvotes,
   createdAt,
+  upvotedBy,
   togglePopup
 }) => {
+  const { data: session } = useSession();
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replies, setReplies] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
@@ -49,6 +52,17 @@ const CommentBox = ({
 
     fetchReplies();
   }, [commentId, repliesLoaded]);
+  
+  useEffect(() => {
+	  if(session) {
+		  if(upvotedBy.includes(session.user.id)) {
+			  setHasUpvoted(true);
+		  }
+		  else {
+			  setHasUpvoted(false);
+		  }
+	  }
+  }, [session]);
 
   const handleUpvote = async (e) => {
     e.stopPropagation(); // Stop propagation here
@@ -57,6 +71,7 @@ const CommentBox = ({
     const updatedUpvotes = newUpvoteStatus ? currentUpvotes + 1 : currentUpvotes - 1;
 
     try {
+	  let tempUpvotedBy = upvotedBy;
       const response = await fetch(`/api/upvotes/${commentId}`, {
         method: 'PUT',
         headers: {
@@ -68,6 +83,27 @@ const CommentBox = ({
       if (!response.ok) {
         throw new Error('Failed to update upvotes');
       }
+	  
+	  if(newUpvoteStatus) {
+		  tempUpvotedBy.push(session.user.id);
+	  }
+	  else {
+		  const index = tempUpvotedBy.indexOf(session.user.id);
+		  tempUpvotedBy.splice(index, 1);
+	  }
+	  
+	  const payload = {
+		  comment_id: commentId,
+		  tempUpvotedBy
+	  };
+	  
+	  const response2 = await fetch(`api/update-upvoted`, {
+		  method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+      });
 
       // Update the state only after confirming the server response was OK
       setCurrentUpvotes(updatedUpvotes);

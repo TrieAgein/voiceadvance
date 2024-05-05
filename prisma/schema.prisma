@@ -32,6 +32,7 @@ model Comment {
   department	String?
   priority		String?
   category		String?
+  upvotedBy     Int[]
   @@map(name: "comments")
 }
 
