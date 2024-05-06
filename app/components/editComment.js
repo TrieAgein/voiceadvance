@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import close from '/images/icons/close.svg';
 import DeptDropdown from './deptDropdown';
@@ -6,26 +6,70 @@ import PriorityDropdown from './priorityDropdown';
 import CategoryDropdown from './categoryDropdown';
 import '../css/page.css';
 
-const EditComment = ({ commentId, isOpen, togglePopup }) => {  // Assuming commentId is passed as a prop
+const EditComment = ({ commentId, userId, isOpen, togglePopup }) => {
   const [topic, setTopic] = useState('');
   const [content, setContent] = useState('');
   const [department, setDepartment] = useState('');
   const [priority, setPriority] = useState('');
   const [category, setCategory] = useState('');
+  const [authorId, setAuthorId] = useState(null);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   const setDepartmentState = useCallback(val => {
     setDepartment(val);
   }, []);
 
+
+
+
   const setPriorityState = useCallback(val => {
     setPriority(val);
   }, []);
+
+
+
 
   const setCategoryState = useCallback(val => {
     setCategory(val);
   }, []);
 
+
+  useEffect(() => {
+    const fetchComment = async () => {
+      try {
+        const response = await fetch(`/api/comments/${commentId}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Failed to fetch comment');
+
+        setTopic(data.topic);
+        setContent(data.content);
+        setDepartment(data.department);
+        setPriority(data.priority);
+        setCategory(data.category);
+        setAuthorId(data.authorId);
+
+        // Ensure both IDs are treated as strings or numbers before comparison
+        const authorIdStr = String(data.authorId);
+        const userIdStr = String(userId);
+        setIsAuthorized(authorIdStr === userIdStr);
+        
+        // Log values for debugging
+        console.log('Author ID:', authorIdStr, 'User ID:', userIdStr, 'Authorized:', authorIdStr === userIdStr);
+
+      } catch (error) {
+        console.error('Error fetching comment:', error);
+      }
+    };
+
+    fetchComment();
+  }, [commentId, userId]);
+
   const handleSubmit = async () => {
+    if (!isAuthorized) {
+      console.error('Unauthorized attempt to edit comment');
+      return;
+    }
+
     const payload = {
       topic,
       content,
@@ -94,9 +138,13 @@ const EditComment = ({ commentId, isOpen, togglePopup }) => {  // Assuming comme
                 value={content}
                 onChange={e => setContent(e.target.value)}
               ></textarea>
-              <div className="close-button">
-                <a className='submit-comment' onClick={handleSubmit}>Save Comment</a>
-              </div>
+              {isAuthorized ? (
+                <div className="close-button">
+                  <a className='submit-comment' onClick={handleSubmit}>Save Comment</a>
+                </div>
+              ) : (
+                <div style={{ color: 'red' }}>You are not authorized to edit this comment.</div>
+              )}
             </div>
           </div>
         </div>

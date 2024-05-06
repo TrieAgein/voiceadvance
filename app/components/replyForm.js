@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../css/replyForm.css'; // Ensure the CSS is imported correctly
 
-const ReplyForm = ({ parentId, onReplySubmitted }) => {
+const ReplyForm = ({ parentId, onReplySubmitted, userId }) => {
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false); // To manage the UI state during submission
   const [anonymous, setAnonymous] = useState(false);
@@ -17,7 +17,7 @@ const ReplyForm = ({ parentId, onReplySubmitted }) => {
           content,
           parentCommentId: parentId, // Ensure this matches your backend schema
           anonymous,
-          authorId: 1, // Replace with actual user ID from your auth context or props
+          authorId: userId, // Replace with actual user ID from your auth context or props
         })
       });
 

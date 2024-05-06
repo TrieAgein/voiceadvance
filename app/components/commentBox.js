@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import ReplyBox from './replyBox.js'; 
 import ReplyForm from './replyForm.js'; 
 import EditComment from './editComment.js';
@@ -135,7 +135,16 @@ const CommentBox = ({
     e.stopPropagation(); // Stop propagation here
   };
 
- 
+  if (isEditing) {
+    return (
+      <EditComment
+        commentId={commentId}
+        userId={session?.user?.id}
+        isOpen={isEditing}
+        togglePopup={toggleEditing}
+      />
+    );
+  }
     
       if (isToggled) {
         
@@ -179,7 +188,7 @@ const CommentBox = ({
 
                 )}
                 
-                {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
+                {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} userId={session?.user?.id} />}
                 {repliesLoaded && (
                   <div className="replies">
                     <h5>Replies:</h5>
@@ -189,10 +198,12 @@ const CommentBox = ({
 						name={reply.name}
                         commentId={reply.comment_id} // Pass the correct comment ID
                         profilePicUrl={reply.profilePicUrl}
+                        userId={session?.user?.id}
                         commentText={reply.content}
                         topicTitle={reply.topicTitle}
                         upvotes={reply.upvotes}
                         createdAt={reply.createdAt}
+                        upvotedBy={reply.upvotedBy}
                         isAnonymous={reply.anonymous}
                       />
                     ))}
@@ -219,149 +230,3 @@ const CommentBox = ({
 };
 
 export default CommentBox;
-// import React, { useState, useEffect } from 'react';
-// import ReplyBox from './replyBox.js'; 
-// import ReplyForm from './replyForm.js'; 
-// import EditComment from './editComment.js';
-// import '../css/commentBox.css'; 
-// import Image from 'next/image';
-
-// const CommentBox = ({
-//   name,
-//   commentId,
-//   profilePicUrl,
-//   commentText,
-//   isResolved,
-//   topicTitle,
-//   authorId = {}, // Default to an empty object if no author is provided
-//   upvotes,
-//   createdAt,
-//   togglePopup
-// }) => {
-//   const [showReplyForm, setShowReplyForm] = useState(false);
-//   const [replies, setReplies] = useState([]);
-//   const [showReplies, setShowReplies] = useState(false);
-//   const [repliesLoaded, setRepliesLoaded] = useState(false);
-//   const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
-//   const [upvoteSent, setUpvoteSent] = useState(false);
-//   const [hasUpvoted, setHasUpvoted] = useState(false);
-//   const [isEditing, setIsEditing] = useState(false);
-//   const [isToggled, setIsToggled] = useState(false);
-
-//   // Use the name from the author object or "Anonymous" if not provided
-//   const displayName = authorId.name || "Anonymous";
-
-//   useEffect(() => {
-//     const fetchReplies = async () => {
-//       if (!repliesLoaded) {
-//         try {
-//           const response = await fetch(`/api/comments/${commentId}/replies`);
-//           if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-//           const data = await response.json();
-//           console.log("Replies fetched:", data); // Check what data looks like
-//           setReplies(data);
-//           setRepliesLoaded(true);
-//         } catch (error) {
-//           console.error("Failed to load replies:", error);
-//         }
-//       }
-//     };
-
-//     fetchReplies();
-//   }, [commentId, repliesLoaded]);
-
-//   const handleUpvote = async () => {
-//     const newUpvoteStatus = !hasUpvoted;
-//     // Determine the new count based on whether the user is upvoting or removing their upvote
-//     const updatedUpvotes = newUpvoteStatus ? currentUpvotes + 1 : currentUpvotes - 1;
-
-//     try {
-//       const response = await fetch(`/api/upvotes/${commentId}`, {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ upvotes: updatedUpvotes })
-//       });
-
-//       if (!response.ok) {
-//         throw new Error('Failed to update upvotes');
-//       }
-
-//       // Update the state only after confirming the server response was OK
-//       setCurrentUpvotes(updatedUpvotes);
-//       setHasUpvoted(newUpvoteStatus);
-//     } catch (error) {
-//       console.error('Error upvoting comment:', error);
-//     }
-//   };
-
-//   const onReplySubmitted = (newReply) => {
-//     setReplies(prevReplies => [...prevReplies, newReply]);
-//   };
-
-//   const toggleEditing = () => {
-//     setIsEditing(!isEditing);
-//   };
-
-//   return (
-//     <div className="comment-box-container">
-//       <div className="comment-box">
-//         <div className="comment-header">
-//           <div> 
-//             <h4>{topicTitle}</h4>
-//             <a className="comment-meta">
-//             {name} • {new Date(createdAt).toLocaleDateString("en-US", {
-//                 year: 'numeric', month: 'long', day: 'numeric'
-//               })}
-//             </a>
-//           </div>
-//         </div> 
-//         <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
-//         {isEditing && (
-//           <EditComment commentId={commentId} isOpen={isEditing} togglePopup={toggleEditing} />
-//         )}
-        
-//         <div className='status-container'>
-//           <div className={`status ${isResolved ? 'resolved' : 'unresolved'}`}>
-//               <span className="status-circle"></span>
-//               {isResolved ? 'Resolved' : 'Unresolved'}
-//           </div> 
-//         </div> 
-  
-//         {!isResolved && (
-//           <a onClick={() => setShowReplyForm(!showReplyForm)} className="toggle-replies-form-button">
-//             {showReplyForm ? 'Cancel Reply' : 'Reply'}
-//           </a>
-//         )}
-  
-//         <a onClick={() => setShowReplies(!showReplies)} className={"toggle-replies-button" + (showReplies ? " active" : "")}>
-//         </a>
-//         <a onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
-//             +{currentUpvotes}
-//           </a>
-//         {showReplyForm && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
-//         {showReplies && repliesLoaded && (
-//           <div className="replies">
-//             <h5>Replies:</h5>
-//             {replies.map(reply => (
-//               <ReplyBox
-//                 key={reply.comment_id} // Ensure keys are unique
-// 				name={reply.name}
-//                 commentId={reply.comment_id} // Pass the correct comment ID
-//                 profilePicUrl={reply.profilePicUrl}
-//                 commentText={reply.content}
-//                 topicTitle={reply.topicTitle}
-//                 upvotes={reply.upvotes}
-//                 createdAt={reply.createdAt}
-//                 isAnonymous={reply.anonymous}
-//               />
-//             ))}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CommentBox;

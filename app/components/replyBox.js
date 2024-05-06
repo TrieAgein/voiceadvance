@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../css/commentBox.css'; // Using the same styling, you may choose to customize this further for replies
+import EditComment from './editComment';
+import { useSession } from 'next-auth/react';
 
 const ReplyBox = ({
   name,
@@ -9,13 +11,26 @@ const ReplyBox = ({
   createdAt,
   isAnonymous
 }) => {
+  const { data: session } = useSession();
   const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
   const [hasUpvoted, setHasUpvoted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  // Formatting the date for display
-  const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
-    year: 'numeric', month: 'long', day: 'numeric'
-  });
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
+  };
+
+
+  if (isEditing) {
+    return (
+      <EditComment
+        commentId={commentId}
+        userId={session?.user?.id}
+        isOpen={isEditing}
+        togglePopup={toggleEditing}
+      />
+    );
+  }
 
   const handleUpvote = async () => {
     const newUpvoteStatus = !hasUpvoted;
@@ -43,22 +58,23 @@ const ReplyBox = ({
     }
   };
 
-  const displayName = isAnonymous ? "Anonymous" : name;
 
   return (
     <div className="comment-box reply-box">
       <div className="comment-header">
         <div>
-          <a className="comment-meta">
-            {name} • {formattedDate}
-          </a>
+        <a className="comment-meta">
+          {name} • {new Date(createdAt).toLocaleDateString("en-US", {
+            year: 'numeric', month: 'long', day: 'numeric'
+          })}
+        </a>
         </div>
           <a style={{padding : "none", marginLeft: 'auto'}} onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
             +{currentUpvotes}
           </a>
          
       </div>
-      <p className="comment-text">{commentText}</p>
+      <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
     </div>
   );
 };
