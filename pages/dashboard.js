@@ -16,39 +16,32 @@ import Logout from "../app/components/logoutButton.js";
 
 
 const Dashboard = () => {
-    const { data: session } = useSession();
+    const { data: session, status} = useSession();
     const [toggled, setToggled] = useState(true);
     const [input, setInput] = useState('');
     const [search, setSearch] = useState('');
 	const [name, setName] = useState('');
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // This check ensures that we do not perform any action until we know the session state
-        if (session === undefined) {
-          setIsLoading(true);  // Keep loading if session isn't loaded yet
-          return;  // Exiting early
+        if (status === 'loading') return; // Do nothing while loading
+        if (status === 'unauthenticated') {
+            router.replace('/login');
+            return;
         }
-    
-        if (!session) {
-          router.replace('/login');
-        } else if (session.user.role !== "Employee") {
-          router.replace('/login');
-        } else {
-          setName(session.user.name);
+        // Optional: additional logic for role-based redirects
+        if (session && session.user.role !== "Employee") {
+            router.replace('/login');
+            return;
         }
-        setIsLoading(false);  // Set loading to false only after all checks
-      }, [session, router]);  // Correct dependencies
-    
-      if (isLoading) {
-        return <div>Loading...</div>; // Show loading while checking session
-      }
+        else{
+            setName(session.user.name);
+        }
+    }, [status, session, router]);
 
-    const handleLogout = async () => {
-      // This function handles logout and redirection
-      await signOut({ redirect: true, callbackUrl: '/login' });
-  };
+    if (status === 'loading') return <div>Loading...</div>;
+    if (!session || session.user.role !== "Employee") return <div>Not authorized.</div>;
+
     const toggleView = () => {
         setToggled(!toggled);
     };

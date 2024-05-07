@@ -1,42 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import crypto from 'crypto';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from "next/image";
+import CreateUser from '../app/components/createUser';
 import '../app/css/page.css';
-import logo from '../app/public/logo.svg'; // Adjust the path if necessary
-import CreateUser from '../app/components/createUser.js';
-import { signIn, useSession, signOut } from 'next-auth/react';
+import logo from '../app/public/logo.svg';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { data: session } = useSession();
+    const { data: session, status } = useSession(); // Include status to check if the session is loading
     const router = useRouter();
-    const [isAuthorized, setIsAuthorized] = useState(false);
 
     useEffect(() => {
-        if (session) {
-          switch(session.user.role) {
-            case 'Employee':
-            case 'Resolver':
-              setIsAuthorized(true);
-              break;
-            default:
-              router.replace('/login');
-              break;
-          }
-        } else {
-          router.replace('/login');
+        if (status === 'loading') return; // Return early if the session is loading
+
+        if (status === 'unauthenticated') {
+            // Redirect to login only if not already on the login page
+            if (router.pathname !== '/login') {
+                router.replace('/login');
+            }
+            return;
         }
-      }, [session, router]);
+
+        if (status === 'authenticated') {
+            // Handling based on user role
+            switch(session.user.role) {
+                case 'Employee':
+                    // Redirect to dashboard only if not already there
+                    if (router.pathname !== '/dashboard') {
+                        router.replace('/dashboard');
+                    }
+                    break;
+                case 'Resolver':
+                    // Redirect to dashboard only if not already there
+                    if (router.pathname !== '/resolver') {
+                        router.replace('/resolver');
+                    }
+                    break;
+                default:
+                    // Sign out if the role is not allowed
+                    signOut();
+                    // Optionally redirect to a "not authorized" page or back to login
+                    router.replace('/login');
+                    break;
+            }
+        }
+    }, [status, router]); // React only on changes in status or router path
+
+    // Content to render based on conditions
+    if (status === 'loading') {
+        return <div>Loading...</div>; // Show loading indicator
+    }
     
-      if (!isAuthorized) {
-        return <div>Loading...</div>; // Show loading or nothing until checked
-      }
 
     const handleLogin = async (e) => {
-        e.preventDefault();  // Prevent the form from submitting traditionally
-
+        e.preventDefault();
         const result = await signIn('credentials', {
             redirect: false,
             email,
@@ -45,16 +64,12 @@ const Login = () => {
 
         if (result.error) {
             alert(result.error);
-        } else {
-            // Check if the session is updated, then access it
-            setTimeout(() => {
-                if (session) {
-                    localStorage.setItem('userId', session.user.id);
-                    router.replace('/dashboard');
-                }
-            }, 1000); // Delay to wait for session update, adjust as needed
         }
     };
+
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="popup-window">
@@ -82,13 +97,11 @@ const Login = () => {
                             onChange={e => setPassword(e.target.value)}
                             required
                         />
-                        <br />
                     </p>
                     <button type="submit" className="login-button">Login</button>
                     <CreateUser/>
                 </form>
             </div>
-            <div className="footer"></div>
         </div>
     );
 }
