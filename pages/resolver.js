@@ -23,6 +23,7 @@ const Resolver = () => {
   const [input, setInput] = useState('');
   const [search, setSearch] = useState('');
   const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // This check ensures that we do not perform any action until we know the session state

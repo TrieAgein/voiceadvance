@@ -85,6 +85,7 @@ const Login = () => {
                         <br />
                     </p>
                     <button type="submit" className="login-button">Login</button>
+                    <CreateUser/>
                 </form>
             </div>
             <div className="footer"></div>
