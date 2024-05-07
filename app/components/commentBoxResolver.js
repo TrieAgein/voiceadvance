@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReplyBox from './replyBoxResolver.js'; 
+import { useSession } from 'next-auth/react';
+import ReplyBox from './replyBox.js'; 
 import ReplyForm from './replyForm.js'; 
-import EditComment from './editComment.js';
 import ResolveComment from "./resolvecomment.js"
 import '../css/commentBoxResolver.css'; 
 import Image from 'next/image';
@@ -16,10 +16,11 @@ const CommentBox = ({
   topicTitle,
   authorId = {}, // Default to an empty object if no author is provided
   upvotes,
+  upvotedBy,
   createdAt,
-  onReplySubmitted,
   togglePopup
 }) => {
+  const { data: session } = useSession();
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replies, setReplies] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
@@ -51,33 +52,68 @@ const CommentBox = ({
     fetchReplies();
   }, [commentId, repliesLoaded]);
 
-  const handleUpvote = async () => {
-    try { 
-      let updatedUpvotes = currentUpvotes;
-      if (!hasUpvoted){
-        updatedUpvotes += 1;
-      }
-      else {
-        updatedUpvotes -= 1;
-      }
-    
+  useEffect(() => {
+	  if(session) {
+		  if(upvotedBy.includes(session.user.id)) {
+			  setHasUpvoted(true);
+		  }
+		  else {
+			  setHasUpvoted(false);
+		  }
+	  }
+  }, [session]);
+
+  const handleUpvote = async (e) => {
+    e.stopPropagation(); // Stop propagation here
+    const newUpvoteStatus = !hasUpvoted;
+    // Determine the new count based on whether the user is upvoting or removing their upvote
+    const updatedUpvotes = newUpvoteStatus ? currentUpvotes + 1 : currentUpvotes - 1;
+
+    try {
+	  let tempUpvotedBy = upvotedBy;
       const response = await fetch(`/api/upvotes/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ upvotes: currentUpvotes + 1 })
+        body: JSON.stringify({ upvotes: updatedUpvotes })
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to update upvotes');
       }
-  
+	  
+	  if(newUpvoteStatus) {
+		  tempUpvotedBy.push(session.user.id);
+	  }
+	  else {
+		  const index = tempUpvotedBy.indexOf(session.user.id);
+		  tempUpvotedBy.splice(index, 1);
+	  }
+	  
+	  const payload = {
+		  comment_id: commentId,
+		  tempUpvotedBy
+	  };
+	  
+	  const response2 = await fetch(`api/update-upvoted`, {
+		  method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+      });
+
+      // Update the state only after confirming the server response was OK
       setCurrentUpvotes(updatedUpvotes);
-      setHasUpvoted(!hasUpvoted);
+      setHasUpvoted(newUpvoteStatus);
     } catch (error) {
       console.error('Error upvoting comment:', error);
     }
+  };
+
+  const onReplySubmitted = (newReply) => {
+    setReplies(prevReplies => [...prevReplies, newReply]);
   };
 
   const toggleReplyFormPopup = (e) => {
@@ -113,7 +149,7 @@ const CommentBox = ({
                   })}
                 </a>
               </div>
-              <a style={{ marginLeft: "20px" }} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+              <a style={{ marginLeft: "20px" }} onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
               +{currentUpvotes}
              </a>
              </div>
@@ -121,11 +157,16 @@ const CommentBox = ({
                 <span className="status-circle"></span>
                 {isResolved ? 'Resolved' : 'Unresolved'}
               </div>
-              
-             
+
+                          
             </div>
             <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
-            {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} userId={session?.user?.id} />}
+                 {!isResolved && (
+                  <a onClick={(e) => toggleReplyFormPopup(e)} className="toggle-replies-form-button">
+                    {showReplyFormPopup ? 'Cancel Reply' : 'Reply'}
+                  </a>
+
+                )} 
             {!isResolved && (
               <ResolveComment 
               commentId={commentId}
@@ -141,7 +182,7 @@ const CommentBox = ({
             )}
             
             
-            {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
+            {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted}/>}
             {repliesLoaded && (
               <div className="replies">
                 <h5>Replies:</h5>
@@ -170,9 +211,9 @@ const CommentBox = ({
     <div className="title">{topicTitle}</div>
     <hr/>
     <div className="description">{commentText}</div>
-    <a className={`upvote ${hasUpvoted ? 'upvoted' : ''}`}>
-      +{currentUpvotes}
-    </a>
+    <a onClick={handleUpvote} className={`upvote ${hasUpvoted ? 'upvoted' : ''}`}>
+          +{currentUpvotes}
+        </a>
   </div>)
   }
 };
