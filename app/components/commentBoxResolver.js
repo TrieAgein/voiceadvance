@@ -125,7 +125,7 @@ const CommentBox = ({
              
             </div>
             <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
-            
+            {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} userId={session?.user?.id} />}
             {!isResolved && (
               <ResolveComment 
               commentId={commentId}
