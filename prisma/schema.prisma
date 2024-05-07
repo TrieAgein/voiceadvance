@@ -22,7 +22,7 @@ model Comment {
   upvotes       Int          @default(0)
   createdAt     DateTime     @default(now()) @map(name: "created_at")
   updatedAt     DateTime     @updatedAt @map(name: "updated_at")
-  author        User         @relation(fields: [authorId], references: [user_id])
+  author           User        @relation(fields: [authorId], references: [user_id], onDelete: Cascade)
   authorId      Int
   resolved      Boolean      @default(false)
   parentCommentId Int?       @map(name: "parent_comment_id")

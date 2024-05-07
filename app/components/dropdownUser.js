@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import arrowsSVG from '../public/arrows.svg';
-import AddEmployee from './addEmployee'
-import AllEmployees from './allEmployee'
+import AddEmployee from './addEmployee';
+import AllEmployees from './allEmployee';
+import DeleteEmployee from './deleteEmployee.js';
 import '../css/page.css';
 
 const DropdownUser = () => {
@@ -15,6 +16,7 @@ return (
       </a>
       <div className="content">
         <AddEmployee/>
+        <DeleteEmployee/>
         <AllEmployees/> 
       </div>
     </div>

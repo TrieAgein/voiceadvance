@@ -26,19 +26,22 @@ const EmployeeList = () => {
   
   // Function to recursively render comments and their replies
   const renderEmployees = (users) => {
-    return users.map((user) => (
+    return users.map((user) => {
+      console.log("User ID:", user.user_id);
+      return(
+
       <EmployeeBox
         key={user.user_id}
-		name={user.name}
+		    name={user.name}
         role={user.role}
       />
-    ));
+      );
+  });
   };
 
   return (
     
       renderEmployees(users)
-    
   );
 };
 

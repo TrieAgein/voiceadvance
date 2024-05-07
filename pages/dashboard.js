@@ -15,9 +15,6 @@ import CategoryStatistics from "../app/components/categoryStatistics.js";
 import Logout from "../app/components/logoutButton.js";
 
 
-console.log("hi")
-
-
 const Dashboard = () => {
     const { data: session } = useSession();
     const [toggled, setToggled] = useState(true);
@@ -25,21 +22,28 @@ const Dashboard = () => {
     const [search, setSearch] = useState('');
 	const [name, setName] = useState('');
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-      // Check if the session exists
-      if (session) {
-          // Redirect based on the user role
-          if (session.user.role !== "Employee") {
-              router.replace('/login');
-          }
-		  setName(session.user.name);
-      } else {
-          // Redirect to login if there is no session
+        // This check ensures that we do not perform any action until we know the session state
+        if (session === undefined) {
+          setIsLoading(true);  // Keep loading if session isn't loaded yet
+          return;  // Exiting early
+        }
+    
+        if (!session) {
           router.replace('/login');
+        } else if (session.user.role !== "Employee") {
+          router.replace('/login');
+        } else {
+          setName(session.user.name);
+        }
+        setIsLoading(false);  // Set loading to false only after all checks
+      }, [session, router]);  // Correct dependencies
+    
+      if (isLoading) {
+        return <div>Loading...</div>; // Show loading while checking session
       }
-  }, [session, router]);
-  
 
     const handleLogout = async () => {
       // This function handles logout and redirection

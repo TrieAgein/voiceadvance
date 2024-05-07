@@ -15,6 +15,7 @@ export default async function handler(req, res) {
                 user_id: true,
                 name: true,
                 email: true, // Consider security implications of exposing emails
+                role: true,
                 // other fields can be added here
             }
         });

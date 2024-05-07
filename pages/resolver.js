@@ -15,6 +15,7 @@ import Logout from "../app/components/logoutButton.js";
 
 
 
+
 const Resolver = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -24,19 +25,25 @@ const Resolver = () => {
   const [name, setName] = useState('');
 
   useEffect(() => {
-    // Check if the session exists
-    if (session) {
-        console.log(session); 
-        // Redirect based on the user role
-        if (session.user.role !== "Resolver") {
-            router.replace('/login');
-        }
-		setName(session.user.name);
-    } else {
-        // Redirect to login if there is no session
-        router.replace('/login');
+    // This check ensures that we do not perform any action until we know the session state
+    if (session === undefined) {
+      setIsLoading(true);  // Keep loading if session isn't loaded yet
+      return;  // Exiting early
     }
-}, [session, router]);
+
+    if (!session) {
+      router.replace('/login');
+    } else if (session.user.role !== "Resolver") {
+      router.replace('/login');
+    } else {
+      setName(session.user.name);
+    }
+    setIsLoading(false);  // Set loading to false only after all checks
+  }, [session, router]);  // Correct dependencies
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Show loading while checking session
+  }
 
   const handleLogout = async () => {
     // This function handles logout and redirection

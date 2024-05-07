@@ -1,8 +1,5 @@
 // pages/api/comments/[commentId].js
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
+import prisma from '../../../utils/prismaClient.js';
 export default async function handler(req, res) {
     const { commentId } = req.query;  // Extracting commentId from the URL
 

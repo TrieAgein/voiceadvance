@@ -12,25 +12,27 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const { data: session } = useSession();
     const router = useRouter();
+    const [isAuthorized, setIsAuthorized] = useState(false);
 
     useEffect(() => {
         if (session) {
-            console.log(session.user);
-            // Check the role of the user and redirect accordingly
-            switch(session.user.role) {
-                case 'Employee':
-                    router.replace('/dashboard'); // Redirect to Employee dashboard
-                    break;
-                case 'Resolver':
-                    router.replace('/resolver'); // Redirect to Resolver dashboard
-                    break;
-                default:
-                    // Optionally handle other roles or default case
-                    router.replace('/login');
-                    break;
-            }
+          switch(session.user.role) {
+            case 'Employee':
+            case 'Resolver':
+              setIsAuthorized(true);
+              break;
+            default:
+              router.replace('/login');
+              break;
+          }
+        } else {
+          router.replace('/login');
         }
-    }, [session, router]);
+      }, [session, router]);
+    
+      if (!isAuthorized) {
+        return <div>Loading...</div>; // Show loading or nothing until checked
+      }
 
     const handleLogin = async (e) => {
         e.preventDefault();  // Prevent the form from submitting traditionally
