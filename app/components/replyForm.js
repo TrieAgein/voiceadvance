@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import '../css/replyForm.css'; // Ensure the CSS is imported correctly
+import { useSession } from 'next-auth/react';
 
-const ReplyForm = ({ parentId, onReplySubmitted, userId }) => {
+const ReplyForm = ({ parentId, onReplySubmitted }) => {
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false); // To manage the UI state during submission
   const [anonymous, setAnonymous] = useState(false);
+  const { data: session } = useSession();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,12 +16,13 @@ const ReplyForm = ({ parentId, onReplySubmitted, userId }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content,
-          parentCommentId: parentId, // Ensure this matches your backend schema
-          anonymous,
-          authorId: userId, // Replace with actual user ID from your auth context or props
+            name: anonymous ? 'Anonymous' : session?.user?.name, // Conditional name based on anonymity
+            content,
+            parentCommentId: parentId,
+            anonymous,
+            authorId: session?.user?.id, // Ensure this ID is correctly retrieved and secure
         })
-      });
+    });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

@@ -188,7 +188,7 @@ const CommentBox = ({
 
                 )}
                 
-                {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} userId={session?.user?.id} />}
+                {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
                 {repliesLoaded && (
                   <div className="replies">
                     <h5>Replies:</h5>

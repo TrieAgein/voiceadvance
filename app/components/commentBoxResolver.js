@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReplyBox from './replyBoxResolver.js'; 
+import { useSession } from 'next-auth/react';
+import ReplyBox from './replyBox.js'; 
 import ReplyForm from './replyForm.js'; 
-import EditComment from './editComment.js';
 import ResolveComment from "./resolvecomment.js"
 import '../css/commentBoxResolver.css'; 
 import Image from 'next/image';
@@ -17,9 +17,9 @@ const CommentBox = ({
   authorId = {}, // Default to an empty object if no author is provided
   upvotes,
   createdAt,
-  onReplySubmitted,
   togglePopup
 }) => {
+  const { data: session } = useSession();
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replies, setReplies] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
@@ -80,6 +80,10 @@ const CommentBox = ({
     }
   };
 
+  const onReplySubmitted = (newReply) => {
+    setReplies(prevReplies => [...prevReplies, newReply]);
+  };
+
   const toggleReplyFormPopup = (e) => {
     e.stopPropagation(); // Stop propagation here
     setShowReplyFormPopup(!showReplyFormPopup);
@@ -121,11 +125,16 @@ const CommentBox = ({
                 <span className="status-circle"></span>
                 {isResolved ? 'Resolved' : 'Unresolved'}
               </div>
-              
-             
+
+                          
             </div>
             <p className="comment-text" onClick={toggleEditing}>{commentText}</p>
-            
+                 {!isResolved && (
+                  <a onClick={(e) => toggleReplyFormPopup(e)} className="toggle-replies-form-button">
+                    {showReplyFormPopup ? 'Cancel Reply' : 'Reply'}
+                  </a>
+
+                )} 
             {!isResolved && (
               <ResolveComment 
               commentId={commentId}
@@ -141,7 +150,7 @@ const CommentBox = ({
             )}
             
             
-            {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted} />}
+            {showReplyFormPopup && <ReplyForm parentId={commentId} onReplySubmitted={onReplySubmitted}/>}
             {repliesLoaded && (
               <div className="replies">
                 <h5>Replies:</h5>
@@ -170,9 +179,9 @@ const CommentBox = ({
     <div className="title">{topicTitle}</div>
     <hr/>
     <div className="description">{commentText}</div>
-    <a className={`upvote ${hasUpvoted ? 'upvoted' : ''}`}>
-      +{currentUpvotes}
-    </a>
+    <a onClick={handleUpvote} className={`upvote ${hasUpvoted ? 'upvoted' : ''}`}>
+          +{currentUpvotes}
+        </a>
   </div>)
   }
 };
