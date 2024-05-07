@@ -5,7 +5,7 @@ import '../css/page.css';
 
 const categoryDropdown= ({categorySetter}) => {
     const [toggled, setToggled] = useState(false);
-	const [category, setCategory] = useState('');
+	const [category, setCategory] = useState('None');
 	const [otherCategory, setOtherCategory] = useState('');
 	
 	useEffect(() => {
@@ -23,11 +23,12 @@ const categoryDropdown= ({categorySetter}) => {
     };
 
     const handleOtherCategoryChange = (event) => {
-        setOtherCategory(event.target.value);
+		setOtherCategory(event.target.value);
         // Also update the category directly if Other is already selected
         if (category === 'Other' || category === otherCategory) {
             setCategory(event.target.value);
         }
+		
     };
 
 
@@ -64,7 +65,7 @@ const categoryDropdown= ({categorySetter}) => {
 				<p className='category-text'>Other</p>
 				</label>
 
-				{category === 'Other' && (
+				{(category === 'Other' || category === otherCategory) && (
 					<input type="text" placeholder="Please specify" value={otherCategory} onChange={handleOtherCategoryChange} className="other-category-input"/>
 				)}    
 			</>
