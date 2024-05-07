@@ -120,15 +120,15 @@ const EditComment = ({ commentId, userId, isOpen, togglePopup }) => {
               />
               <div className='category-container'>
                 <div className='item'>
-                  <h3 className='asterisk'>Select your Department</h3>
+                  <h3>Select your Department</h3>
                   <DeptDropdown department={department} departmentSetter={setDepartmentState}/>
                 </div>
                 <div className='item'>
-                  <h3 className='asterisk'>Select Priority Level</h3>
+                  <h3>Select Priority Level</h3>
                   <PriorityDropdown priority={priority} prioritySetter={setPriorityState}/>
                 </div>
                 <div className='item'>
-                  <h3 className='asterisk'>Category</h3>
+                  <h3>Category</h3>
                   <CategoryDropdown category={category} categorySetter={setCategoryState}/>
                 </div>
               </div><br/>
