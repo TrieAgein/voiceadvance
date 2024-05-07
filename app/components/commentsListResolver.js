@@ -67,6 +67,7 @@ const CommentsList = ({search, filter}) => {
         topicTitle={comment.topic}
         name={comment.name}
         upvotes={comment.upvotes}
+        upvotedBy={comment.upvotedBy}
         createdAt={comment.createdAt}
         replies={renderComments(comment.replies || [])}
         onReplySubmitted={handleReplySubmitted}

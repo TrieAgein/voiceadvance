@@ -16,6 +16,7 @@ const CommentBox = ({
   topicTitle,
   authorId = {}, // Default to an empty object if no author is provided
   upvotes,
+  upvotedBy,
   createdAt,
   togglePopup
 }) => {
@@ -51,30 +52,61 @@ const CommentBox = ({
     fetchReplies();
   }, [commentId, repliesLoaded]);
 
-  const handleUpvote = async () => {
-    try { 
-      let updatedUpvotes = currentUpvotes;
-      if (!hasUpvoted){
-        updatedUpvotes += 1;
-      }
-      else {
-        updatedUpvotes -= 1;
-      }
-    
+  useEffect(() => {
+	  if(session) {
+		  if(upvotedBy.includes(session.user.id)) {
+			  setHasUpvoted(true);
+		  }
+		  else {
+			  setHasUpvoted(false);
+		  }
+	  }
+  }, [session]);
+
+  const handleUpvote = async (e) => {
+    e.stopPropagation(); // Stop propagation here
+    const newUpvoteStatus = !hasUpvoted;
+    // Determine the new count based on whether the user is upvoting or removing their upvote
+    const updatedUpvotes = newUpvoteStatus ? currentUpvotes + 1 : currentUpvotes - 1;
+
+    try {
+	  let tempUpvotedBy = upvotedBy;
       const response = await fetch(`/api/upvotes/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ upvotes: currentUpvotes + 1 })
+        body: JSON.stringify({ upvotes: updatedUpvotes })
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to update upvotes');
       }
-  
+	  
+	  if(newUpvoteStatus) {
+		  tempUpvotedBy.push(session.user.id);
+	  }
+	  else {
+		  const index = tempUpvotedBy.indexOf(session.user.id);
+		  tempUpvotedBy.splice(index, 1);
+	  }
+	  
+	  const payload = {
+		  comment_id: commentId,
+		  tempUpvotedBy
+	  };
+	  
+	  const response2 = await fetch(`api/update-upvoted`, {
+		  method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+      });
+
+      // Update the state only after confirming the server response was OK
       setCurrentUpvotes(updatedUpvotes);
-      setHasUpvoted(!hasUpvoted);
+      setHasUpvoted(newUpvoteStatus);
     } catch (error) {
       console.error('Error upvoting comment:', error);
     }
@@ -117,7 +149,7 @@ const CommentBox = ({
                   })}
                 </a>
               </div>
-              <a style={{ marginLeft: "20px" }} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
+              <a style={{ marginLeft: "20px" }} onClick={handleUpvote} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
               +{currentUpvotes}
              </a>
              </div>
