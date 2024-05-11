@@ -28,20 +28,16 @@ export default function handler(req, res) {
         .json({ error: true, message: "Invalid credentials provided." });
       break;
     case "UNAUTHORIZED_ACCESS":
-      res
-        .status(403)
-        .json({
-          error: true,
-          message: "You are not authorized to access this resource.",
-        });
+      res.status(403).json({
+        error: true,
+        message: "You are not authorized to access this resource.",
+      });
       break;
     default:
-      res
-        .status(400)
-        .json({
-          error: true,
-          message: "An unknown authentication error occurred.",
-        });
+      res.status(400).json({
+        error: true,
+        message: "An unknown authentication error occurred.",
+      });
       break;
   }
 }

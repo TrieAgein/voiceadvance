@@ -3,14 +3,14 @@ import Image from "next/image";
 import arrowsSVG from "../public/arrows.svg";
 import "../css/page.css";
 
-const categoryDropdown= ({categorySetter}) => {
-    const [toggled, setToggled] = useState(false);
-	const [category, setCategory] = useState('None');
-	const [otherCategory, setOtherCategory] = useState('');
-	
-	useEffect(() => {
-		categorySetter(category);
-	}, [categorySetter, category]);
+const categoryDropdown = ({ categorySetter }) => {
+  const [toggled, setToggled] = useState(false);
+  const [category, setCategory] = useState("None");
+  const [otherCategory, setOtherCategory] = useState("");
+
+  useEffect(() => {
+    categorySetter(category);
+  }, [categorySetter, category]);
 
   const handleCategoryChange = (event) => {
     const { value } = event.target;
@@ -22,15 +22,13 @@ const categoryDropdown= ({categorySetter}) => {
     }
   };
 
-    const handleOtherCategoryChange = (event) => {
-		setOtherCategory(event.target.value);
-        // Also update the category directly if Other is already selected
-        if (category === 'Other' || category === otherCategory) {
-            setCategory(event.target.value);
-        }
-		
-    };
-
+  const handleOtherCategoryChange = (event) => {
+    setOtherCategory(event.target.value);
+    // Also update the category directly if Other is already selected
+    if (category === "Other" || category === otherCategory) {
+      setCategory(event.target.value);
+    }
+  };
 
   return (
     <div className="dropcategory-open">
@@ -105,14 +103,20 @@ const categoryDropdown= ({categorySetter}) => {
                 <p className="category-text">Other</p>
               </label>
 
-				{(category === 'Other' || category === otherCategory) && (
-					<input type="text" placeholder="Please specify" value={otherCategory} onChange={handleOtherCategoryChange} className="other-category-input"/>
-				)}    
-			</>
-			)}
-			</div>
-			</div>
-		</div>
-    );
+              {(category === "Other" || category === otherCategory) && (
+                <input
+                  type="text"
+                  placeholder="Please specify"
+                  value={otherCategory}
+                  onChange={handleOtherCategoryChange}
+                  className="other-category-input"
+                />
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 export default categoryDropdown;

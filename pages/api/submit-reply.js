@@ -5,11 +5,9 @@ export default async function handler(req, res) {
 
   // Validate necessary fields for a reply
   if (!authorId || !content || parentCommentId === null) {
-    return res
-      .status(400)
-      .json({
-        error: "Author ID, content, and parent comment ID are required.",
-      });
+    return res.status(400).json({
+      error: "Author ID, content, and parent comment ID are required.",
+    });
   }
 
   try {

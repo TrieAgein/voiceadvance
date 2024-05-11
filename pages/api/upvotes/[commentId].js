@@ -24,11 +24,9 @@ export default async function handler(req, res) {
       });
       res.status(200).json(comment);
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          error: `Could not update the comment's upvotes: ${error.message}`,
-        });
+      res.status(500).json({
+        error: `Could not update the comment's upvotes: ${error.message}`,
+      });
     }
   } else {
     // Handle any other HTTP method

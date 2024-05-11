@@ -22,13 +22,11 @@ export default async function handler(req, res) {
     if (error.code === "P2025") {
       res.status(404).json({ success: false, message: "User not found" });
     } else {
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Internal server error",
-          error: error.message,
-        });
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        error: error.message,
+      });
     }
   }
 }
