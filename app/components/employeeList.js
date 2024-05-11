@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import EmployeeBox from './employeeBox.js';
+import React, { useEffect, useState } from "react";
+import EmployeeBox from "./employeeBox.js";
 
 const EmployeeList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-	const fetchUsers = async () => {
+    const fetchUsers = async () => {
       try {
         const response = await fetch(`/api/get-users`);
         if (!response.ok) {
@@ -15,34 +15,26 @@ const EmployeeList = () => {
 
         data = data.sort((a, b) => a.name.localeCompare(b.name));
 
-        setUsers(data); 
+        setUsers(data);
       } catch (error) {
         console.error("Failed to fetch comments:", error);
       }
     };
 
-	fetchUsers();
+    fetchUsers();
   }, []);
-  
+
   // Function to recursively render comments and their replies
   const renderEmployees = (users) => {
     return users.map((user) => {
       console.log("User ID:", user.user_id);
-      return(
-
-      <EmployeeBox
-        key={user.user_id}
-		    name={user.name}
-        role={user.role}
-      />
+      return (
+        <EmployeeBox key={user.user_id} name={user.name} role={user.role} />
       );
-  });
+    });
   };
 
-  return (
-    
-      renderEmployees(users)
-  );
+  return renderEmployees(users);
 };
 
 export default EmployeeList;

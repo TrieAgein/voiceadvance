@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import '../css/commentBox.css'; // Using the same styling, you may choose to customize this further for replies
+import React, { useState } from "react";
+import "../css/commentBox.css"; // Using the same styling, you may choose to customize this further for replies
 
 const ReplyBox = ({
   name,
@@ -7,39 +7,43 @@ const ReplyBox = ({
   commentText,
   upvotes,
   createdAt,
-  isAnonymous
+  isAnonymous,
 }) => {
   const [currentUpvotes, setCurrentUpvotes] = useState(upvotes);
   const [hasUpvoted, setHasUpvoted] = useState(false);
 
   // Formatting the date for display
   const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
-    year: 'numeric', month: 'long', day: 'numeric'
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
   const handleUpvote = async () => {
     const newUpvoteStatus = !hasUpvoted;
     // Determine the new count based on whether the user is upvoting or removing their upvote
-    const updatedUpvotes = newUpvoteStatus ? currentUpvotes + 1 : currentUpvotes - 1;
+    const updatedUpvotes = newUpvoteStatus
+      ? currentUpvotes + 1
+      : currentUpvotes - 1;
 
     try {
       const response = await fetch(`/api/upvotes/${commentId}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ upvotes: updatedUpvotes })
+        body: JSON.stringify({ upvotes: updatedUpvotes }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update upvotes');
+        throw new Error("Failed to update upvotes");
       }
 
       // Update the state only after confirming the server response was OK
       setCurrentUpvotes(updatedUpvotes);
       setHasUpvoted(newUpvoteStatus);
     } catch (error) {
-      console.error('Error upvoting comment:', error);
+      console.error("Error upvoting comment:", error);
     }
   };
 
@@ -53,10 +57,12 @@ const ReplyBox = ({
             {name} • {formattedDate}
           </a>
         </div>
-          <a style={{padding : "none", marginLeft: 'auto'}} className={`upvote-button ${hasUpvoted ? 'upvoted' : ''}`}>
-            +{currentUpvotes}
-          </a>
-         
+        <a
+          style={{ padding: "none", marginLeft: "auto" }}
+          className={`upvote-button ${hasUpvoted ? "upvoted" : ""}`}
+        >
+          +{currentUpvotes}
+        </a>
       </div>
       <p className="comment-text">{commentText}</p>
     </div>

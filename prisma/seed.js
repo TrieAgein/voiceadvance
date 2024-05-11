@@ -1,25 +1,25 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function seed() {
   // Create permissions
   const createUsers = await prisma.permission.create({
-    data: { name: 'create_users' },
+    data: { name: "create_users" },
   });
   const manageRoles = await prisma.permission.create({
-    data: { name: 'manage_roles' },
+    data: { name: "manage_roles" },
   });
   const resolveIssues = await prisma.permission.create({
-    data: { name: 'resolve_issues' },
+    data: { name: "resolve_issues" },
   });
   const accessDashboard = await prisma.permission.create({
-    data: { name: 'access_dashboard' },
+    data: { name: "access_dashboard" },
   });
 
   // Create roles with permissions
   await prisma.role.create({
     data: {
-      name: 'Admin',
+      name: "Admin",
       permissions: {
         connect: [
           { id: createUsers.id },
@@ -33,31 +33,27 @@ async function seed() {
 
   await prisma.role.create({
     data: {
-      name: 'Employee',
+      name: "Employee",
       permissions: {
-        connect: [
-          { id: accessDashboard.id },
-        ],
+        connect: [{ id: accessDashboard.id }],
       },
     },
   });
 
   await prisma.role.create({
     data: {
-      name: 'Resolver',
+      name: "Resolver",
       permissions: {
-        connect: [
-          { id: resolveIssues.id },
-        ],
+        connect: [{ id: resolveIssues.id }],
       },
     },
   });
 
-  console.log('Seeding finished.');
+  console.log("Seeding finished.");
 }
 
 seed()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })

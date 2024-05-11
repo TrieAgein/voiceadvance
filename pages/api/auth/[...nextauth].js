@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import prisma from '../../../utils/prismaClient.js';
-import bcrypt from 'bcryptjs';
-import crypto from 'crypto';
+import prisma from "../../../utils/prismaClient.js";
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 export default NextAuth({
   providers: [
@@ -14,18 +14,26 @@ export default NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "username@company.com" },
-        password: { label: "Password", type: "password" }
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "username@company.com",
+        },
+        password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
         if (!credentials) return null;
         try {
-          const cipher = crypto.createCipheriv('aes-256-cbc', process.env.SECRET_KEY, process.env.IV);
-          let encryptedEmail = cipher.update(credentials.email, 'utf8', 'hex');
-          encryptedEmail += cipher.final('hex');
-          
+          const cipher = crypto.createCipheriv(
+            "aes-256-cbc",
+            process.env.SECRET_KEY,
+            process.env.IV,
+          );
+          let encryptedEmail = cipher.update(credentials.email, "utf8", "hex");
+          encryptedEmail += cipher.final("hex");
+
           const user = await prisma.user.findUnique({
-            where: { email: encryptedEmail }
+            where: { email: encryptedEmail },
           });
 
           if (user && bcrypt.compareSync(credentials.password, user.password)) {
@@ -34,15 +42,15 @@ export default NextAuth({
               id: user.user_id,
               name: user.name,
               email: user.email,
-              role: user.role
+              role: user.role,
             };
           }
           return null;
         } catch (error) {
-          console.error('Failed to authenticate:', error);
+          console.error("Failed to authenticate:", error);
           return null;
         }
-      }
+      },
     }),
   ],
   callbacks: {
@@ -62,12 +70,12 @@ export default NextAuth({
     },
   },
   pages: {
-    signIn: '/auth/signin',
-    error: '/auth/error',
+    signIn: "/auth/signin",
+    error: "/auth/error",
   },
   secret: process.env.SECRET_KEY,
   session: {
     strategy: "jwt",
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === "development",
 });

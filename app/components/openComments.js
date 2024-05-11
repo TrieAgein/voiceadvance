@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
-import close from '/images/icons/close.svg';
-import '../css/page.css';
-import CommentsList from './commentsList.client.js';
+import React, { useState } from "react";
+import Image from "next/image";
+import close from "/images/icons/close.svg";
+import "../css/page.css";
+import CommentsList from "./commentsList.client.js";
 
 const Active = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,22 +12,20 @@ const Active = () => {
   };
   return (
     <>
-      <a class="dropdown_a" onClick={togglePopup}>Open</a>
+      <a class="dropdown_a" onClick={togglePopup}>
+        Open
+      </a>
       {isOpen && (
-        <div id='popup-wrapper'>
-          <div className='popup'>
+        <div id="popup-wrapper">
+          <div className="popup">
             <div className="close-button" onClick={togglePopup}>
-              <Image 
-                src={close} 
-                alt="close"
-              />
+              <Image src={close} alt="close" />
             </div>
             <div id="popup-body">
               <h1>Open Comments</h1>
               <div id="claim-list" className="claim-list line">
-              <CommentsList filter={false}/>
-               </div>
-			  
+                <CommentsList filter={false} />
+              </div>
             </div>
           </div>
         </div>

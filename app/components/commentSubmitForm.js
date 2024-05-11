@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import '../css/commentSubmitForm.css';  // Assuming the CSS is saved in this file.
+import React, { useState } from "react";
+import "../css/commentSubmitForm.css"; // Assuming the CSS is saved in this file.
 
 const CommentSubmitForm = () => {
   const { data: session } = useSession();
-  const [name, setName] = useState('');
-  const [topic, setTopic] = useState('');
-  const [content, setContent] = useState('');
+  const [name, setName] = useState("");
+  const [topic, setTopic] = useState("");
+  const [content, setContent] = useState("");
   const [parentCommentId, setParentCommentId] = useState(null);
   const [anonymous, setAnonymous] = useState(false);
   const [resolved, setResolved] = useState(false);
   const authorId = 1; // Assuming authorId is known and static for this example; adjust as needed
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the form from causing a page reload
-	
+
     // Prepare the payload based on your API's expected schema, include parentCommentId only if it's provided
     const payload = {
       name,
@@ -27,30 +27,32 @@ const CommentSubmitForm = () => {
 
     try {
       // Make the POST request to your API endpoint
-      const response = await fetch('/api/submit-comment', {
-        method: 'POST',
+      const response = await fetch("/api/submit-comment", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
-        const errorBody = await response.text();  // or response.json() if the server sends JSON
-        throw new Error(`HTTP error! status: ${response.status}, Body: ${errorBody}`);
-    }
+        const errorBody = await response.text(); // or response.json() if the server sends JSON
+        throw new Error(
+          `HTTP error! status: ${response.status}, Body: ${errorBody}`,
+        );
+      }
 
       const data = await response.json();
-      console.log('Comment submitted successfully:', data);
+      console.log("Comment submitted successfully:", data);
       // Clear the form fields after successful submission
-      setName('');
-      setTopic('');
-      setContent('');
+      setName("");
+      setTopic("");
+      setContent("");
       setResolved(false);
       setAnonymous(false);
       setParentCommentId(null); // Reset parentCommentId as well
     } catch (error) {
-      console.error('Failed to submit comment:', error);
+      console.error("Failed to submit comment:", error);
     }
   };
 
@@ -87,7 +89,9 @@ const CommentSubmitForm = () => {
           />
         </label>
       </div>
-      <button type="submit" className="submit-button">Submit Comment</button>
+      <button type="submit" className="submit-button">
+        Submit Comment
+      </button>
     </form>
   );
 };

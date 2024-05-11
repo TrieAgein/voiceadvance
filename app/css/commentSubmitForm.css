@@ -1,49 +1,48 @@
 /* Style for the entire form to match the comment box theme */
 .comment-submit-form {
-    margin-top: 10px;
-    border: 1px solid black;
-    padding: 10px;
-    margin: 20px auto; /* Centers the form on the page with some vertical margin */
-    background-color: #f9f9f9; /* Slightly off-white to match the theme */
-    max-width: 600px; /* Controls the width of the form for better layout */
-    border-radius: 4px; /* Adds rounded corners similar to other elements */
-  }
-  
-  /* Style for input fields and textareas to integrate with the theme */
-  .comment-submit-form input[type="text"],
-  .comment-submit-form textarea {
-    width: 97%; /* Ensures inputs take up the full width */
-    padding: 8px; /* Comfortable padding */
-    margin-bottom: 10px; /* Separates the inputs with some space */
-    border: 1px solid #ddd; /* Light border to keep it subtle yet distinct */
-    border-radius: 4px; /* Rounded corners */
-    background-color: #fff; /* White background for contrast */
-  }
-  
-  /* Style for the checkbox and label to align with form aesthetics */
-  .comment-submit-form label {
-    display: flex;
-    align-items: center; /* Aligns the checkbox and label text */
-    margin-top: 10px; /* Space above the label */
-    color: #333; /* Dark color for label text */
-  }
-  
-  .comment-submit-form input[type="checkbox"] {
-    margin-right: 10px; /* Space between checkbox and label text */
-  }
-  
-  /* Style for the submit button to match toggle button styling */
-  .comment-submit-form button {
-    padding: 6px 12px;
-    background-color: #A24EFE; /* Purple color to stand out */
-    color: white; /* White text for readability */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition for interaction */
-  }
-  
-  .comment-submit-form button:hover {
-    background-color: #7537b7; /* Darker purple on hover for visual feedback */
-  }
-  
+  margin-top: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  margin: 20px auto; /* Centers the form on the page with some vertical margin */
+  background-color: #f9f9f9; /* Slightly off-white to match the theme */
+  max-width: 600px; /* Controls the width of the form for better layout */
+  border-radius: 4px; /* Adds rounded corners similar to other elements */
+}
+
+/* Style for input fields and textareas to integrate with the theme */
+.comment-submit-form input[type="text"],
+.comment-submit-form textarea {
+  width: 97%; /* Ensures inputs take up the full width */
+  padding: 8px; /* Comfortable padding */
+  margin-bottom: 10px; /* Separates the inputs with some space */
+  border: 1px solid #ddd; /* Light border to keep it subtle yet distinct */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #fff; /* White background for contrast */
+}
+
+/* Style for the checkbox and label to align with form aesthetics */
+.comment-submit-form label {
+  display: flex;
+  align-items: center; /* Aligns the checkbox and label text */
+  margin-top: 10px; /* Space above the label */
+  color: #333; /* Dark color for label text */
+}
+
+.comment-submit-form input[type="checkbox"] {
+  margin-right: 10px; /* Space between checkbox and label text */
+}
+
+/* Style for the submit button to match toggle button styling */
+.comment-submit-form button {
+  padding: 6px 12px;
+  background-color: #a24efe; /* Purple color to stand out */
+  color: white; /* White text for readability */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for interaction */
+}
+
+.comment-submit-form button:hover {
+  background-color: #7537b7; /* Darker purple on hover for visual feedback */
+}

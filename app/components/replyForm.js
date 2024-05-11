@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import '../css/replyForm.css'; // Ensure the CSS is imported correctly
-import { useSession } from 'next-auth/react';
+import React, { useState } from "react";
+import "../css/replyForm.css"; // Ensure the CSS is imported correctly
+import { useSession } from "next-auth/react";
 
 const ReplyForm = ({ parentId, onReplySubmitted }) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false); // To manage the UI state during submission
   const [anonymous, setAnonymous] = useState(false);
   const { data: session } = useSession();
@@ -12,24 +12,24 @@ const ReplyForm = ({ parentId, onReplySubmitted }) => {
     e.preventDefault();
     setIsSubmitting(true); // Begin submission, update UI to show loading state
     try {
-      const response = await fetch('/api/submit-reply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/submit-reply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            name: anonymous ? 'Anonymous' : session?.user?.name, // Conditional name based on anonymity
-            content,
-            parentCommentId: parentId,
-            anonymous,
-            authorId: session?.user?.id, // Ensure this ID is correctly retrieved and secure
-        })
-    });
+          name: anonymous ? "Anonymous" : session?.user?.name, // Conditional name based on anonymity
+          content,
+          parentCommentId: parentId,
+          anonymous,
+          authorId: session?.user?.id, // Ensure this ID is correctly retrieved and secure
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const newReply = await response.json();
       onReplySubmitted(newReply); // Use the callback to handle the new reply in the parent component
-      setContent(''); // Clear the input after successful submission
+      setContent(""); // Clear the input after successful submission
     } catch (error) {
       console.error("Failed to submit reply:", error);
       alert("Failed to submit reply: " + error.message); // Optionally notify the user of an error in a simple way
@@ -60,9 +60,8 @@ const ReplyForm = ({ parentId, onReplySubmitted }) => {
         </label>
       </div>
       <button className="reply-button" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Submitting...' : 'Reply'}
+        {isSubmitting ? "Submitting..." : "Reply"}
       </button>
-
     </form>
   );
 };

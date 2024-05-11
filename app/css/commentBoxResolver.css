@@ -1,4 +1,4 @@
-.comment-box-container{
+.comment-box-container {
   padding: 10px;
   background-color: none;
 }
@@ -15,11 +15,11 @@
   margin-bottom: 12px;
 }
 .profile-pic {
-  display:"flex";
-  border-radius:"50%";
-  object-fit:"cover";
-  width:"48" ;
-  height:"48";
+  display: "flex";
+  border-radius: "50%";
+  object-fit: "cover";
+  width: "48";
+  height: "48";
 }
 .comment-meta {
   font-size: 0.9em;
@@ -42,12 +42,12 @@
   color: #333;
   font-size: 1.2em;
 }
- .replies{
-  margin:20px;
+.replies {
+  margin: 20px;
   border-radius: 10px;
 }
 /* show/hide replies button */
-.toggle-replies-button{
+.toggle-replies-button {
   display: block;
   width: 30px;
   height: 30px;
@@ -56,18 +56,18 @@
   cursor: pointer;
   float: right;
 }
-.toggle-replies-button.active{
+.toggle-replies-button.active {
   transform: rotate(180deg);
 }
-.toggle-replies-form-button{
-  background-color: white; 
+.toggle-replies-form-button {
+  background-color: white;
   border: 1px black solid;
   border-radius: 20px;
   padding: 5px 15px;
   cursor: pointer;
 }
-.toggle-replies-form-button:hover{
-  background-color: #A24EFE;
+.toggle-replies-form-button:hover {
+  background-color: #a24efe;
   transition: background-color 0.5s ease;
 }
 .clearfix::after {
@@ -75,8 +75,9 @@
   clear: both;
   display: table;
 }
-.comment-header h4, .comment-meta p {
-  margin: 0; 
+.comment-header h4,
+.comment-meta p {
+  margin: 0;
   line-height: 1.2;
 }
 /* styling for status */
@@ -84,7 +85,7 @@
   display: flex;
   align-items: center;
 }
-.status-container{
+.status-container {
   top: 0;
   right: 0;
   padding: 10px;
@@ -99,13 +100,13 @@
   border: 1px black solid;
 }
 .resolved .status-circle {
-  background-color: #4caf50; 
+  background-color: #4caf50;
 }
 .unresolved .status-circle {
-  background-color: #fff; 
+  background-color: #fff;
 }
 /* Upvote */
-.upvote-button{
+.upvote-button {
   width: fit-content;
   display: block;
   float: right;
@@ -121,7 +122,7 @@
   cursor: pointer;
 }
 
-.upvote-button.upvoted{
+.upvote-button.upvoted {
   background-color: #438b1b;
-  color:white; 
+  color: white;
 }
