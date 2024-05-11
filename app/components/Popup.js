@@ -126,35 +126,20 @@ const Popup = () => {
             </div>
             <div id="popup-body">
               <h1>New Comment</h1>
-              <h2>Comment Title</h2>
-              <input
-                style={{ width: "100%", padding: "5px", border: "solid black" }}
-                type="text"
-                value={topic}
-                placeholder="Enter Title here..."
-                onChange={(e) => setTopic(e.target.value)}
-              />
-              <div className="category-container">
-                <div className="item">
+              <h2 className='asterisk'>Comment Title</h2>
+              <input style={{ width: '100%', padding: '5px', border: 'solid black'}} type="text" value={topic} placeholder="Enter Title here..." onChange={(e) => setTopic(e.target.value)}/>
+              <div className='category-container'>
+                <div className='item'>
                   <h3>Select your Department</h3>
-                  <DeptDropdown
-                    department={department}
-                    departmentSetter={setDepartmentState}
-                  />
+                  <DeptDropdown department={department} departmentSetter={setDepartmentState}/>
                 </div>
-                <div className="item">
+                <div className='item'>
                   <h3>Select Priority Level</h3>
-                  <PriorityDropdown
-                    priority={priority}
-                    prioritySetter={setPriorityState}
-                  />
+                  <PriorityDropdown priority={priority} prioritySetter={setPriorityState}/>
                 </div>
-                <div className="item">
+                <div className='item'>
                   <h3>Category</h3>
-                  <CategoryDropdown
-                    category={category}
-                    categorySetter={setCategoryState}
-                  />
+                  <CategoryDropdown category={category} categorySetter={setCategoryState}/>
                 </div>
               </div>
               <br />
